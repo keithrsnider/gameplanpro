@@ -1,0 +1,12 @@
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets / local overrides
+.env
+.env.local
+docker-compose.override.yml

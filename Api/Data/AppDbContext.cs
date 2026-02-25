@@ -1,0 +1,29 @@
+using Api.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+
+namespace Api.Data;
+
+public class AppDbContext : IdentityDbContext<AppUser>
+{
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+    {
+    }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+
+        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+        // Rename Identity framework tables (no custom classes to nest config into)
+        builder.Entity<IdentityRole>().ToTable("roles");
+        builder.Entity<IdentityUserRole<string>>().ToTable("user_roles");
+        builder.Entity<IdentityUserClaim<string>>().ToTable("user_claims");
+        builder.Entity<IdentityUserLogin<string>>().ToTable("user_logins");
+        builder.Entity<IdentityUserToken<string>>().ToTable("user_tokens");
+        builder.Entity<IdentityRoleClaim<string>>().ToTable("role_claims");
+    }
+}

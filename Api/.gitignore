@@ -1,0 +1,13 @@
+# Build output
+bin/
+obj/
+
+# Visual Studio / Rider
+*.user
+*.suo
+.vs/
+
+# Sensitive config — use dotnet user-secrets locally, Railway env vars in production
+appsettings.Development.json
+appsettings.*.json
+!appsettings.json

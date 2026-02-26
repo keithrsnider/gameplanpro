@@ -1,0 +1,61 @@
+<div class="flex min-h-screen items-center justify-center bg-background p-4">
+	<div class="w-full max-w-sm rounded-lg border bg-card p-8 shadow-sm">
+		<h1 class="mb-6 text-2xl font-semibold tracking-tight">Create an account</h1>
+
+		<form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="flex flex-col gap-4">
+			<!-- Display Name -->
+			<div class="flex flex-col gap-1.5">
+				<label hlmLabel for="displayName">Display name <span class="text-muted-foreground">(optional)</span></label>
+				<input hlmInput id="displayName" formControlName="displayName" autocomplete="name" />
+			</div>
+
+			<!-- Email -->
+			<div class="flex flex-col gap-1.5">
+				<label hlmLabel for="email">Email</label>
+				<input hlmInput id="email" type="email" formControlName="email" autocomplete="email" />
+				@if (email.invalid && email.touched) {
+					@if (email.errors?.['required']) {
+						<p class="text-sm text-destructive">Email is required.</p>
+					} @else if (email.errors?.['email']) {
+						<p class="text-sm text-destructive">Enter a valid email address.</p>
+					}
+				}
+			</div>
+
+			<!-- Password -->
+			<div class="flex flex-col gap-1.5">
+				<label hlmLabel for="password">Password</label>
+				<input hlmInput id="password" type="password" formControlName="password" autocomplete="new-password" />
+				@if (password.invalid && password.touched) {
+					@if (password.errors?.['required']) {
+						<p class="text-sm text-destructive">Password is required.</p>
+					} @else if (password.errors?.['minlength']) {
+						<p class="text-sm text-destructive">Password must be at least 8 characters.</p>
+					}
+				}
+			</div>
+
+			<!-- Confirm Password -->
+			<div class="flex flex-col gap-1.5">
+				<label hlmLabel for="confirmPassword">Confirm password</label>
+				<input hlmInput id="confirmPassword" type="password" formControlName="confirmPassword" autocomplete="new-password" />
+				@if (confirmPassword.touched && form.errors?.['passwordMismatch']) {
+					<p class="text-sm text-destructive">Passwords do not match.</p>
+				}
+			</div>
+
+			<!-- API errors -->
+			@if (apiErrors.length > 0) {
+				<ul class="rounded-md border border-destructive bg-destructive/10 px-4 py-3 text-sm text-destructive">
+					@for (err of apiErrors; track err.code) {
+						<li>{{ err.description }}</li>
+					}
+				</ul>
+			}
+
+			<button hlmBtn type="submit" [disabled]="submitting" class="mt-2 w-full">
+				{{ submitting ? 'Creating account…' : 'Create account' }}
+			</button>
+		</form>
+	</div>
+</div>

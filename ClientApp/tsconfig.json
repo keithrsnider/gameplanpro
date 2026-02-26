@@ -1,11 +1,11 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "moduleResolution": "bundler",
     "emitDecoratorMetadata": false,
     "target": "es2022",
     "module": "preserve",
     "lib": ["es2020", "dom"],
-    "paths": {},
     "isolatedModules": true,
     "strict": true
   },

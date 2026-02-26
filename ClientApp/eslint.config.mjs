@@ -25,7 +25,7 @@ export default [
 				'error',
 				{
 					type: 'attribute',
-					prefix: 'app',
+					prefix: 'gpp',
 					style: 'camelCase',
 				},
 			],
@@ -33,7 +33,7 @@ export default [
 				'error',
 				{
 					type: 'element',
-					prefix: 'app',
+					prefix: 'gpp',
 					style: 'kebab-case',
 				},
 			],

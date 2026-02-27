@@ -2,7 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "gameplanpro",
   "compatibility_date": "2025-09-27",
-  "main": "src/worker.ts",
+  "main": "worker.ts",
   "assets": {
     "directory": "dist/ClientApp/browser",
     "not_found_handling": "single-page-application",

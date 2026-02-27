@@ -1,12 +1,15 @@
+using Api.Extensions;
 using Api.Models;
 using Api.Models.Dtos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace Api.Controllers;
 
 [ApiController]
 [Route("api/auth")]
+[EnableRateLimiting(RateLimitingServiceExtensions.AuthPolicy)]
 public class AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
 	: ControllerBase
 {

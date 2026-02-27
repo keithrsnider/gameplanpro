@@ -10,7 +10,8 @@ public static class IdentityServiceExtensions
 {
     public static IServiceCollection AddIdentityServices(
         this IServiceCollection services,
-        IConfiguration config)
+        IConfiguration config,
+        IWebHostEnvironment env)
     {
         services.AddDbContext<AppDbContext>(options =>
             options.UseNpgsql(config.GetConnectionString("DefaultConnection"))
@@ -26,7 +27,9 @@ public static class IdentityServiceExtensions
             options.Cookie.HttpOnly = true;
             options.SlidingExpiration = true;
             options.ExpireTimeSpan = TimeSpan.FromDays(14);
-            options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+            options.Cookie.SecurePolicy = env.IsDevelopment()
+                ? CookieSecurePolicy.SameAsRequest
+                : CookieSecurePolicy.Always;
             options.Events.OnRedirectToLogin = ctx =>
             {
                 ctx.Response.StatusCode = StatusCodes.Status401Unauthorized;

@@ -1,6 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import type { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import {
 	email,
 	form,
@@ -11,12 +10,11 @@ import {
 	submit,
 	validate,
 } from '@angular/forms/signals';
-import { firstValueFrom } from 'rxjs';
+import type { DefaultApiError } from '@microsoft/kiota-abstractions';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmInputImports } from '@spartan-ng/helm/input';
 import { HlmLabelImports } from '@spartan-ng/helm/label';
 import type { FieldTree } from '@angular/forms/signals';
-import type { IdentityError } from '../../models/identity-error';
 import { AuthService } from '../auth.service';
 import { FormErrorsComponent } from '../../shared/components/form-errors';
 
@@ -68,6 +66,7 @@ const registerSchema = schema<RegisterFormData>((f) => {
 	selector: 'gpp-register',
 	templateUrl: './register.html',
 	imports: [
+		RouterLink,
 		FormField,
 		FormErrorsComponent,
 		...HlmButtonImports,
@@ -100,23 +99,21 @@ export class RegisterComponent {
 		await submit(this.registrationForm, async (f) => {
 			const { email, password, displayName } = f().value();
 			try {
-				await firstValueFrom(
-					this._auth.register(email, password, displayName || undefined)
-				);
-				this._router.navigate(['/']);
+				await this._auth.register(email, password, displayName || undefined);
+				await this._router.navigate(['/dashboard']);
 			} catch (err) {
-				this.apiErrors = this._extractErrors(err as HttpErrorResponse);
+				this.apiErrors = this._extractErrors(err as DefaultApiError);
 			}
 			return undefined;
 		});
 	}
 
-	private _extractErrors(err: HttpErrorResponse): string[] {
-		if (Array.isArray(err.error)) {
-			return (err.error as IdentityError[]).map((e) => e.description);
-		}
-		if (err.status === 0) {
+	private _extractErrors(err: DefaultApiError): string[] {
+		if (err.responseStatusCode === 0 || err.responseStatusCode === undefined) {
 			return ['Unable to reach the server. Please check your connection.'];
+		}
+		if (err.responseStatusCode === 400) {
+			return ['Registration failed. Please check your details and try again.'];
 		}
 		return ['An unexpected error occurred. Please try again.'];
 	}

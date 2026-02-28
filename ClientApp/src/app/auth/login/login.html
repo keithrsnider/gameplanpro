@@ -1,0 +1,39 @@
+<div class="flex min-h-screen items-center justify-center bg-background p-4">
+	<div class="w-full max-w-sm rounded-lg border bg-card p-8 shadow-sm">
+		<h1 class="mb-6 text-2xl font-semibold tracking-tight">Sign In</h1>
+
+		<form (submit)="$event.preventDefault(); onSubmit()" novalidate class="flex flex-col gap-4">
+			<!-- Email -->
+			<div class="flex flex-col gap-1.5">
+				<label hlmLabel for="email">Email</label>
+				<input hlmInput id="email" type="email" [formField]="loginForm.email" [error]="fieldHasError(loginForm.email)" autocomplete="email" />
+				<gpp-form-errors [field]="loginForm.email" />
+			</div>
+
+			<!-- Password -->
+			<div class="flex flex-col gap-1.5">
+				<label hlmLabel for="password">Password</label>
+				<input hlmInput id="password" type="password" [formField]="loginForm.password" [error]="fieldHasError(loginForm.password)" autocomplete="current-password" />
+				<gpp-form-errors [field]="loginForm.password" />
+			</div>
+
+			<!-- API errors -->
+			@if (apiErrors.length > 0) {
+				<ul class="rounded-md border border-destructive bg-destructive/10 px-4 py-3 text-sm text-destructive">
+					@for (err of apiErrors; track err) {
+						<li>{{ err }}</li>
+					}
+				</ul>
+			}
+
+			<button hlmBtn type="submit" [disabled]="loginForm().submitting()" class="mt-2 w-full">
+				{{ loginForm().submitting() ? 'Signing in…' : 'Sign in' }}
+			</button>
+		</form>
+
+		<p class="mt-4 text-center text-sm text-muted-foreground">
+			Don't have an account?
+			<a routerLink="/register" class="text-primary underline-offset-4 hover:underline">Register</a>
+		</p>
+	</div>
+</div>

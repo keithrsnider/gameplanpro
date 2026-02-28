@@ -1,0 +1,9 @@
+<div class="flex min-h-screen items-center justify-center bg-background p-4">
+	<div class="w-full max-w-sm rounded-lg border bg-card p-8 shadow-sm">
+		<h1 class="mb-2 text-2xl font-semibold tracking-tight">Dashboard</h1>
+		<p class="mb-6 text-sm text-muted-foreground">
+			Signed in as <span class="font-medium text-foreground">{{ auth.currentUser()?.email }}</span>
+		</p>
+		<button hlmBtn variant="outline" class="w-full" (click)="signOut()">Sign out</button>
+	</div>
+</div>

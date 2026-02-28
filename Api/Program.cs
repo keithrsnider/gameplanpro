@@ -13,6 +13,7 @@ builder.Services.AddGoogleAuth(builder.Configuration);
 builder.Services.AddEmailServices(builder.Configuration);
 builder.Services.AddCorsServices(builder.Configuration);
 builder.Services.AddRateLimitingServices();
+builder.Services.AddApplicationServices();
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();

@@ -12,6 +12,12 @@ public class AppDbContext : IdentityDbContext<AppUser>
     {
     }
 
+    public DbSet<DrillType> DrillTypes => Set<DrillType>();
+    public DbSet<Drill> Drills => Set<Drill>();
+    public DbSet<PracticePlan> PracticePlans => Set<PracticePlan>();
+    public DbSet<Section> Sections => Set<Section>();
+    public DbSet<PlanDrill> PlanDrills => Set<PlanDrill>();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

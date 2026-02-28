@@ -15,11 +15,19 @@ SaaS application. Solo dev. See `STACK.md` for full stack decisions and rational
 ### C# / ASP.NET Core
 
 - **Service registration:** Always use service extension classes in `Api/Extensions/` — never register services inline in `Program.cs`
-- **Entity configuration:** `IEntityTypeConfiguration<T>` as a nested `Configuration` class inside the entity file (e.g. `AppUser.Configuration` inside `AppUser.cs`)
+- **Entity configuration:** Use DataAnnotation attributes on models (e.g. `[Required]`, `[MaxLength]`, `[Table]`). Only use `IEntityTypeConfiguration<T>` nested `Configuration` class for complex config (relationships, seed data, enum conversions, etc.)
 - **Secrets:** Connection strings and API keys go in `dotnet user-secrets` for local dev — never in `appsettings*.json`
 - **Namespaces:** File-scoped namespaces only
 - **API style:** Controllers-based (not minimal API)
-- **var:** Use when type is apparent (`var x = new Foo()`), explicit otherwise
+- **Architecture:** Controller → Service → Repository pattern
+  - Controllers: thin, inject services only, no direct DbContext/repository access
+  - Services: contain all business logic, inject repositories, handle validation and orchestration
+  - Repositories: entity-specific, pure CRUD, inject `AppDbContext` directly
+  - DI: register all repositories and services in `ApplicationServiceExtensions`
+- **Base entity:** All domain entities inherit `BaseEntity` (int `Id` PK + Guid `Key` for external use)
+- **Interfaces:** Define in the same file as the implementation. Only break out to a separate file if multiple implementations exist.
+- **Mappers:** `{ModelName}Mapper.cs` files in `Api/Models/Mappers/` with static extension methods off the model/DTO they map from (e.g. `drill.ToResponse()`, `request.ToEntity(...)`)
+- **var:** Use `var` everywhere
 
 ### Angular / TypeScript
 

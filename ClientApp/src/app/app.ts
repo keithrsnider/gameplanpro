@@ -5,8 +5,5 @@ import { RouterModule } from '@angular/router';
   imports: [RouterModule],
   selector: 'gpp-root',
   templateUrl: './app.html',
-  styleUrl: './app.css',
 })
-export class App {
-  protected title = 'ClientApp';
-}
+export class App {}

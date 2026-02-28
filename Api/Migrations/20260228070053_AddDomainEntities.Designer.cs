@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260228063729_AddDomainEntities")]
+    [Migration("20260228070053_AddDomainEntities")]
     partial class AddDomainEntities
     {
         /// <inheritdoc />
@@ -200,12 +200,6 @@ namespace Api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<Guid>("Key")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("key")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -215,47 +209,37 @@ namespace Api.Migrations
                     b.HasKey("Id")
                         .HasName("pk_drill_types");
 
-                    b.HasIndex("Key")
-                        .IsUnique()
-                        .HasDatabaseName("ix_drill_types_key");
-
                     b.ToTable("drill_types", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            Key = new Guid("bfe1bd68-f6a0-44b8-abad-85e0a02a4643"),
                             Name = "Hitting"
                         },
                         new
                         {
                             Id = 2,
-                            Key = new Guid("7a46ad4b-683c-4827-9072-96c9b6e54ba7"),
                             Name = "Pitching"
                         },
                         new
                         {
                             Id = 3,
-                            Key = new Guid("10111fbb-00b3-4bd7-9d83-984f5c193707"),
                             Name = "Base Running"
                         },
                         new
                         {
                             Id = 4,
-                            Key = new Guid("1538ea0b-65b7-41d3-b875-5e3970177474"),
                             Name = "Fielding"
                         },
                         new
                         {
                             Id = 5,
-                            Key = new Guid("6b66467d-d2d5-421d-bc46-4d129782d14a"),
                             Name = "Conditioning"
                         },
                         new
                         {
                             Id = 6,
-                            Key = new Guid("b3f14958-71a9-477d-8db8-e5008b22151d"),
                             Name = "Warm-up"
                         });
                 });

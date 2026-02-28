@@ -1,3 +1,3 @@
 namespace Api.Models.Dtos;
 
-public record DrillTypeResponse(Guid Key, string Name);
+public record DrillTypeResponse(int Id, string Name);

@@ -7,7 +7,7 @@ namespace Api.Repositories;
 public interface IDrillTypeRepository
 {
 	Task<List<DrillType>> GetAllAsync();
-	Task<DrillType?> GetByKeyAsync(Guid key);
+	Task<DrillType?> GetByIdAsync(int id);
 }
 
 public class DrillTypeRepository(AppDbContext db) : IDrillTypeRepository
@@ -17,8 +17,8 @@ public class DrillTypeRepository(AppDbContext db) : IDrillTypeRepository
 		return db.DrillTypes.OrderBy(dt => dt.Name).ToListAsync();
 	}
 
-	public Task<DrillType?> GetByKeyAsync(Guid key)
+	public Task<DrillType?> GetByIdAsync(int id)
 	{
-		return db.DrillTypes.FirstOrDefaultAsync(dt => dt.Key == key);
+		return db.DrillTypes.FirstOrDefaultAsync(dt => dt.Id == id);
 	}
 }

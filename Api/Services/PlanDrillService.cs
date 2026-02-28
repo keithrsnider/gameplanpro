@@ -30,9 +30,9 @@ public class PlanDrillService(
 
 		int? drillTypeId = null;
 		Models.DrillType? drillType = null;
-		if (request.DrillTypeKey is not null)
+		if (request.DrillTypeId is not null)
 		{
-			drillType = await drillTypeRepo.GetByKeyAsync(request.DrillTypeKey.Value)
+			drillType = await drillTypeRepo.GetByIdAsync(request.DrillTypeId.Value)
 				?? throw new BadHttpRequestException(
 					"Drill type not found.", StatusCodes.Status400BadRequest
 				);
@@ -84,9 +84,9 @@ public class PlanDrillService(
 		if (request.StationGroup is not null) planDrill.StationGroup = request.StationGroup;
 		if (request.DisplayOrder is not null) planDrill.DisplayOrder = request.DisplayOrder.Value;
 
-		if (request.DrillTypeKey is not null)
+		if (request.DrillTypeId is not null)
 		{
-			var drillType = await drillTypeRepo.GetByKeyAsync(request.DrillTypeKey.Value)
+			var drillType = await drillTypeRepo.GetByIdAsync(request.DrillTypeId.Value)
 				?? throw new BadHttpRequestException(
 					"Drill type not found.", StatusCodes.Status400BadRequest
 				);

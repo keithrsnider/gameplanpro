@@ -20,8 +20,7 @@ namespace Api.Migrations
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    key = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()")
+                    name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -155,22 +154,16 @@ namespace Api.Migrations
 
             migrationBuilder.InsertData(
                 table: "drill_types",
-                columns: new[] { "id", "key", "name" },
+                columns: new[] { "id", "name" },
                 values: new object[,]
                 {
-                    { 1, new Guid("bfe1bd68-f6a0-44b8-abad-85e0a02a4643"), "Hitting" },
-                    { 2, new Guid("7a46ad4b-683c-4827-9072-96c9b6e54ba7"), "Pitching" },
-                    { 3, new Guid("10111fbb-00b3-4bd7-9d83-984f5c193707"), "Base Running" },
-                    { 4, new Guid("1538ea0b-65b7-41d3-b875-5e3970177474"), "Fielding" },
-                    { 5, new Guid("6b66467d-d2d5-421d-bc46-4d129782d14a"), "Conditioning" },
-                    { 6, new Guid("b3f14958-71a9-477d-8db8-e5008b22151d"), "Warm-up" }
+                    { 1, "Hitting" },
+                    { 2, "Pitching" },
+                    { 3, "Base Running" },
+                    { 4, "Fielding" },
+                    { 5, "Conditioning" },
+                    { 6, "Warm-up" }
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "ix_drill_types_key",
-                table: "drill_types",
-                column: "key",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "ix_drills_drill_type_id",

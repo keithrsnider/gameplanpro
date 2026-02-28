@@ -19,7 +19,7 @@ public record CreateDrillRequest(
 	int Duration,
 	string? Instructions,
 	string? DemoLink,
-	Guid DrillTypeKey
+	int DrillTypeId
 );
 
 public record UpdateDrillRequest(
@@ -28,5 +28,5 @@ public record UpdateDrillRequest(
 	int Duration,
 	string? Instructions,
 	string? DemoLink,
-	Guid DrillTypeKey
+	int DrillTypeId
 );

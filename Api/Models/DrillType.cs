@@ -6,8 +6,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Api.Models;
 
 [Table("drill_types")]
-public class DrillType : BaseEntity
+public class DrillType
 {
+	public int Id { get; set; }
+
 	[Required]
 	[MaxLength(50)]
 	public required string Name { get; set; }
@@ -19,7 +21,8 @@ public class DrillType : BaseEntity
 	{
 		public void Configure(EntityTypeBuilder<DrillType> builder)
 		{
-			ConfigureBase(builder);
+			builder.HasKey(e => e.Id);
+			builder.Property(e => e.Id).ValueGeneratedOnAdd();
 
 			builder.HasData(
 				new DrillType { Id = 1, Name = "Hitting" },

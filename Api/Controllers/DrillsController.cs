@@ -15,9 +15,9 @@ public class DrillsController(IDrillService drillService) : ControllerBase
 	[HttpGet]
 	public Task<List<DrillResponse>> GetAll(
 		[FromQuery] DrillSource? source,
-		[FromQuery] Guid? drillTypeKey)
+		[FromQuery] int? drillTypeId)
 	{
-		return drillService.GetAllAsync(GetUserId(), source, drillTypeKey);
+		return drillService.GetAllAsync(GetUserId(), source, drillTypeId);
 	}
 
 	[HttpGet("{key:guid}")]

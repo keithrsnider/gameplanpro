@@ -6,6 +6,6 @@ public static class DrillTypeMapper
 {
 	public static DrillTypeResponse ToResponse(this DrillType drillType)
 	{
-		return new DrillTypeResponse(drillType.Key, drillType.Name);
+		return new DrillTypeResponse(drillType.Id, drillType.Name);
 	}
 }

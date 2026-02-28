@@ -23,7 +23,7 @@ public record CreatePlanDrillRequest(
 	int? PlayerCount,
 	Guid? StationGroup,
 	int DisplayOrder,
-	Guid? DrillTypeKey,
+	int? DrillTypeId,
 	Guid? SourceDrillKey
 );
 
@@ -36,5 +36,5 @@ public record UpdatePlanDrillRequest(
 	int? PlayerCount,
 	Guid? StationGroup,
 	int? DisplayOrder,
-	Guid? DrillTypeKey
+	int? DrillTypeId
 );

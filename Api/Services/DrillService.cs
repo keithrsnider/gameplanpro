@@ -7,7 +7,7 @@ namespace Api.Services;
 
 public interface IDrillService
 {
-	Task<List<DrillResponse>> GetAllAsync(string userId, DrillSource? source, Guid? drillTypeKey);
+	Task<List<DrillResponse>> GetAllAsync(string userId, DrillSource? source, int? drillTypeId);
 	Task<DrillResponse> GetByKeyAsync(string userId, Guid key);
 	Task<DrillResponse> CreateAsync(string userId, CreateDrillRequest request);
 	Task<DrillResponse> UpdateAsync(string userId, Guid key, UpdateDrillRequest request);
@@ -18,15 +18,13 @@ public class DrillService(IDrillRepository drillRepo, IDrillTypeRepository drill
 	: IDrillService
 {
 	public async Task<List<DrillResponse>> GetAllAsync(
-		string userId, DrillSource? source, Guid? drillTypeKey)
+		string userId, DrillSource? source, int? drillTypeId)
 	{
-		int? drillTypeId = null;
-		if (drillTypeKey is not null)
+		if (drillTypeId is not null)
 		{
-			var drillType = await drillTypeRepo.GetByKeyAsync(drillTypeKey.Value);
+			var drillType = await drillTypeRepo.GetByIdAsync(drillTypeId.Value);
 			if (drillType is null)
 				throw new BadHttpRequestException("Drill type not found.", StatusCodes.Status404NotFound);
-			drillTypeId = drillType.Id;
 		}
 
 		var drills = await drillRepo.GetAllAsync(userId, source, drillTypeId);
@@ -46,7 +44,7 @@ public class DrillService(IDrillRepository drillRepo, IDrillTypeRepository drill
 
 	public async Task<DrillResponse> CreateAsync(string userId, CreateDrillRequest request)
 	{
-		var drillType = await drillTypeRepo.GetByKeyAsync(request.DrillTypeKey)
+		var drillType = await drillTypeRepo.GetByIdAsync(request.DrillTypeId)
 			?? throw new BadHttpRequestException("Drill type not found.", StatusCodes.Status400BadRequest);
 
 		var drill = request.ToEntity(userId, drillType.Id);
@@ -69,7 +67,7 @@ public class DrillService(IDrillRepository drillRepo, IDrillTypeRepository drill
 		if (drill.UserId != userId)
 			throw new BadHttpRequestException("Drill not found.", StatusCodes.Status404NotFound);
 
-		var drillType = await drillTypeRepo.GetByKeyAsync(request.DrillTypeKey)
+		var drillType = await drillTypeRepo.GetByIdAsync(request.DrillTypeId)
 			?? throw new BadHttpRequestException("Drill type not found.", StatusCodes.Status400BadRequest);
 
 		drill.Name = request.Name;

@@ -26,7 +26,7 @@ Do NOT build any of these in v1:
 
 - Coaches will be able to share Practice Plans with Participants who can view but not edit.
 - **Do not hardcode single-user scoping on Practice Plan queries.** Plan ownership should be structured so viewer/collaborator access can be added via a permissions layer without refactoring core plan logic.
-- **Stable UUIDs on Practice Plan and Plan Drill records are required** — analytics and sharing features will reference these IDs.
+- **Stable UUID columns (`Uid`) on Practice Plan and Plan Drill records are required** — analytics and sharing features will reference these UUIDs (not the int PKs).
 
 ### Participant Entity (Future)
 
@@ -48,7 +48,7 @@ Do NOT build any of these in v1:
 - Coaches will track player stats over time with AI-generated progress summaries.
 - Separate product pillar — does not affect Practice Plan data model.
 - The analytics layer will reference Practice Plans and Plan Drills by their persistent UUIDs.
-- **Stable UUIDs on all Plan and Drill records are sufficient preparation.**
+- **Stable UUID columns (`Uid`) on all Plan and Drill records are sufficient preparation.**
 
 ### AI Plan Generation (Future)
 

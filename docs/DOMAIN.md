@@ -51,6 +51,14 @@ Drill Library Entry
  └── belongs to → Drill Type
 ```
 
+## Primary Key Convention
+
+All entities use a **dual-key pattern**:
+- `Id` (int, auto-increment) — primary key, used for all joins and foreign keys internally
+- `Uid` (UUID, unique, indexed, auto-generated) — external identifier exposed in API responses, URLs, and client-side references
+
+API endpoints and client code should **only use `Uid`** to reference records. The int `Id` is an internal implementation detail and should never be exposed outside the backend.
+
 ## Naming Conventions
 
 Use these exact names in code, database columns, API routes, and comments.

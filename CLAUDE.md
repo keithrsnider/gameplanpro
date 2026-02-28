@@ -66,6 +66,57 @@ docker-compose up -d       # start local Postgres
 
 Config files: `.editorconfig` at root, `ClientApp/.prettierrc`, `ClientApp/eslint.config.mjs`
 
+## Product Brief Reference Docs
+
+Detailed specs from PM's architecture & requirements brief, broken into focused files:
+
+- `docs/DOMAIN.md` — entities, relationships, naming conventions, glossary
+- `docs/USER-FLOWS.md` — 5 core flows in priority order (acceptance criteria)
+- `docs/BUSINESS-RULES.md` — rules grouped by entity (plan, section, station, drill, library)
+- `docs/UX-SPECS.md` — interaction behaviors, user mental model
+- `docs/FUTURE-STATE.md` — out-of-scope features + architecture notes for future compatibility
+
+## Domain Model (cheat sheet — see `docs/DOMAIN.md` for full details)
+
+### Entities & Naming
+
+| Entity | DB table | C# class | TS name | Notes |
+|---|---|---|---|---|
+| Practice Plan | `practice_plan` | `PracticePlan` | `practicePlan` | Reusable template, NOT a scheduled event |
+| Section | `section` | `Section` | `section` | Ordered block within a plan |
+| Plan Drill | `plan_drill` | `PlanDrill` | `planDrill` | Drill instance in a section (independent copy) |
+| Drill (Library) | `drill` | `Drill` | `drill` | `source` field: `system` or `user` |
+| Drill Type | `drill_type` | `DrillType` | `drillType` | Classification tag (Hitting, Pitching, etc.) |
+
+### Key Fields
+
+- `station_group` (UUID, nullable) on `plan_drill` — drills sharing the same value form a Station (parallel). Null = sequential.
+- `coach_assignment` (string) — free text, NOT a FK in MVP
+- `player_count` (int, optional) — plain integer placeholder for future player assignment
+- `demo_link` (string) — YouTube URL, basic URL format check only
+- `team_name`, `age_group` — on User profile, no separate Team entity in MVP
+
+### Duration Tracking Formula
+
+`total = sum(sequential drill durations) + sum(max duration per station_group)`
+
+Non-blocking warning if total exceeds intended duration. Coach is never prevented from saving.
+
+### Architecture Constraints
+
+- **UUIDs as PKs** on all entities — required for future analytics/sharing
+- **No hardcoded single-user scoping** — structure plan queries so a permissions layer can be added later
+- **Auto-save** — no manual save button; debounce + PATCH pattern
+- **Station = not a DB entity** — just a shared `station_group` UUID on `plan_drill` rows
+- **`source` discriminator on drills** — `system` (read-only, shared) vs `user` (personal, editable)
+- **Save as Template = independent copy** — editing Plan Drill does NOT update My Drill, and vice versa
+
+### MVP Scope Boundaries
+
+**In scope:** Auth, user profile, practice plan builder (CRUD + sections + drills + stations), drill library (system + personal), duration tracking, plan export (PDF), auto-save.
+
+**NOT in scope:** AI plan generation, calendar/scheduling, player/coach rosters, team management UI, plan sharing, game film, communications, tryout management, multi-sport, mobile app, payments.
+
 ## Deployment
 
 - **Frontend:** Cloudflare Pages — auto-deploys on push to `main`

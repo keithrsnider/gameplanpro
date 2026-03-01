@@ -112,7 +112,7 @@ Non-blocking warning if total exceeds intended duration. Coach is never prevente
 
 ### Architecture Constraints
 
-- **Int PKs + UUID column** on all entities — `Id` (int, auto-increment) is the PK used for joins/FKs; `Uid` (UUID, unique, indexed, auto-generated) is the external identifier exposed in APIs and URLs. Future analytics/sharing reference the UUID, never the int PK.
+- **Int PKs + UUID column** on all entities — `Id` (int, auto-increment) is the PK used for joins/FKs; `Key` (UUID, unique, indexed, auto-generated) is the external identifier exposed in APIs and URLs. Future analytics/sharing reference the UUID, never the int PK.
 - **No hardcoded single-user scoping** — structure plan queries so a permissions layer can be added later
 - **Auto-save** — no manual save button; debounce + PATCH pattern
 - **Station = not a DB entity** — just a shared `station_group` UUID on `plan_drill` rows

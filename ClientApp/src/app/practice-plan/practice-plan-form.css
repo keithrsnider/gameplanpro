@@ -31,5 +31,5 @@
 }
 
 .cta-btn {
-	@apply bg-gpp-orange text-white hover:brightness-90;
+	@apply rounded-lg bg-gpp-orange px-6 py-3 font-semibold text-white hover:brightness-90;
 }

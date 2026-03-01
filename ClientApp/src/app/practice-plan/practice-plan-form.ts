@@ -18,6 +18,7 @@ import { HlmIconImports } from '@spartan-ng/helm/icon';
 import { BrnSelectImports } from '@spartan-ng/brain/select';
 import { FormErrorsComponent } from '../shared/components/form-errors';
 import { HorizontalRuleComponent } from '../shared/components/horizontal-rule';
+import { ApiClientService } from '../core/api-client.service';
 
 interface PracticePlanFormData {
 	name: string;
@@ -55,6 +56,7 @@ const DURATION_OPTIONS = [30, 45, 60, 75, 90, 105, 120];
 export class PracticePlanFormComponent {
 	private readonly _router = inject(Router);
 	private readonly _route = inject(ActivatedRoute);
+	private readonly _api = inject(ApiClientService);
 
 	readonly isEditMode: boolean;
 	readonly planKey: string | null;
@@ -86,11 +88,8 @@ export class PracticePlanFormComponent {
 	async loadPlan(key: string) {
 		this.loading.set(true);
 		try {
-			const res = await fetch(`/api/practice-plans/${key}`, {
-				credentials: 'include',
-			});
-			if (!res.ok) throw new Error('Failed to load plan');
-			const plan = await res.json();
+			const plan = await this._api.client.api.practicePlans.byKeyId(key).get();
+			if (!plan) throw new Error('Failed to load plan');
 			this.model.set({
 				name: plan.name ?? '',
 				description: plan.description ?? '',
@@ -122,24 +121,11 @@ export class PracticePlanFormComponent {
 
 			try {
 				if (this.isEditMode && this.planKey) {
-					const res = await fetch(
-						`/api/practice-plans/${this.planKey}`,
-						{
-							method: 'PUT',
-							headers: { 'Content-Type': 'application/json' },
-							credentials: 'include',
-							body: JSON.stringify(body),
-						}
-					);
-					if (!res.ok) throw new Error('Failed to save');
+					await this._api.client.api.practicePlans
+						.byKeyId(this.planKey)
+						.put(body);
 				} else {
-					const res = await fetch('/api/practice-plans', {
-						method: 'POST',
-						headers: { 'Content-Type': 'application/json' },
-						credentials: 'include',
-						body: JSON.stringify(body),
-					});
-					if (!res.ok) throw new Error('Failed to create');
+					await this._api.client.api.practicePlans.post(body);
 				}
 				await this._router.navigate(['/dashboard']);
 			} catch {

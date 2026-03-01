@@ -1,12 +1,27 @@
 # IDE
 .idea/
 .vscode/
+*.DotSettings.user
 
 # OS
 .DS_Store
 Thumbs.db
 
+# .NET
+bin/
+obj/
+.vs/
+
+# Node / Angular
+node_modules/
+dist/
+.angular/
+
+# Logs
+*.log
+
 # Secrets / local overrides
 .env
 .env.local
+.env.*.local
 docker-compose.override.yml

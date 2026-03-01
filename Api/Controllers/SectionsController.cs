@@ -11,11 +11,10 @@ namespace Api.Controllers;
 public class SectionsController(ISectionService sectionService) : ControllerBase
 {
 	[HttpPost]
-	public async Task<ActionResult<SectionResponse>> Create(
+	public Task<SectionResponse> Create(
 		Guid planKey, [FromBody] CreateSectionRequest request)
 	{
-		var section = await sectionService.CreateAsync(planKey, request);
-		return Created(string.Empty, section);
+		return sectionService.CreateAsync(planKey, request);
 	}
 
 	[HttpPut("{sectionKey:guid}")]
@@ -26,9 +25,8 @@ public class SectionsController(ISectionService sectionService) : ControllerBase
 	}
 
 	[HttpDelete("{sectionKey:guid}")]
-	public async Task<IActionResult> Delete(Guid planKey, Guid sectionKey)
+	public Task Delete(Guid planKey, Guid sectionKey)
 	{
-		await sectionService.DeleteAsync(planKey, sectionKey);
-		return NoContent();
+		return sectionService.DeleteAsync(planKey, sectionKey);
 	}
 }

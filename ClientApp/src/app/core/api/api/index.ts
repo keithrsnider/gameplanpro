@@ -4,6 +4,12 @@
 // @ts-ignore
 import { AuthRequestBuilderNavigationMetadata, type AuthRequestBuilder } from './auth/index.js';
 // @ts-ignore
+import { DrillsRequestBuilderNavigationMetadata, DrillsRequestBuilderRequestsMetadata, type DrillsRequestBuilder } from './drills/index.js';
+// @ts-ignore
+import { DrillTypesRequestBuilderRequestsMetadata, type DrillTypesRequestBuilder } from './drillTypes/index.js';
+// @ts-ignore
+import { PracticePlansRequestBuilderNavigationMetadata, PracticePlansRequestBuilderRequestsMetadata, type PracticePlansRequestBuilder } from './practicePlans/index.js';
+// @ts-ignore
 import { type BaseRequestBuilder, type KeysToExcludeForNavigationMetadata, type NavigationMetadata } from '@microsoft/kiota-abstractions';
 
 /**
@@ -14,6 +20,18 @@ export interface ApiRequestBuilder extends BaseRequestBuilder<ApiRequestBuilder>
      * The auth property
      */
     get auth(): AuthRequestBuilder;
+    /**
+     * The drills property
+     */
+    get drills(): DrillsRequestBuilder;
+    /**
+     * The drillTypes property
+     */
+    get drillTypes(): DrillTypesRequestBuilder;
+    /**
+     * The practicePlans property
+     */
+    get practicePlans(): PracticePlansRequestBuilder;
 }
 /**
  * Uri template for the request builder.
@@ -25,6 +43,17 @@ export const ApiRequestBuilderUriTemplate = "{+baseurl}/api";
 export const ApiRequestBuilderNavigationMetadata: Record<Exclude<keyof ApiRequestBuilder, KeysToExcludeForNavigationMetadata>, NavigationMetadata> = {
     auth: {
         navigationMetadata: AuthRequestBuilderNavigationMetadata,
+    },
+    drills: {
+        requestsMetadata: DrillsRequestBuilderRequestsMetadata,
+        navigationMetadata: DrillsRequestBuilderNavigationMetadata,
+    },
+    drillTypes: {
+        requestsMetadata: DrillTypesRequestBuilderRequestsMetadata,
+    },
+    practicePlans: {
+        requestsMetadata: PracticePlansRequestBuilderRequestsMetadata,
+        navigationMetadata: PracticePlansRequestBuilderNavigationMetadata,
     },
 };
 /* tslint:enable */

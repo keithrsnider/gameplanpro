@@ -23,11 +23,10 @@ public class PracticePlansController(IPracticePlanService planService) : Control
 	}
 
 	[HttpPost]
-	public async Task<ActionResult<PracticePlanDetailResponse>> Create(
+	public Task<PracticePlanDetailResponse> Create(
 		[FromBody] CreatePracticePlanRequest request)
 	{
-		var plan = await planService.CreateAsync(request);
-		return CreatedAtAction(nameof(Get), new { key = plan.Key }, plan);
+		return planService.CreateAsync(request);
 	}
 
 	[HttpPut("{key:guid}")]
@@ -38,9 +37,8 @@ public class PracticePlansController(IPracticePlanService planService) : Control
 	}
 
 	[HttpDelete("{key:guid}")]
-	public async Task<IActionResult> Delete(Guid key)
+	public Task Delete(Guid key)
 	{
-		await planService.DeleteAsync(key);
-		return NoContent();
+		return planService.DeleteAsync(key);
 	}
 }

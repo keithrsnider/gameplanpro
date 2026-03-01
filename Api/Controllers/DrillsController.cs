@@ -26,10 +26,9 @@ public class DrillsController(IDrillService drillService) : ControllerBase
 	}
 
 	[HttpPost]
-	public async Task<ActionResult<DrillResponse>> Create([FromBody] CreateDrillRequest request)
+	public Task<DrillResponse> Create([FromBody] CreateDrillRequest request)
 	{
-		var drill = await drillService.CreateAsync(request);
-		return CreatedAtAction(nameof(Get), new { key = drill.Key }, drill);
+		return drillService.CreateAsync(request);
 	}
 
 	[HttpPut("{key:guid}")]
@@ -39,9 +38,8 @@ public class DrillsController(IDrillService drillService) : ControllerBase
 	}
 
 	[HttpDelete("{key:guid}")]
-	public async Task<IActionResult> Delete(Guid key)
+	public Task Delete(Guid key)
 	{
-		await drillService.DeleteAsync(key);
-		return NoContent();
+		return drillService.DeleteAsync(key);
 	}
 }

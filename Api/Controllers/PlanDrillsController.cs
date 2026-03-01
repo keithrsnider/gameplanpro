@@ -11,11 +11,10 @@ namespace Api.Controllers;
 public class PlanDrillsController(IPlanDrillService planDrillService) : ControllerBase
 {
 	[HttpPost]
-	public async Task<ActionResult<PlanDrillResponse>> Create(
+	public Task<PlanDrillResponse> Create(
 		Guid planKey, Guid sectionKey, [FromBody] CreatePlanDrillRequest request)
 	{
-		var drill = await planDrillService.CreateAsync(planKey, sectionKey, request);
-		return Created(string.Empty, drill);
+		return planDrillService.CreateAsync(planKey, sectionKey, request);
 	}
 
 	[HttpPut("{drillKey:guid}")]
@@ -27,9 +26,8 @@ public class PlanDrillsController(IPlanDrillService planDrillService) : Controll
 	}
 
 	[HttpDelete("{drillKey:guid}")]
-	public async Task<IActionResult> Delete(Guid planKey, Guid sectionKey, Guid drillKey)
+	public Task Delete(Guid planKey, Guid sectionKey, Guid drillKey)
 	{
-		await planDrillService.DeleteAsync(planKey, sectionKey, drillKey);
-		return NoContent();
+		return planDrillService.DeleteAsync(planKey, sectionKey, drillKey);
 	}
 }

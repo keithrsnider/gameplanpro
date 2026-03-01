@@ -21,6 +21,13 @@ export const appRoutes: Route[] = [
 				loadComponent: () =>
 					import('./dashboard/dashboard').then((m) => m.DashboardComponent),
 			},
+			{
+				path: 'practice-plan/:key',
+				loadComponent: () =>
+					import('./practice-plan/practice-plan-form').then(
+						(m) => m.PracticePlanFormComponent
+					),
+			},
 		],
 	},
 ];

@@ -3,7 +3,6 @@ using Api.Models.Dtos;
 using Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace Api.Controllers;
 
@@ -17,37 +16,32 @@ public class DrillsController(IDrillService drillService) : ControllerBase
 		[FromQuery] DrillSource? source,
 		[FromQuery] int? drillTypeId)
 	{
-		return drillService.GetAllAsync(GetUserId(), source, drillTypeId);
+		return drillService.GetAllAsync(source, drillTypeId);
 	}
 
 	[HttpGet("{key:guid}")]
 	public Task<DrillResponse> Get(Guid key)
 	{
-		return drillService.GetByKeyAsync(GetUserId(), key);
+		return drillService.GetByKeyAsync(key);
 	}
 
 	[HttpPost]
 	public async Task<ActionResult<DrillResponse>> Create([FromBody] CreateDrillRequest request)
 	{
-		var drill = await drillService.CreateAsync(GetUserId(), request);
+		var drill = await drillService.CreateAsync(request);
 		return CreatedAtAction(nameof(Get), new { key = drill.Key }, drill);
 	}
 
 	[HttpPut("{key:guid}")]
 	public Task<DrillResponse> Update(Guid key, [FromBody] UpdateDrillRequest request)
 	{
-		return drillService.UpdateAsync(GetUserId(), key, request);
+		return drillService.UpdateAsync(key, request);
 	}
 
 	[HttpDelete("{key:guid}")]
 	public async Task<IActionResult> Delete(Guid key)
 	{
-		await drillService.DeleteAsync(GetUserId(), key);
+		await drillService.DeleteAsync(key);
 		return NoContent();
-	}
-
-	private string GetUserId()
-	{
-		return User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 	}
 }

@@ -2,7 +2,6 @@ using Api.Models.Dtos;
 using Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace Api.Controllers;
 
@@ -14,20 +13,20 @@ public class PracticePlansController(IPracticePlanService planService) : Control
 	[HttpGet]
 	public Task<List<PracticePlanListResponse>> GetAll()
 	{
-		return planService.GetAllAsync(GetUserId());
+		return planService.GetAllAsync();
 	}
 
 	[HttpGet("{key:guid}")]
 	public Task<PracticePlanDetailResponse> Get(Guid key)
 	{
-		return planService.GetByKeyAsync(GetUserId(), key);
+		return planService.GetByKeyAsync(key);
 	}
 
 	[HttpPost]
 	public async Task<ActionResult<PracticePlanDetailResponse>> Create(
 		[FromBody] CreatePracticePlanRequest request)
 	{
-		var plan = await planService.CreateAsync(GetUserId(), request);
+		var plan = await planService.CreateAsync(request);
 		return CreatedAtAction(nameof(Get), new { key = plan.Key }, plan);
 	}
 
@@ -35,18 +34,13 @@ public class PracticePlansController(IPracticePlanService planService) : Control
 	public Task<PracticePlanDetailResponse> Update(
 		Guid key, [FromBody] UpdatePracticePlanRequest request)
 	{
-		return planService.UpdateAsync(GetUserId(), key, request);
+		return planService.UpdateAsync(key, request);
 	}
 
 	[HttpDelete("{key:guid}")]
 	public async Task<IActionResult> Delete(Guid key)
 	{
-		await planService.DeleteAsync(GetUserId(), key);
+		await planService.DeleteAsync(key);
 		return NoContent();
-	}
-
-	private string GetUserId()
-	{
-		return User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 	}
 }

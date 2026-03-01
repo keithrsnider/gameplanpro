@@ -1,5 +1,6 @@
 using Api.Data;
 using Api.Extensions;
+using Api.Middleware;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,6 +41,7 @@ if (app.Environment.IsDevelopment())
     app.UseHttpsRedirection();
 }
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseCors(CorsServiceExtensions.PolicyName);
 app.UseRateLimiter();
 app.UseAuthentication();

@@ -5,7 +5,6 @@ public record PracticePlanListResponse(
 	string Name,
 	string? Location,
 	int? IntendedDuration,
-	DateOnly? PracticeDate,
 	DateTime CreatedAt,
 	DateTime LastModifiedAt
 );
@@ -15,7 +14,6 @@ public record PracticePlanDetailResponse(
 	string Name,
 	string? Location,
 	int? IntendedDuration,
-	DateOnly? PracticeDate,
 	string? Description,
 	DateTime CreatedAt,
 	DateTime LastModifiedAt,
@@ -26,14 +24,12 @@ public record CreatePracticePlanRequest(
 	string Name,
 	string? Location,
 	int? IntendedDuration,
-	string? Description,
-	DateOnly? PracticeDate
+	string? Description
 );
 
 public record UpdatePracticePlanRequest(
 	string? Name,
 	string? Location,
 	int? IntendedDuration,
-	string? Description,
-	DateOnly? PracticeDate
+	string? Description
 );

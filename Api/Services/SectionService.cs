@@ -7,27 +7,28 @@ namespace Api.Services;
 
 public interface ISectionService
 {
-	Task<SectionResponse> CreateAsync(string userId, Guid planKey, CreateSectionRequest request);
+	Task<SectionResponse> CreateAsync(Guid planKey, CreateSectionRequest request);
 	Task<SectionResponse> UpdateAsync(
-		string userId, Guid planKey, Guid sectionKey, UpdateSectionRequest request
+		Guid planKey, Guid sectionKey, UpdateSectionRequest request
 	);
-	Task DeleteAsync(string userId, Guid planKey, Guid sectionKey);
+	Task DeleteAsync(Guid planKey, Guid sectionKey);
 }
 
 public class SectionService(
 	ISectionRepository sectionRepo,
-	IPracticePlanRepository planRepo
+	IPracticePlanRepository planRepo,
+	IUserContext userContext
 ) : ISectionService
 {
 	public async Task<SectionResponse> CreateAsync(
-		string userId, Guid planKey, CreateSectionRequest request)
+		Guid planKey, CreateSectionRequest request)
 	{
 		var plan = await planRepo.GetByKeyAsync(planKey)
 			?? throw new BadHttpRequestException(
 				"Practice plan not found.", StatusCodes.Status404NotFound
 			);
 
-		if (plan.UserId != userId)
+		if (plan.UserId != userContext.UserId)
 			throw new BadHttpRequestException(
 				"Practice plan not found.", StatusCodes.Status404NotFound
 			);
@@ -47,14 +48,14 @@ public class SectionService(
 	}
 
 	public async Task<SectionResponse> UpdateAsync(
-		string userId, Guid planKey, Guid sectionKey, UpdateSectionRequest request)
+		Guid planKey, Guid sectionKey, UpdateSectionRequest request)
 	{
 		var plan = await planRepo.GetByKeyAsync(planKey)
 			?? throw new BadHttpRequestException(
 				"Practice plan not found.", StatusCodes.Status404NotFound
 			);
 
-		if (plan.UserId != userId)
+		if (plan.UserId != userContext.UserId)
 			throw new BadHttpRequestException(
 				"Practice plan not found.", StatusCodes.Status404NotFound
 			);
@@ -79,14 +80,14 @@ public class SectionService(
 		return section.ToResponse();
 	}
 
-	public async Task DeleteAsync(string userId, Guid planKey, Guid sectionKey)
+	public async Task DeleteAsync(Guid planKey, Guid sectionKey)
 	{
 		var plan = await planRepo.GetByKeyAsync(planKey)
 			?? throw new BadHttpRequestException(
 				"Practice plan not found.", StatusCodes.Status404NotFound
 			);
 
-		if (plan.UserId != userId)
+		if (plan.UserId != userContext.UserId)
 			throw new BadHttpRequestException(
 				"Practice plan not found.", StatusCodes.Status404NotFound
 			);

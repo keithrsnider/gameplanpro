@@ -1,0 +1,118 @@
+<div class="page-container">
+	<a routerLink="/dashboard" class="back-link">
+		<ng-icon hlm name="lucideArrowLeft" size="sm" />
+		<span>Back to Dashboard</span>
+	</a>
+
+	<div class="page-header">
+		<h1 class="text-2xl font-semibold tracking-tight">
+			{{ isEditMode ? 'Edit Practice Plan' : 'Create Practice Plan' }}
+		</h1>
+		<p class="text-muted-foreground">
+			Build a comprehensive practice plan with drills and activities for your team.
+		</p>
+	</div>
+
+	<form (submit)="$event.preventDefault(); onSubmit()" novalidate>
+		<div class="form-card">
+			<h2 class="card-heading">Practice Details</h2>
+
+			<!-- Name -->
+			<div class="field-group">
+				<label hlmLabel for="planName">Name</label>
+				<input
+					hlmInput
+					id="planName"
+					type="text"
+					placeholder="e.g. Tuesday Hitting Focus"
+					[formField]="planForm.name"
+					[error]="fieldHasError(planForm.name)"
+					class="w-full"
+				/>
+				<gpp-form-errors [field]="planForm.name" />
+			</div>
+
+			<!-- Location + Duration row -->
+			<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+				<!-- Location -->
+				<div class="field-group">
+					<label hlmLabel for="planLocation">Location</label>
+					<brn-select
+						id="planLocation"
+						[placeholder]="'Select a location'"
+						[(value)]="selectedLocation"
+					>
+						<hlm-select-trigger class="w-full">
+							<hlm-select-value />
+						</hlm-select-trigger>
+						<hlm-select-content>
+							<hlm-option value="Practice Field">Practice Field</hlm-option>
+						</hlm-select-content>
+					</brn-select>
+				</div>
+
+				<!-- Duration -->
+				<div class="field-group">
+					<label hlmLabel for="planDuration">Duration</label>
+					<brn-select
+						id="planDuration"
+						[placeholder]="'Select duration'"
+						[(value)]="selectedDuration"
+					>
+						<hlm-select-trigger class="w-full">
+							<hlm-select-value />
+						</hlm-select-trigger>
+						<hlm-select-content>
+							@for (d of durations; track d) {
+								<hlm-option [value]="'' + d">{{ d }} Minutes</hlm-option>
+							}
+						</hlm-select-content>
+					</brn-select>
+				</div>
+			</div>
+
+			<!-- Description -->
+			<div class="field-group">
+				<label hlmLabel for="planDescription">Description</label>
+				<textarea
+					hlmTextarea
+					id="planDescription"
+					[formField]="planForm.description"
+					[error]="fieldHasError(planForm.description)"
+					placeholder="Describe the focus and goals for this practice session..."
+					rows="4"
+					class="w-full"
+				></textarea>
+				<gpp-form-errors [field]="planForm.description" />
+			</div>
+		</div>
+
+		<!-- API errors -->
+		@if (apiErrors.length > 0) {
+			<ul class="error-banner">
+				@for (err of apiErrors; track err) {
+					<li>{{ err }}</li>
+				}
+			</ul>
+		}
+
+		<gpp-hr/>
+
+		<!-- Bottom bar -->
+		<div class="button-bar">
+			<a hlmBtn variant="outline" routerLink="/dashboard">Cancel</a>
+			<button
+				hlmBtn
+				type="submit"
+				class="cta-btn"
+				[disabled]="planForm().submitting()"
+			>
+				{{
+					planForm().submitting()
+						? (isEditMode ? 'Saving...' : 'Creating...')
+						: (isEditMode ? 'Save Changes' : 'Create Practice Plan')
+				}}
+			</button>
+		</div>
+	</form>
+</div>

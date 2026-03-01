@@ -50,6 +50,12 @@ export default [
         files: ['**/*.html'],
         rules: {
             '@angular-eslint/template/no-negated-async': 'error',
+            '@angular-eslint/template/label-has-associated-control': [
+                'error',
+                {
+                    controlComponents: ['brn-select'],
+                },
+            ],
         },
     },
     prettier

@@ -17,7 +17,9 @@ import {
 	lucideCircleUser,
 	lucidePlus,
 	lucideChevronRight,
-	lucideClock, lucideDownload,
+	lucideArrowLeft,
+	lucideClock,
+	lucideDownload,
 } from '@ng-icons/lucide';
 import { appRoutes } from './app.routes';
 import { AuthService } from './auth/auth.service';
@@ -37,6 +39,7 @@ export const appConfig: ApplicationConfig = {
 			lucideCircleUser,
 			lucidePlus,
 			lucideChevronRight,
+			lucideArrowLeft,
 			lucideDownload,
 			lucideClock,
 		}),

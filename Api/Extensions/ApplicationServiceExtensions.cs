@@ -15,6 +15,10 @@ public static class ApplicationServiceExtensions
 		services.AddScoped<IPlanDrillRepository, PlanDrillRepository>();
 		services.AddScoped<IUserRepository, UserRepository>();
 
+		// Infrastructure
+		services.AddHttpContextAccessor();
+		services.AddScoped<IUserContext, UserContext>();
+
 		// Services
 		services.AddScoped<IAuthService, AuthService>();
 		services.AddScoped<IDrillTypeService, DrillTypeService>();

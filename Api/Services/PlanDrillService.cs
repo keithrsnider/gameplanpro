@@ -7,12 +7,12 @@ namespace Api.Services;
 public interface IPlanDrillService
 {
 	Task<PlanDrillResponse> CreateAsync(
-		string userId, Guid planKey, Guid sectionKey, CreatePlanDrillRequest request
+		Guid planKey, Guid sectionKey, CreatePlanDrillRequest request
 	);
 	Task<PlanDrillResponse> UpdateAsync(
-		string userId, Guid planKey, Guid sectionKey, Guid drillKey, UpdatePlanDrillRequest request
+		Guid planKey, Guid sectionKey, Guid drillKey, UpdatePlanDrillRequest request
 	);
-	Task DeleteAsync(string userId, Guid planKey, Guid sectionKey, Guid drillKey);
+	Task DeleteAsync(Guid planKey, Guid sectionKey, Guid drillKey);
 }
 
 public class PlanDrillService(
@@ -20,13 +20,14 @@ public class PlanDrillService(
 	ISectionRepository sectionRepo,
 	IPracticePlanRepository planRepo,
 	IDrillTypeRepository drillTypeRepo,
-	IDrillRepository drillRepo
+	IDrillRepository drillRepo,
+	IUserContext userContext
 ) : IPlanDrillService
 {
 	public async Task<PlanDrillResponse> CreateAsync(
-		string userId, Guid planKey, Guid sectionKey, CreatePlanDrillRequest request)
+		Guid planKey, Guid sectionKey, CreatePlanDrillRequest request)
 	{
-		var (plan, section) = await VerifyOwnershipChainAsync(userId, planKey, sectionKey);
+		var (plan, section) = await VerifyOwnershipChainAsync(planKey, sectionKey);
 
 		int? drillTypeId = null;
 		Models.DrillType? drillType = null;
@@ -60,10 +61,10 @@ public class PlanDrillService(
 	}
 
 	public async Task<PlanDrillResponse> UpdateAsync(
-		string userId, Guid planKey, Guid sectionKey, Guid drillKey,
+		Guid planKey, Guid sectionKey, Guid drillKey,
 		UpdatePlanDrillRequest request)
 	{
-		var (plan, _) = await VerifyOwnershipChainAsync(userId, planKey, sectionKey);
+		var (plan, _) = await VerifyOwnershipChainAsync(planKey, sectionKey);
 
 		var planDrill = await planDrillRepo.GetByKeyAsync(drillKey)
 			?? throw new BadHttpRequestException(
@@ -101,10 +102,9 @@ public class PlanDrillService(
 		return planDrill.ToResponse();
 	}
 
-	public async Task DeleteAsync(
-		string userId, Guid planKey, Guid sectionKey, Guid drillKey)
+	public async Task DeleteAsync(Guid planKey, Guid sectionKey, Guid drillKey)
 	{
-		var (plan, _) = await VerifyOwnershipChainAsync(userId, planKey, sectionKey);
+		var (plan, _) = await VerifyOwnershipChainAsync(planKey, sectionKey);
 
 		var planDrill = await planDrillRepo.GetByKeyAsync(drillKey)
 			?? throw new BadHttpRequestException(
@@ -122,14 +122,14 @@ public class PlanDrillService(
 	}
 
 	private async Task<(Models.PracticePlan plan, Models.Section section)> VerifyOwnershipChainAsync(
-		string userId, Guid planKey, Guid sectionKey)
+		Guid planKey, Guid sectionKey)
 	{
 		var plan = await planRepo.GetByKeyAsync(planKey)
 			?? throw new BadHttpRequestException(
 				"Practice plan not found.", StatusCodes.Status404NotFound
 			);
 
-		if (plan.UserId != userId)
+		if (plan.UserId != userContext.UserId)
 			throw new BadHttpRequestException(
 				"Practice plan not found.", StatusCodes.Status404NotFound
 			);

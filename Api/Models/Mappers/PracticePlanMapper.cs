@@ -8,7 +8,7 @@ public static class PracticePlanMapper
 	{
 		return new PracticePlanListResponse(
 			plan.Key, plan.Name, plan.Location, plan.IntendedDuration,
-			plan.PracticeDate, plan.CreatedAt, plan.LastModifiedAt
+			plan.CreatedAt, plan.LastModifiedAt
 		);
 	}
 
@@ -19,7 +19,6 @@ public static class PracticePlanMapper
 			plan.Name,
 			plan.Location,
 			plan.IntendedDuration,
-			plan.PracticeDate,
 			plan.Description,
 			plan.CreatedAt,
 			plan.LastModifiedAt,
@@ -35,7 +34,6 @@ public static class PracticePlanMapper
 			Location = request.Location,
 			IntendedDuration = request.IntendedDuration,
 			Description = request.Description,
-			PracticeDate = request.PracticeDate,
 			UserId = userId,
 			Sections = [new Section { Name = "Section 1", DisplayOrder = 0 }],
 		};

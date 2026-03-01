@@ -2,7 +2,6 @@ using Api.Models.Dtos;
 using Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace Api.Controllers;
 
@@ -15,7 +14,7 @@ public class SectionsController(ISectionService sectionService) : ControllerBase
 	public async Task<ActionResult<SectionResponse>> Create(
 		Guid planKey, [FromBody] CreateSectionRequest request)
 	{
-		var section = await sectionService.CreateAsync(GetUserId(), planKey, request);
+		var section = await sectionService.CreateAsync(planKey, request);
 		return Created(string.Empty, section);
 	}
 
@@ -23,18 +22,13 @@ public class SectionsController(ISectionService sectionService) : ControllerBase
 	public Task<SectionResponse> Update(
 		Guid planKey, Guid sectionKey, [FromBody] UpdateSectionRequest request)
 	{
-		return sectionService.UpdateAsync(GetUserId(), planKey, sectionKey, request);
+		return sectionService.UpdateAsync(planKey, sectionKey, request);
 	}
 
 	[HttpDelete("{sectionKey:guid}")]
 	public async Task<IActionResult> Delete(Guid planKey, Guid sectionKey)
 	{
-		await sectionService.DeleteAsync(GetUserId(), planKey, sectionKey);
+		await sectionService.DeleteAsync(planKey, sectionKey);
 		return NoContent();
-	}
-
-	private string GetUserId()
-	{
-		return User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 	}
 }

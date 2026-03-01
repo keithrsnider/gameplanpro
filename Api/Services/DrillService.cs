@@ -7,18 +7,21 @@ namespace Api.Services;
 
 public interface IDrillService
 {
-	Task<List<DrillResponse>> GetAllAsync(string userId, DrillSource? source, int? drillTypeId);
-	Task<DrillResponse> GetByKeyAsync(string userId, Guid key);
-	Task<DrillResponse> CreateAsync(string userId, CreateDrillRequest request);
-	Task<DrillResponse> UpdateAsync(string userId, Guid key, UpdateDrillRequest request);
-	Task DeleteAsync(string userId, Guid key);
+	Task<List<DrillResponse>> GetAllAsync(DrillSource? source, int? drillTypeId);
+	Task<DrillResponse> GetByKeyAsync(Guid key);
+	Task<DrillResponse> CreateAsync(CreateDrillRequest request);
+	Task<DrillResponse> UpdateAsync(Guid key, UpdateDrillRequest request);
+	Task DeleteAsync(Guid key);
 }
 
-public class DrillService(IDrillRepository drillRepo, IDrillTypeRepository drillTypeRepo)
-	: IDrillService
+public class DrillService(
+	IDrillRepository drillRepo,
+	IDrillTypeRepository drillTypeRepo,
+	IUserContext userContext
+) : IDrillService
 {
 	public async Task<List<DrillResponse>> GetAllAsync(
-		string userId, DrillSource? source, int? drillTypeId)
+		DrillSource? source, int? drillTypeId)
 	{
 		if (drillTypeId is not null)
 		{
@@ -27,34 +30,34 @@ public class DrillService(IDrillRepository drillRepo, IDrillTypeRepository drill
 				throw new BadHttpRequestException("Drill type not found.", StatusCodes.Status404NotFound);
 		}
 
-		var drills = await drillRepo.GetAllAsync(userId, source, drillTypeId);
+		var drills = await drillRepo.GetAllAsync(userContext.UserId, source, drillTypeId);
 		return drills.Select(d => d.ToResponse()).ToList();
 	}
 
-	public async Task<DrillResponse> GetByKeyAsync(string userId, Guid key)
+	public async Task<DrillResponse> GetByKeyAsync(Guid key)
 	{
 		var drill = await drillRepo.GetByKeyAsync(key)
 			?? throw new BadHttpRequestException("Drill not found.", StatusCodes.Status404NotFound);
 
-		if (drill.Source == DrillSource.User && drill.UserId != userId)
+		if (drill.Source == DrillSource.User && drill.UserId != userContext.UserId)
 			throw new BadHttpRequestException("Drill not found.", StatusCodes.Status404NotFound);
 
 		return drill.ToResponse();
 	}
 
-	public async Task<DrillResponse> CreateAsync(string userId, CreateDrillRequest request)
+	public async Task<DrillResponse> CreateAsync(CreateDrillRequest request)
 	{
 		var drillType = await drillTypeRepo.GetByIdAsync(request.DrillTypeId)
 			?? throw new BadHttpRequestException("Drill type not found.", StatusCodes.Status400BadRequest);
 
-		var drill = request.ToEntity(userId, drillType.Id);
+		var drill = request.ToEntity(userContext.UserId, drillType.Id);
 
 		await drillRepo.CreateAsync(drill);
 		drill.DrillType = drillType;
 		return drill.ToResponse();
 	}
 
-	public async Task<DrillResponse> UpdateAsync(string userId, Guid key, UpdateDrillRequest request)
+	public async Task<DrillResponse> UpdateAsync(Guid key, UpdateDrillRequest request)
 	{
 		var drill = await drillRepo.GetByKeyAsync(key)
 			?? throw new BadHttpRequestException("Drill not found.", StatusCodes.Status404NotFound);
@@ -64,7 +67,7 @@ public class DrillService(IDrillRepository drillRepo, IDrillTypeRepository drill
 				"System drills cannot be edited.", StatusCodes.Status403Forbidden
 			);
 
-		if (drill.UserId != userId)
+		if (drill.UserId != userContext.UserId)
 			throw new BadHttpRequestException("Drill not found.", StatusCodes.Status404NotFound);
 
 		var drillType = await drillTypeRepo.GetByIdAsync(request.DrillTypeId)
@@ -83,7 +86,7 @@ public class DrillService(IDrillRepository drillRepo, IDrillTypeRepository drill
 		return drill.ToResponse();
 	}
 
-	public async Task DeleteAsync(string userId, Guid key)
+	public async Task DeleteAsync(Guid key)
 	{
 		var drill = await drillRepo.GetByKeyAsync(key)
 			?? throw new BadHttpRequestException("Drill not found.", StatusCodes.Status404NotFound);
@@ -93,7 +96,7 @@ public class DrillService(IDrillRepository drillRepo, IDrillTypeRepository drill
 				"System drills cannot be deleted.", StatusCodes.Status403Forbidden
 			);
 
-		if (drill.UserId != userId)
+		if (drill.UserId != userContext.UserId)
 			throw new BadHttpRequestException("Drill not found.", StatusCodes.Status404NotFound);
 
 		await drillRepo.DeleteAsync(drill);

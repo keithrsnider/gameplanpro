@@ -8,6 +8,10 @@ set -e
 SPEC_URL="http://localhost:5115/swagger/v1/swagger.json"
 OUTPUT_DIR="ClientApp/src/app/core/api"
 
+echo "Cleaning $OUTPUT_DIR..."
+rm -rf "$OUTPUT_DIR"
+mkdir -p "$OUTPUT_DIR"
+
 echo "Generating Kiota client from $SPEC_URL..."
 
 kiota generate \

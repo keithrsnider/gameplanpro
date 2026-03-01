@@ -13,6 +13,9 @@
       ],
       "@spartan-ng/helm/label": [
         "libs/ui/label/src/index.ts"
+      ],
+      "@spartan-ng/helm/icon": [
+        "libs/ui/icon/src/index.ts"
       ]
     }
   }

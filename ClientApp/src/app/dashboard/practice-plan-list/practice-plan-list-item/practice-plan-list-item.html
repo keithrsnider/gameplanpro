@@ -1,0 +1,24 @@
+<div class="item-content">
+	<div class="item-details">
+		<h4 class="plan-name">{{ plan().name }}</h4>
+		<div class="plan-meta">
+			@if (plan().practiceDate) {
+				<span class="meta-tag">
+					<ng-icon hlm name="lucideCalendar" size="xs" />
+					{{ plan().practiceDate | date: 'mediumDate' }}
+				</span>
+			}
+			@if (plan().intendedDuration) {
+				<span class="meta-tag">
+					<ng-icon hlm name="lucideClock" size="xs" />
+					{{ plan().intendedDuration }} min
+				</span>
+			}
+		</div>
+		@if (plan().description) {
+			<p class="plan-description">{{ plan().description }}</p>
+		}
+	</div>
+	<ng-icon hlm name="lucideDownload" size="sm" class="download" />
+	<ng-icon hlm name="lucideChevronRight" size="sm" class="chevron" />
+</div>

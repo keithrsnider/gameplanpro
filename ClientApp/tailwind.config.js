@@ -17,6 +17,9 @@ module.exports = {
     },
     extend: {
       colors: {
+        'gpp-slate': 'var(--gpp-slate)',
+        'gpp-orange': 'var(--gpp-orange)',
+        'nav-active': 'var(--nav-active)',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',

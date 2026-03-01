@@ -1,0 +1,10 @@
+<div class="list-card">
+	<h2 class="list-heading">My Practice Plans</h2>
+	<div class="divide-y divide-border">
+		@for (plan of plans(); track plan.key) {
+			<gpp-practice-plan-list-item [plan]="plan" />
+		} @empty {
+			<p class="empty-state">No practice plans yet. Create your first one!</p>
+		}
+	</div>
+</div>

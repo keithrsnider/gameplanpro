@@ -3,11 +3,6 @@ import { authGuard } from './auth/auth.guard';
 
 export const appRoutes: Route[] = [
 	{
-		path: '',
-		redirectTo: 'dashboard',
-		pathMatch: 'full',
-	},
-	{
 		path: 'login',
 		loadComponent: () => import('./auth/login/login').then((m) => m.LoginComponent),
 	},
@@ -16,8 +11,16 @@ export const appRoutes: Route[] = [
 		loadComponent: () => import('./auth/register/register').then((m) => m.RegisterComponent),
 	},
 	{
-		path: 'dashboard',
-		loadComponent: () => import('./dashboard/dashboard').then((m) => m.DashboardComponent),
+		path: '',
+		loadComponent: () => import('./layout/layout').then((m) => m.LayoutComponent),
 		canActivate: [authGuard],
+		children: [
+			{ path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+			{
+				path: 'dashboard',
+				loadComponent: () =>
+					import('./dashboard/dashboard').then((m) => m.DashboardComponent),
+			},
+		],
 	},
 ];

@@ -1,9 +1,16 @@
-<div class="flex min-h-screen items-center justify-center bg-background p-4">
-	<div class="w-full max-w-sm rounded-lg border bg-card p-8 shadow-sm">
-		<h1 class="mb-2 text-2xl font-semibold tracking-tight">Dashboard</h1>
-		<p class="mb-6 text-sm text-muted-foreground">
-			Signed in as <span class="font-medium text-foreground">{{ auth.currentUser()?.email }}</span>
+<div class="flex flex-col gap-6 p-8">
+	<div class="hero-card">
+		<h1 class="text-white text-4xl mb-4">Create Your Next Practice Plan</h1>
+		<p class="text-slate-300 text-lg mb-8">
+			Build structured, time-managed practice plans for your team.
 		</p>
-		<button hlmBtn variant="outline" class="w-full" (click)="signOut()">Sign out</button>
+		<button hlmBtn class="cta-btn">
+			<ng-icon hlm name="lucidePlus" size="sm" />
+			<span>Create Practice Plan</span>
+			<ng-icon hlm name="lucideChevronRight" size="sm" />
+		</button>
+	</div>
+	<div>
+		<gpp-practice-plan-list [plans]="practicePlans" />
 	</div>
 </div>

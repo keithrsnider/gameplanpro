@@ -67,6 +67,7 @@ public class PracticePlanService(IPracticePlanRepository planRepo) : IPracticePl
 		if (request.Location is not null) plan.Location = request.Location;
 		if (request.IntendedDuration is not null) plan.IntendedDuration = request.IntendedDuration;
 		if (request.Description is not null) plan.Description = request.Description;
+		if (request.PracticeDate is not null) plan.PracticeDate = request.PracticeDate;
 		plan.LastModifiedAt = DateTime.UtcNow;
 
 		await planRepo.UpdateAsync(plan);

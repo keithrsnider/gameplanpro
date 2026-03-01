@@ -1,0 +1,22 @@
+<header class="header">
+	<div class="brand">
+		<ng-icon hlm name="lucideSquareCheckBig" size="sm" class="text-gpp-orange" />
+		<div>
+			<span class="brand-name">GamePlanPro</span>
+			<span class="brand-tagline">Save time for what matters</span>
+		</div>
+	</div>
+
+	<nav class="nav">
+		@for (item of navItems; track item.label) {
+			<button class="nav-item" [class.nav-item--active]="item.active">
+				<ng-icon hlm [name]="item.icon" size="sm" />
+				<span>{{ item.label }}</span>
+			</button>
+		}
+	</nav>
+
+	<button class="user-btn" (click)="signOut()">
+		<ng-icon hlm name="lucideCircleUser" size="sm" />
+	</button>
+</header>

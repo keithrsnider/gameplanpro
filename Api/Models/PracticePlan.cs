@@ -20,6 +20,8 @@ public class PracticePlan : BaseEntity
 	[MaxLength(2000)]
 	public string? Description { get; set; }
 
+	public DateOnly? PracticeDate { get; set; }
+
 	public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 	public DateTime LastModifiedAt { get; set; } = DateTime.UtcNow;
 

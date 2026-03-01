@@ -1,0 +1,8 @@
+.hero-card {
+	@apply rounded-xl bg-gpp-slate p-12;
+}
+
+.cta-btn {
+	@apply mt-6 flex items-center gap-2 rounded-lg bg-gpp-orange px-6 py-6 font-semibold
+		text-white transition-colors hover:opacity-90;
+}

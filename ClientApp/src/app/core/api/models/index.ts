@@ -18,6 +18,34 @@ export interface AuthUserResponse extends Parsable {
      */
     id?: string | null;
 }
+export interface CoachRequest extends Parsable {
+    /**
+     * The key property
+     */
+    key?: Guid | null;
+    /**
+     * The name property
+     */
+    name?: string | null;
+    /**
+     * The type property
+     */
+    type?: string | null;
+}
+export interface CoachResponse extends Parsable {
+    /**
+     * The key property
+     */
+    key?: Guid | null;
+    /**
+     * The name property
+     */
+    name?: string | null;
+    /**
+     * The type property
+     */
+    type?: string | null;
+}
 /**
  * Creates a new instance of the appropriate class based on discriminator value
  * @param parseNode The parse node to use to read the discriminator value and create the object
@@ -26,6 +54,24 @@ export interface AuthUserResponse extends Parsable {
 // @ts-ignore
 export function createAuthUserResponseFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
     return deserializeIntoAuthUserResponse;
+}
+/**
+ * Creates a new instance of the appropriate class based on discriminator value
+ * @param parseNode The parse node to use to read the discriminator value and create the object
+ * @returns {CoachRequest}
+ */
+// @ts-ignore
+export function createCoachRequestFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
+    return deserializeIntoCoachRequest;
+}
+/**
+ * Creates a new instance of the appropriate class based on discriminator value
+ * @param parseNode The parse node to use to read the discriminator value and create the object
+ * @returns {CoachResponse}
+ */
+// @ts-ignore
+export function createCoachResponseFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
+    return deserializeIntoCoachResponse;
 }
 /**
  * Creates a new instance of the appropriate class based on discriminator value
@@ -62,6 +108,15 @@ export function createCreatePracticePlanRequestFromDiscriminatorValue(parseNode:
 // @ts-ignore
 export function createCreateSectionRequestFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
     return deserializeIntoCreateSectionRequest;
+}
+/**
+ * Creates a new instance of the appropriate class based on discriminator value
+ * @param parseNode The parse node to use to read the discriminator value and create the object
+ * @returns {CreateTeamRequest}
+ */
+// @ts-ignore
+export function createCreateTeamRequestFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
+    return deserializeIntoCreateTeamRequest;
 }
 export interface CreateDrillRequest extends Parsable {
     /**
@@ -231,6 +286,25 @@ export interface CreateSectionRequest extends Parsable {
 export function createSectionResponseFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
     return deserializeIntoSectionResponse;
 }
+export interface CreateTeamRequest extends Parsable {
+    /**
+     * The coaches property
+     */
+    coaches?: CoachRequest[] | null;
+    /**
+     * The name property
+     */
+    name?: string | null;
+}
+/**
+ * Creates a new instance of the appropriate class based on discriminator value
+ * @param parseNode The parse node to use to read the discriminator value and create the object
+ * @returns {TeamResponse}
+ */
+// @ts-ignore
+export function createTeamResponseFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
+    return deserializeIntoTeamResponse;
+}
 /**
  * Creates a new instance of the appropriate class based on discriminator value
  * @param parseNode The parse node to use to read the discriminator value and create the object
@@ -268,6 +342,15 @@ export function createUpdateSectionRequestFromDiscriminatorValue(parseNode: Pars
     return deserializeIntoUpdateSectionRequest;
 }
 /**
+ * Creates a new instance of the appropriate class based on discriminator value
+ * @param parseNode The parse node to use to read the discriminator value and create the object
+ * @returns {UpdateTeamRequest}
+ */
+// @ts-ignore
+export function createUpdateTeamRequestFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
+    return deserializeIntoUpdateTeamRequest;
+}
+/**
  * The deserialization information for the current model
  * @param AuthUserResponse The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
@@ -278,6 +361,32 @@ export function deserializeIntoAuthUserResponse(authUserResponse: Partial<AuthUs
         "displayName": n => { authUserResponse.displayName = n.getStringValue(); },
         "email": n => { authUserResponse.email = n.getStringValue(); },
         "id": n => { authUserResponse.id = n.getStringValue(); },
+    }
+}
+/**
+ * The deserialization information for the current model
+ * @param CoachRequest The instance to deserialize into.
+ * @returns {Record<string, (node: ParseNode) => void>}
+ */
+// @ts-ignore
+export function deserializeIntoCoachRequest(coachRequest: Partial<CoachRequest> | undefined = {}) : Record<string, (node: ParseNode) => void> {
+    return {
+        "key": n => { coachRequest.key = n.getGuidValue(); },
+        "name": n => { coachRequest.name = n.getStringValue(); },
+        "type": n => { coachRequest.type = n.getStringValue(); },
+    }
+}
+/**
+ * The deserialization information for the current model
+ * @param CoachResponse The instance to deserialize into.
+ * @returns {Record<string, (node: ParseNode) => void>}
+ */
+// @ts-ignore
+export function deserializeIntoCoachResponse(coachResponse: Partial<CoachResponse> | undefined = {}) : Record<string, (node: ParseNode) => void> {
+    return {
+        "key": n => { coachResponse.key = n.getGuidValue(); },
+        "name": n => { coachResponse.name = n.getStringValue(); },
+        "type": n => { coachResponse.type = n.getStringValue(); },
     }
 }
 /**
@@ -340,6 +449,18 @@ export function deserializeIntoCreateSectionRequest(createSectionRequest: Partia
     return {
         "displayOrder": n => { createSectionRequest.displayOrder = n.getNumberValue(); },
         "name": n => { createSectionRequest.name = n.getStringValue(); },
+    }
+}
+/**
+ * The deserialization information for the current model
+ * @param CreateTeamRequest The instance to deserialize into.
+ * @returns {Record<string, (node: ParseNode) => void>}
+ */
+// @ts-ignore
+export function deserializeIntoCreateTeamRequest(createTeamRequest: Partial<CreateTeamRequest> | undefined = {}) : Record<string, (node: ParseNode) => void> {
+    return {
+        "coaches": n => { createTeamRequest.coaches = n.getCollectionOfObjectValues<CoachRequest>(createCoachRequestFromDiscriminatorValue); },
+        "name": n => { createTeamRequest.name = n.getStringValue(); },
     }
 }
 /**
@@ -470,6 +591,19 @@ export function deserializeIntoSectionResponse(sectionResponse: Partial<SectionR
 }
 /**
  * The deserialization information for the current model
+ * @param TeamResponse The instance to deserialize into.
+ * @returns {Record<string, (node: ParseNode) => void>}
+ */
+// @ts-ignore
+export function deserializeIntoTeamResponse(teamResponse: Partial<TeamResponse> | undefined = {}) : Record<string, (node: ParseNode) => void> {
+    return {
+        "coaches": n => { teamResponse.coaches = n.getCollectionOfObjectValues<CoachResponse>(createCoachResponseFromDiscriminatorValue); },
+        "key": n => { teamResponse.key = n.getGuidValue(); },
+        "name": n => { teamResponse.name = n.getStringValue(); },
+    }
+}
+/**
+ * The deserialization information for the current model
  * @param UpdateDrillRequest The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
@@ -527,6 +661,18 @@ export function deserializeIntoUpdateSectionRequest(updateSectionRequest: Partia
     return {
         "displayOrder": n => { updateSectionRequest.displayOrder = n.getNumberValue(); },
         "name": n => { updateSectionRequest.name = n.getStringValue(); },
+    }
+}
+/**
+ * The deserialization information for the current model
+ * @param UpdateTeamRequest The instance to deserialize into.
+ * @returns {Record<string, (node: ParseNode) => void>}
+ */
+// @ts-ignore
+export function deserializeIntoUpdateTeamRequest(updateTeamRequest: Partial<UpdateTeamRequest> | undefined = {}) : Record<string, (node: ParseNode) => void> {
+    return {
+        "coaches": n => { updateTeamRequest.coaches = n.getCollectionOfObjectValues<CoachRequest>(createCoachRequestFromDiscriminatorValue); },
+        "name": n => { updateTeamRequest.name = n.getStringValue(); },
     }
 }
 export interface DrillResponse extends Parsable {
@@ -744,6 +890,32 @@ export function serializeAuthUserResponse(writer: SerializationWriter, authUserR
 }
 /**
  * Serializes information the current object
+ * @param CoachRequest The instance to serialize from.
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param writer Serialization writer to use to serialize this model
+ */
+// @ts-ignore
+export function serializeCoachRequest(writer: SerializationWriter, coachRequest: Partial<CoachRequest> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!coachRequest || isSerializingDerivedType) { return; }
+    writer.writeGuidValue("key", coachRequest.key);
+    writer.writeStringValue("name", coachRequest.name);
+    writer.writeStringValue("type", coachRequest.type);
+}
+/**
+ * Serializes information the current object
+ * @param CoachResponse The instance to serialize from.
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param writer Serialization writer to use to serialize this model
+ */
+// @ts-ignore
+export function serializeCoachResponse(writer: SerializationWriter, coachResponse: Partial<CoachResponse> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!coachResponse || isSerializingDerivedType) { return; }
+    writer.writeGuidValue("key", coachResponse.key);
+    writer.writeStringValue("name", coachResponse.name);
+    writer.writeStringValue("type", coachResponse.type);
+}
+/**
+ * Serializes information the current object
  * @param CreateDrillRequest The instance to serialize from.
  * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
  * @param writer Serialization writer to use to serialize this model
@@ -803,6 +975,18 @@ export function serializeCreateSectionRequest(writer: SerializationWriter, creat
     if (!createSectionRequest || isSerializingDerivedType) { return; }
     writer.writeNumberValue("displayOrder", createSectionRequest.displayOrder);
     writer.writeStringValue("name", createSectionRequest.name);
+}
+/**
+ * Serializes information the current object
+ * @param CreateTeamRequest The instance to serialize from.
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param writer Serialization writer to use to serialize this model
+ */
+// @ts-ignore
+export function serializeCreateTeamRequest(writer: SerializationWriter, createTeamRequest: Partial<CreateTeamRequest> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!createTeamRequest || isSerializingDerivedType) { return; }
+    writer.writeCollectionOfObjectValues<CoachRequest>("coaches", createTeamRequest.coaches, serializeCoachRequest);
+    writer.writeStringValue("name", createTeamRequest.name);
 }
 /**
  * Serializes information the current object
@@ -933,6 +1117,19 @@ export function serializeSectionResponse(writer: SerializationWriter, sectionRes
 /**
  * Serializes information the current object
  * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param TeamResponse The instance to serialize from.
+ * @param writer Serialization writer to use to serialize this model
+ */
+// @ts-ignore
+export function serializeTeamResponse(writer: SerializationWriter, teamResponse: Partial<TeamResponse> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!teamResponse || isSerializingDerivedType) { return; }
+    writer.writeCollectionOfObjectValues<CoachResponse>("coaches", teamResponse.coaches, serializeCoachResponse);
+    writer.writeGuidValue("key", teamResponse.key);
+    writer.writeStringValue("name", teamResponse.name);
+}
+/**
+ * Serializes information the current object
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
  * @param UpdateDrillRequest The instance to serialize from.
  * @param writer Serialization writer to use to serialize this model
  */
@@ -990,6 +1187,32 @@ export function serializeUpdateSectionRequest(writer: SerializationWriter, updat
     if (!updateSectionRequest || isSerializingDerivedType) { return; }
     writer.writeNumberValue("displayOrder", updateSectionRequest.displayOrder);
     writer.writeStringValue("name", updateSectionRequest.name);
+}
+/**
+ * Serializes information the current object
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param UpdateTeamRequest The instance to serialize from.
+ * @param writer Serialization writer to use to serialize this model
+ */
+// @ts-ignore
+export function serializeUpdateTeamRequest(writer: SerializationWriter, updateTeamRequest: Partial<UpdateTeamRequest> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!updateTeamRequest || isSerializingDerivedType) { return; }
+    writer.writeCollectionOfObjectValues<CoachRequest>("coaches", updateTeamRequest.coaches, serializeCoachRequest);
+    writer.writeStringValue("name", updateTeamRequest.name);
+}
+export interface TeamResponse extends Parsable {
+    /**
+     * The coaches property
+     */
+    coaches?: CoachResponse[] | null;
+    /**
+     * The key property
+     */
+    key?: Guid | null;
+    /**
+     * The name property
+     */
+    name?: string | null;
 }
 export interface UpdateDrillRequest extends Parsable {
     /**
@@ -1078,6 +1301,16 @@ export interface UpdateSectionRequest extends Parsable {
      * The displayOrder property
      */
     displayOrder?: number | null;
+    /**
+     * The name property
+     */
+    name?: string | null;
+}
+export interface UpdateTeamRequest extends Parsable {
+    /**
+     * The coaches property
+     */
+    coaches?: CoachRequest[] | null;
     /**
      * The name property
      */

@@ -1,30 +1,30 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { HlmIconImports } from '@spartan-ng/helm/icon';
 import { AuthService } from '../../auth/auth.service';
 
 interface NavItem {
 	label: string;
 	icon: string;
-	active: boolean;
+	route?: string;
 }
 
 @Component({
 	selector: 'gpp-header',
 	templateUrl: './header.html',
 	styleUrl: './header.css',
-	imports: [...HlmIconImports],
+	imports: [...HlmIconImports, RouterLink, RouterLinkActive],
 })
 export class HeaderComponent {
 	private readonly _router = inject(Router);
 	private readonly _auth = inject(AuthService);
 
 	readonly navItems: NavItem[] = [
-		{ label: 'Dashboard', icon: 'lucideLayoutDashboard', active: true },
-		{ label: 'Skills & Drills', icon: 'lucideBookOpen', active: false },
-		{ label: 'Team', icon: 'lucideUsers', active: false },
-		{ label: 'Schedule', icon: 'lucideCalendar', active: false },
-		{ label: 'Analytics', icon: 'lucideTrendingUp', active: false },
+		{ label: 'Dashboard', icon: 'lucideLayoutDashboard', route: '/dashboard' },
+		{ label: 'Skills & Drills', icon: 'lucideBookOpen' },
+		{ label: 'Team', icon: 'lucideUsers', route: '/team' },
+		{ label: 'Schedule', icon: 'lucideCalendar' },
+		{ label: 'Analytics', icon: 'lucideTrendingUp' },
 	];
 
 	async signOut() {

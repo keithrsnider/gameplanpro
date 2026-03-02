@@ -9,10 +9,21 @@
 
 	<nav class="nav">
 		@for (item of navItems; track item.label) {
-			<button class="nav-item" [class.nav-item--active]="item.active">
-				<ng-icon hlm [name]="item.icon" size="sm" />
-				<span>{{ item.label }}</span>
-			</button>
+			@if (item.route) {
+				<a
+					class="nav-item"
+					[routerLink]="item.route"
+					routerLinkActive="nav-item--active"
+				>
+					<ng-icon hlm [name]="item.icon" size="sm" />
+					<span>{{ item.label }}</span>
+				</a>
+			} @else {
+				<button class="nav-item">
+					<ng-icon hlm [name]="item.icon" size="sm" />
+					<span>{{ item.label }}</span>
+				</button>
+			}
 		}
 	</nav>
 

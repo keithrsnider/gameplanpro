@@ -10,6 +10,8 @@ import { DrillTypesRequestBuilderRequestsMetadata, type DrillTypesRequestBuilder
 // @ts-ignore
 import { PracticePlansRequestBuilderNavigationMetadata, PracticePlansRequestBuilderRequestsMetadata, type PracticePlansRequestBuilder } from './practicePlans/index.js';
 // @ts-ignore
+import { TeamRequestBuilderRequestsMetadata, type TeamRequestBuilder } from './team/index.js';
+// @ts-ignore
 import { type BaseRequestBuilder, type KeysToExcludeForNavigationMetadata, type NavigationMetadata } from '@microsoft/kiota-abstractions';
 
 /**
@@ -32,6 +34,10 @@ export interface ApiRequestBuilder extends BaseRequestBuilder<ApiRequestBuilder>
      * The practicePlans property
      */
     get practicePlans(): PracticePlansRequestBuilder;
+    /**
+     * The team property
+     */
+    get team(): TeamRequestBuilder;
 }
 /**
  * Uri template for the request builder.
@@ -54,6 +60,9 @@ export const ApiRequestBuilderNavigationMetadata: Record<Exclude<keyof ApiReques
     practicePlans: {
         requestsMetadata: PracticePlansRequestBuilderRequestsMetadata,
         navigationMetadata: PracticePlansRequestBuilderNavigationMetadata,
+    },
+    team: {
+        requestsMetadata: TeamRequestBuilderRequestsMetadata,
     },
 };
 /* tslint:enable */

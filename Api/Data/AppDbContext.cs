@@ -17,6 +17,8 @@ public class AppDbContext : IdentityDbContext<AppUser>
     public DbSet<PracticePlan> PracticePlans => Set<PracticePlan>();
     public DbSet<Section> Sections => Set<Section>();
     public DbSet<PlanDrill> PlanDrills => Set<PlanDrill>();
+    public DbSet<Team> Teams => Set<Team>();
+    public DbSet<Coach> Coaches => Set<Coach>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

@@ -13,6 +13,7 @@ public static class ApplicationServiceExtensions
 		services.AddScoped<IPracticePlanRepository, PracticePlanRepository>();
 		services.AddScoped<ISectionRepository, SectionRepository>();
 		services.AddScoped<IPlanDrillRepository, PlanDrillRepository>();
+		services.AddScoped<ITeamRepository, TeamRepository>();
 		// Infrastructure
 		services.AddHttpContextAccessor();
 		services.AddScoped<IUserContext, UserContext>();
@@ -24,6 +25,7 @@ public static class ApplicationServiceExtensions
 		services.AddScoped<IPracticePlanService, PracticePlanService>();
 		services.AddScoped<ISectionService, SectionService>();
 		services.AddScoped<IPlanDrillService, PlanDrillService>();
+		services.AddScoped<ITeamService, TeamService>();
 
 		return services;
 	}

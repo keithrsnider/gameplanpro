@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HlmIconImports } from '@spartan-ng/helm/icon';
-import type { PracticePlanItem } from '../../dashboard';
+import type { PracticePlanListResponse } from '../../../core/api/models/index.js';
 
 @Component({
 	selector: 'gpp-practice-plan-list-item',
@@ -10,5 +10,5 @@ import type { PracticePlanItem } from '../../dashboard';
 	imports: [RouterLink, ...HlmIconImports],
 })
 export class PracticePlanListItemComponent {
-	plan = input.required<PracticePlanItem>();
+	plan = input.required<PracticePlanListResponse>();
 }

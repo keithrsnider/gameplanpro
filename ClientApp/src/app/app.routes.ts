@@ -22,6 +22,11 @@ export const appRoutes: Route[] = [
 					import('./dashboard/dashboard').then((m) => m.DashboardComponent),
 			},
 			{
+				path: 'team',
+				loadComponent: () =>
+					import('./team/team').then((m) => m.TeamComponent),
+			},
+			{
 				path: 'practice-plan/:key',
 				loadComponent: () =>
 					import('./practice-plan/practice-plan-form').then(

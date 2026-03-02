@@ -40,16 +40,12 @@
 	@apply bg-muted/50;
 }
 
-.cell-text {
-	@apply block cursor-pointer text-sm;
-}
-
 .cell-input {
-	@apply -my-1 -mx-2 box-border w-[calc(100%+1rem)] text-sm;
+	@apply w-full border-transparent bg-transparent text-sm shadow-none outline-none;
 }
 
-.number-input {
-	-moz-appearance: textfield;
+.cell-input:focus {
+	@apply border-input shadow-sm ring-1 ring-ring;
 }
 
 /* Hide number spin buttons */

@@ -91,6 +91,11 @@
 			</button>
 		</div>
 
+		<div class="form-card">
+		<!-- Team Roster -->
+			<gpp-team-roster [players]="players()" (playersChange)="players.set($event)" />
+		</div>
+
 		<!-- Save Button -->
 		<div class="button-bar">
 			<div></div>

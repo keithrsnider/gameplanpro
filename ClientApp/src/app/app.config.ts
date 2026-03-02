@@ -21,6 +21,9 @@ import {
 	lucideClock,
 	lucideDownload,
 	lucideTrash2,
+	lucideArrowUp,
+	lucideArrowDown,
+	lucideArrowUpDown,
 } from '@ng-icons/lucide';
 import { appRoutes } from './app.routes';
 import { AuthService } from './auth/auth.service';
@@ -44,6 +47,9 @@ export const appConfig: ApplicationConfig = {
 			lucideDownload,
 			lucideClock,
 			lucideTrash2,
+		lucideArrowUp,
+		lucideArrowDown,
+		lucideArrowUpDown,
 		}),
 		provideAppInitializer(() => inject(AuthService).checkAuth()),
 	],

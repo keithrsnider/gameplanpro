@@ -225,6 +225,24 @@ export function createPlanDrillResponseFromDiscriminatorValue(parseNode: ParseNo
 /**
  * Creates a new instance of the appropriate class based on discriminator value
  * @param parseNode The parse node to use to read the discriminator value and create the object
+ * @returns {PlayerRequest}
+ */
+// @ts-ignore
+export function createPlayerRequestFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
+    return deserializeIntoPlayerRequest;
+}
+/**
+ * Creates a new instance of the appropriate class based on discriminator value
+ * @param parseNode The parse node to use to read the discriminator value and create the object
+ * @returns {PlayerResponse}
+ */
+// @ts-ignore
+export function createPlayerResponseFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
+    return deserializeIntoPlayerResponse;
+}
+/**
+ * Creates a new instance of the appropriate class based on discriminator value
+ * @param parseNode The parse node to use to read the discriminator value and create the object
  * @returns {PracticePlanDetailResponse}
  */
 // @ts-ignore
@@ -295,6 +313,10 @@ export interface CreateTeamRequest extends Parsable {
      * The name property
      */
     name?: string | null;
+    /**
+     * The players property
+     */
+    players?: PlayerRequest[] | null;
 }
 /**
  * Creates a new instance of the appropriate class based on discriminator value
@@ -461,6 +483,7 @@ export function deserializeIntoCreateTeamRequest(createTeamRequest: Partial<Crea
     return {
         "coaches": n => { createTeamRequest.coaches = n.getCollectionOfObjectValues<CoachRequest>(createCoachRequestFromDiscriminatorValue); },
         "name": n => { createTeamRequest.name = n.getStringValue(); },
+        "players": n => { createTeamRequest.players = n.getCollectionOfObjectValues<PlayerRequest>(createPlayerRequestFromDiscriminatorValue); },
     }
 }
 /**
@@ -526,6 +549,32 @@ export function deserializeIntoPlanDrillResponse(planDrillResponse: Partial<Plan
         "playerCount": n => { planDrillResponse.playerCount = n.getNumberValue(); },
         "sourceDrillKey": n => { planDrillResponse.sourceDrillKey = n.getGuidValue(); },
         "stationGroup": n => { planDrillResponse.stationGroup = n.getGuidValue(); },
+    }
+}
+/**
+ * The deserialization information for the current model
+ * @param PlayerRequest The instance to deserialize into.
+ * @returns {Record<string, (node: ParseNode) => void>}
+ */
+// @ts-ignore
+export function deserializeIntoPlayerRequest(playerRequest: Partial<PlayerRequest> | undefined = {}) : Record<string, (node: ParseNode) => void> {
+    return {
+        "key": n => { playerRequest.key = n.getGuidValue(); },
+        "lastName": n => { playerRequest.lastName = n.getStringValue(); },
+        "number": n => { playerRequest.number = n.getNumberValue(); },
+    }
+}
+/**
+ * The deserialization information for the current model
+ * @param PlayerResponse The instance to deserialize into.
+ * @returns {Record<string, (node: ParseNode) => void>}
+ */
+// @ts-ignore
+export function deserializeIntoPlayerResponse(playerResponse: Partial<PlayerResponse> | undefined = {}) : Record<string, (node: ParseNode) => void> {
+    return {
+        "key": n => { playerResponse.key = n.getGuidValue(); },
+        "lastName": n => { playerResponse.lastName = n.getStringValue(); },
+        "number": n => { playerResponse.number = n.getNumberValue(); },
     }
 }
 /**
@@ -600,6 +649,7 @@ export function deserializeIntoTeamResponse(teamResponse: Partial<TeamResponse> 
         "coaches": n => { teamResponse.coaches = n.getCollectionOfObjectValues<CoachResponse>(createCoachResponseFromDiscriminatorValue); },
         "key": n => { teamResponse.key = n.getGuidValue(); },
         "name": n => { teamResponse.name = n.getStringValue(); },
+        "players": n => { teamResponse.players = n.getCollectionOfObjectValues<PlayerResponse>(createPlayerResponseFromDiscriminatorValue); },
     }
 }
 /**
@@ -673,6 +723,7 @@ export function deserializeIntoUpdateTeamRequest(updateTeamRequest: Partial<Upda
     return {
         "coaches": n => { updateTeamRequest.coaches = n.getCollectionOfObjectValues<CoachRequest>(createCoachRequestFromDiscriminatorValue); },
         "name": n => { updateTeamRequest.name = n.getStringValue(); },
+        "players": n => { updateTeamRequest.players = n.getCollectionOfObjectValues<PlayerRequest>(createPlayerRequestFromDiscriminatorValue); },
     }
 }
 export interface DrillResponse extends Parsable {
@@ -782,6 +833,34 @@ export interface PlanDrillResponse extends Parsable {
      * The stationGroup property
      */
     stationGroup?: Guid | null;
+}
+export interface PlayerRequest extends Parsable {
+    /**
+     * The key property
+     */
+    key?: Guid | null;
+    /**
+     * The lastName property
+     */
+    lastName?: string | null;
+    /**
+     * The number property
+     */
+    number?: number | null;
+}
+export interface PlayerResponse extends Parsable {
+    /**
+     * The key property
+     */
+    key?: Guid | null;
+    /**
+     * The lastName property
+     */
+    lastName?: string | null;
+    /**
+     * The number property
+     */
+    number?: number | null;
 }
 export interface PracticePlanDetailResponse extends Parsable {
     /**
@@ -987,6 +1066,7 @@ export function serializeCreateTeamRequest(writer: SerializationWriter, createTe
     if (!createTeamRequest || isSerializingDerivedType) { return; }
     writer.writeCollectionOfObjectValues<CoachRequest>("coaches", createTeamRequest.coaches, serializeCoachRequest);
     writer.writeStringValue("name", createTeamRequest.name);
+    writer.writeCollectionOfObjectValues<PlayerRequest>("players", createTeamRequest.players, serializePlayerRequest);
 }
 /**
  * Serializes information the current object
@@ -1052,6 +1132,32 @@ export function serializePlanDrillResponse(writer: SerializationWriter, planDril
     writer.writeNumberValue("playerCount", planDrillResponse.playerCount);
     writer.writeGuidValue("sourceDrillKey", planDrillResponse.sourceDrillKey);
     writer.writeGuidValue("stationGroup", planDrillResponse.stationGroup);
+}
+/**
+ * Serializes information the current object
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param PlayerRequest The instance to serialize from.
+ * @param writer Serialization writer to use to serialize this model
+ */
+// @ts-ignore
+export function serializePlayerRequest(writer: SerializationWriter, playerRequest: Partial<PlayerRequest> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!playerRequest || isSerializingDerivedType) { return; }
+    writer.writeGuidValue("key", playerRequest.key);
+    writer.writeStringValue("lastName", playerRequest.lastName);
+    writer.writeNumberValue("number", playerRequest.number);
+}
+/**
+ * Serializes information the current object
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param PlayerResponse The instance to serialize from.
+ * @param writer Serialization writer to use to serialize this model
+ */
+// @ts-ignore
+export function serializePlayerResponse(writer: SerializationWriter, playerResponse: Partial<PlayerResponse> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!playerResponse || isSerializingDerivedType) { return; }
+    writer.writeGuidValue("key", playerResponse.key);
+    writer.writeStringValue("lastName", playerResponse.lastName);
+    writer.writeNumberValue("number", playerResponse.number);
 }
 /**
  * Serializes information the current object
@@ -1126,6 +1232,7 @@ export function serializeTeamResponse(writer: SerializationWriter, teamResponse:
     writer.writeCollectionOfObjectValues<CoachResponse>("coaches", teamResponse.coaches, serializeCoachResponse);
     writer.writeGuidValue("key", teamResponse.key);
     writer.writeStringValue("name", teamResponse.name);
+    writer.writeCollectionOfObjectValues<PlayerResponse>("players", teamResponse.players, serializePlayerResponse);
 }
 /**
  * Serializes information the current object
@@ -1199,6 +1306,7 @@ export function serializeUpdateTeamRequest(writer: SerializationWriter, updateTe
     if (!updateTeamRequest || isSerializingDerivedType) { return; }
     writer.writeCollectionOfObjectValues<CoachRequest>("coaches", updateTeamRequest.coaches, serializeCoachRequest);
     writer.writeStringValue("name", updateTeamRequest.name);
+    writer.writeCollectionOfObjectValues<PlayerRequest>("players", updateTeamRequest.players, serializePlayerRequest);
 }
 export interface TeamResponse extends Parsable {
     /**
@@ -1213,6 +1321,10 @@ export interface TeamResponse extends Parsable {
      * The name property
      */
     name?: string | null;
+    /**
+     * The players property
+     */
+    players?: PlayerResponse[] | null;
 }
 export interface UpdateDrillRequest extends Parsable {
     /**
@@ -1315,6 +1427,10 @@ export interface UpdateTeamRequest extends Parsable {
      * The name property
      */
     name?: string | null;
+    /**
+     * The players property
+     */
+    players?: PlayerRequest[] | null;
 }
 /* tslint:enable */
 /* eslint-enable */

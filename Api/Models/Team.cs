@@ -16,6 +16,7 @@ public class Team : BaseEntity
 	public AppUser User { get; set; } = null!;
 
 	public ICollection<Coach> Coaches { get; set; } = [];
+	public ICollection<Player> Players { get; set; } = [];
 
 	public class Configuration : IEntityTypeConfiguration<Team>
 	{

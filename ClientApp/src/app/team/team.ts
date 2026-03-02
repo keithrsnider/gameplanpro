@@ -15,7 +15,8 @@ import { HlmLabelImports } from '@spartan-ng/helm/label';
 import { HlmIconImports } from '@spartan-ng/helm/icon';
 import { FormErrorsComponent } from '../shared/components/form-errors';
 import { ApiClientService } from '../core/api-client.service';
-import type { CoachResponse } from '../core/api/models/index.js';
+import type { CoachResponse, PlayerResponse } from '../core/api/models/index.js';
+import { TeamRosterComponent } from './team-roster/team-roster';
 
 interface TeamFormData {
 	teamName: string;
@@ -43,6 +44,7 @@ const teamSchema = schema<TeamFormData>((f) => {
 		...HlmInputImports,
 		...HlmLabelImports,
 		...HlmIconImports,
+		TeamRosterComponent,
 	],
 })
 export class TeamComponent {
@@ -53,6 +55,7 @@ export class TeamComponent {
 	readonly teamForm = form(this.model, teamSchema);
 
 	readonly assistantCoaches = signal<CoachResponse[]>([]);
+	readonly players = signal<PlayerResponse[]>([]);
 	headCoachKey?: string;
 
 	hasExistingTeam = false;
@@ -96,6 +99,7 @@ export class TeamComponent {
 				this.assistantCoaches.set(
 					team.coaches?.filter((c) => c.type === 'Assistant') ?? []
 				);
+				this.players.set(team.players ?? []);
 			}
 		} catch {
 			// 404 = no team yet, which is fine
@@ -116,7 +120,15 @@ export class TeamComponent {
 					.map((c) => ({ key: c.key ?? null, name: c.name, type: 'Assistant' })),
 			];
 
-			const body = { name: teamName, coaches };
+			const players = this.players()
+				.filter((p) => p.lastName?.trim())
+				.map((p) => ({
+					key: p.key ?? null,
+					lastName: p.lastName,
+					number: p.number ?? 0,
+				}));
+
+			const body = { name: teamName, coaches, players };
 
 			try {
 				if (this.hasExistingTeam) {

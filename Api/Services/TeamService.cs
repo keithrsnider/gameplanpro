@@ -32,6 +32,7 @@ public class TeamService(
 			);
 
 		ValidateCoaches(request.Coaches);
+		ValidatePlayers(request.Players);
 
 		var team = request.ToEntity(userContext.UserId);
 		await teamRepo.CreateAsync(team);
@@ -44,38 +45,69 @@ public class TeamService(
 			?? throw new BadHttpRequestException("Team not found.", StatusCodes.Status404NotFound);
 
 		ValidateCoaches(request.Coaches);
+		ValidatePlayers(request.Players);
 
 		team.Name = request.Name;
 
 		// Build lookup of existing coaches by key
-		var existingByKey = team.Coaches.ToDictionary(c => c.Key);
-		var incomingKeys = new HashSet<Guid>();
+		var existingCoachesByKey = team.Coaches.ToDictionary(c => c.Key);
+		var incomingCoachKeys = new HashSet<Guid>();
 
 		foreach (var c in request.Coaches)
 		{
 			var type = Enum.Parse<CoachType>(c.Type, ignoreCase: true);
 
-			if (c.Key is { } key && existingByKey.TryGetValue(key, out var existing))
+			if (c.Key is { } key && existingCoachesByKey.TryGetValue(key, out var existing))
 			{
-				// Update existing coach
 				existing.Name = c.Name;
 				existing.Type = type;
-				incomingKeys.Add(key);
+				incomingCoachKeys.Add(key);
 			}
 			else
 			{
-				// Add new coach
 				team.Coaches.Add(new Coach { Name = c.Name, Type = type });
 			}
 		}
 
-		// Remove coaches not in the incoming list
-		var toRemove = team.Coaches.Where(c => existingByKey.ContainsKey(c.Key) && !incomingKeys.Contains(c.Key)).ToList();
-		foreach (var c in toRemove)
+		var coachesToRemove = team.Coaches.Where(c => existingCoachesByKey.ContainsKey(c.Key) && !incomingCoachKeys.Contains(c.Key)).ToList();
+		foreach (var c in coachesToRemove)
 			team.Coaches.Remove(c);
+
+		// Build lookup of existing players by key
+		var existingPlayersByKey = team.Players.ToDictionary(p => p.Key);
+		var incomingPlayerKeys = new HashSet<Guid>();
+
+		foreach (var p in request.Players)
+		{
+			if (p.Key is { } key && existingPlayersByKey.TryGetValue(key, out var existing))
+			{
+				existing.LastName = p.LastName;
+				existing.Number = p.Number;
+				incomingPlayerKeys.Add(key);
+			}
+			else
+			{
+				team.Players.Add(new Player { LastName = p.LastName, Number = p.Number });
+			}
+		}
+
+		var playersToRemove = team.Players.Where(p => existingPlayersByKey.ContainsKey(p.Key) && !incomingPlayerKeys.Contains(p.Key)).ToList();
+		foreach (var p in playersToRemove)
+			team.Players.Remove(p);
 
 		await teamRepo.UpdateAsync(team);
 		return team.ToResponse();
+	}
+
+	private static void ValidatePlayers(List<PlayerRequest> players)
+	{
+		foreach (var p in players)
+		{
+			if (string.IsNullOrWhiteSpace(p.LastName))
+				throw new BadHttpRequestException(
+					"Player last name is required.", StatusCodes.Status400BadRequest
+				);
+		}
 	}
 
 	private static void ValidateCoaches(List<CoachRequest> coaches)

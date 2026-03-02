@@ -9,7 +9,8 @@ public static class TeamMapper
 		return new TeamResponse(
 			team.Key,
 			team.Name,
-			team.Coaches.Select(c => c.ToResponse()).ToList()
+			team.Coaches.Select(c => c.ToResponse()).ToList(),
+			team.Players.Select(p => p.ToResponse()).ToList()
 		);
 	}
 
@@ -19,6 +20,15 @@ public static class TeamMapper
 			coach.Key,
 			coach.Name,
 			coach.Type.ToString()
+		);
+	}
+
+	public static PlayerResponse ToResponse(this Player player)
+	{
+		return new PlayerResponse(
+			player.Key,
+			player.LastName,
+			player.Number
 		);
 	}
 
@@ -32,6 +42,11 @@ public static class TeamMapper
 			{
 				Name = c.Name,
 				Type = Enum.Parse<CoachType>(c.Type, ignoreCase: true),
+			}).ToList(),
+			Players = request.Players.Select(p => new Player
+			{
+				LastName = p.LastName,
+				Number = p.Number,
 			}).ToList(),
 		};
 	}

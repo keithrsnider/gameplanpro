@@ -1,0 +1,43 @@
+.roster-header {
+	@apply flex items-center justify-between;
+}
+
+.add-player-btn {
+	@apply flex items-center gap-1.5 rounded-md bg-black px-3 py-1.5 text-sm text-white hover:brightness-90;
+}
+
+.roster-table {
+	@apply w-full;
+}
+
+.roster-table th {
+	@apply cursor-pointer select-none pb-2 text-left text-sm font-medium text-muted-foreground;
+}
+
+.th-content {
+	@apply inline-flex items-center gap-1;
+}
+
+.roster-table td {
+	@apply pb-2 pr-2;
+}
+
+.roster-table td:last-child {
+	@apply w-10 pr-0;
+}
+
+.number-input {
+	@apply w-20;
+	-moz-appearance: textfield;
+}
+
+/* Hide number spin buttons */
+.number-input::-webkit-outer-spin-button,
+.number-input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+.trash-btn {
+	@apply rounded-md p-2 text-muted-foreground transition-colors hover:text-destructive;
+}

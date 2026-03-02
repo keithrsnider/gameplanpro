@@ -1,0 +1,69 @@
+<div class="form-card">
+	<div class="roster-header">
+		<h2 class="card-heading">Team Roster</h2>
+		<button type="button" class="add-player-btn" (click)="addPlayer()">
+			<ng-icon hlm name="lucidePlus" size="sm" />
+			<span>Add Player</span>
+		</button>
+	</div>
+
+	@if (displayPlayers().length) {
+		<table class="roster-table">
+			<thead>
+				<tr>
+					<th (click)="toggleSort('lastName')">
+						<span class="th-content">
+							<span>Last Name</span>
+							<ng-icon hlm [name]="sortIcon('lastName')" size="xs" />
+						</span>
+					</th>
+					<th (click)="toggleSort('number')">
+						<span class="th-content">
+							<span>Number</span>
+							<ng-icon hlm [name]="sortIcon('number')" size="xs" />
+						</span>
+					</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				@for (tp of displayPlayers(); track tp._id) {
+					<tr>
+						<td>
+							<input
+								hlmInput
+								type="text"
+								placeholder="Last name"
+								[value]="tp.player.lastName"
+								(input)="updatePlayerLastName(tp, $any($event.target).value)"
+								class="w-full"
+							/>
+						</td>
+						<td>
+							<input
+								hlmInput
+								type="number"
+								min="0"
+								max="100"
+								class="number-input"
+								[value]="tp.player.number"
+								(input)="updatePlayerNumber(tp, $any($event.target).value)"
+							/>
+						</td>
+						<td>
+							<button
+								type="button"
+								class="trash-btn"
+								(click)="removePlayer(tp)"
+							>
+								<ng-icon hlm name="lucideTrash2" size="sm" />
+							</button>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	} @else {
+		<p class="text-sm text-muted-foreground">No players added yet.</p>
+	}
+</div>

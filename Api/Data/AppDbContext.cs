@@ -19,6 +19,7 @@ public class AppDbContext : IdentityDbContext<AppUser>
     public DbSet<PlanDrill> PlanDrills => Set<PlanDrill>();
     public DbSet<Team> Teams => Set<Team>();
     public DbSet<Coach> Coaches => Set<Coach>();
+    public DbSet<Player> Players => Set<Player>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

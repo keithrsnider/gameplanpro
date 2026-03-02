@@ -17,6 +17,7 @@ public class TeamRepository(AppDbContext db) : ITeamRepository
 	{
 		return db.Teams
 			.Include(t => t.Coaches)
+			.Include(t => t.Players)
 			.FirstOrDefaultAsync(t => t.UserId == userId);
 	}
 

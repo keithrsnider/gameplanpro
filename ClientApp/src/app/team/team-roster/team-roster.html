@@ -29,26 +29,44 @@
 			<tbody>
 				@for (tp of displayPlayers(); track tp._id) {
 					<tr>
-						<td>
-							<input
-								hlmInput
-								type="text"
-								placeholder="Last name"
-								[value]="tp.player.lastName"
-								(input)="updatePlayerLastName(tp, $any($event.target).value)"
-								class="w-full"
-							/>
+						<td (click)="startEditing(tp, 'lastName')">
+							@if (isEditing(tp, 'lastName')) {
+								<input
+									#cellInput
+									hlmInput
+									type="text"
+									placeholder="Last name"
+									[value]="tp.player.lastName"
+									(input)="updatePlayerLastName(tp, $any($event.target).value)"
+									(blur)="stopEditing()"
+									(keydown.enter)="$any($event.target).blur()"
+									class="cell-input"
+								/>
+							} @else {
+								<span class="cell-text">
+									{{ tp.player.lastName || 'Last Name' }}
+								</span>
+							}
 						</td>
-						<td>
-							<input
-								hlmInput
-								type="number"
-								min="0"
-								max="100"
-								class="number-input"
-								[value]="tp.player.number"
-								(input)="updatePlayerNumber(tp, $any($event.target).value)"
-							/>
+						<td (click)="startEditing(tp, 'number')">
+							@if (isEditing(tp, 'number')) {
+								<input
+									#cellInput
+									hlmInput
+									type="number"
+									min="0"
+									max="100"
+									[value]="tp.player.number"
+									(input)="updatePlayerNumber(tp, $any($event.target).value)"
+									(blur)="stopEditing()"
+									(keydown.enter)="$any($event.target).blur()"
+									class="cell-input number-input"
+								/>
+							} @else {
+								<span class="cell-text">
+									{{ tp.player.number ?? '—' }}
+								</span>
+							}
 						</td>
 						<td>
 							<button

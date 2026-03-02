@@ -1,10 +1,22 @@
-import { Component, effect, input, output, signal } from '@angular/core';
+import {
+	afterNextRender,
+	Component,
+	effect,
+	ElementRef,
+	inject,
+	Injector,
+	input,
+	output,
+	signal,
+	viewChildren,
+} from '@angular/core';
 import { HlmInputImports } from '@spartan-ng/helm/input';
 import { HlmIconImports } from '@spartan-ng/helm/icon';
 import type { PlayerResponse } from '../../core/api/models';
 
 type SortColumn = 'lastName' | 'number';
 type SortDirection = 'asc' | 'desc';
+type EditingCell = { playerId: number; field: 'lastName' | 'number' } | null;
 
 interface TrackedPlayer {
 	_id: number;
@@ -14,17 +26,20 @@ interface TrackedPlayer {
 @Component({
 	selector: 'gpp-team-roster',
 	templateUrl: './team-roster.html',
-	styleUrl: './team-roster.css',
+	styleUrls: ['./team-roster.css', '../team.css'],
 	imports: [...HlmInputImports, ...HlmIconImports],
 })
 export class TeamRosterComponent {
 	readonly players = input.required<PlayerResponse[]>();
 	readonly playersChange = output<PlayerResponse[]>();
+	readonly cellInputs = viewChildren<ElementRef<HTMLInputElement>>('cellInput');
 
+	private readonly injector = inject(Injector);
 	private _nextId = 0;
 	private _selfEmitted = false;
 	readonly trackedPlayers = signal<TrackedPlayer[]>([]);
 
+	readonly editingCell = signal<EditingCell>(null);
 	readonly sortColumn = signal<SortColumn>('lastName');
 	readonly sortDirection = signal<SortDirection>('asc');
 
@@ -96,6 +111,28 @@ export class TeamRosterComponent {
 		this.trackedPlayers.update(update);
 		this.displayPlayers.update(update);
 		this.emitPlayers();
+	}
+
+	isEditing(tp: TrackedPlayer, field: 'lastName' | 'number'): boolean {
+		var cell = this.editingCell();
+		return cell !== null && cell.playerId === tp._id && cell.field === field;
+	}
+
+	startEditing(tp: TrackedPlayer, field: 'lastName' | 'number') {
+		this.editingCell.set({ playerId: tp._id, field });
+		afterNextRender(
+			() => {
+				var inputs = this.cellInputs();
+				if (inputs.length) {
+					inputs[0].nativeElement.focus();
+				}
+			},
+			{ injector: this.injector }
+		);
+	}
+
+	stopEditing() {
+		this.editingCell.set(null);
 	}
 
 	private emitPlayers() {

@@ -7,11 +7,21 @@
 }
 
 .roster-table {
-	@apply w-full;
+	@apply w-full border-collapse;
+	table-layout: fixed;
 }
 
 .roster-table th {
-	@apply cursor-pointer select-none pb-2 text-left text-sm font-medium text-muted-foreground;
+	@apply cursor-pointer select-none px-3 py-2 text-left text-sm font-medium text-muted-foreground;
+}
+
+.roster-table th:first-child,
+.roster-table th:nth-child(2) {
+	width: calc((100% - 2.5rem) / 2);
+}
+
+.roster-table th:last-child {
+	@apply w-10;
 }
 
 .th-content {
@@ -19,15 +29,26 @@
 }
 
 .roster-table td {
-	@apply pb-2 pr-2;
+	@apply px-3 py-2;
 }
 
 .roster-table td:last-child {
-	@apply w-10 pr-0;
+	@apply w-10 px-0;
+}
+
+.roster-table tbody tr:nth-child(odd) {
+	@apply bg-muted/50;
+}
+
+.cell-text {
+	@apply block cursor-pointer text-sm;
+}
+
+.cell-input {
+	@apply -my-1 -mx-2 box-border w-[calc(100%+1rem)] text-sm;
 }
 
 .number-input {
-	@apply w-20;
 	-moz-appearance: textfield;
 }
 

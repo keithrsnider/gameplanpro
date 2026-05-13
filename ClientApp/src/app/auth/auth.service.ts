@@ -30,8 +30,20 @@ export class AuthService {
 		this.currentUser.set(null);
 	}
 
-	async resetPassword(currentPassword: string, newPassword: string): Promise<void> {
-		await this._api.client.api.auth.resetPassword.post({ currentPassword, newPassword });
+	async forgotPassword(email: string): Promise<void> {
+		await this._api.client.api.auth.forgotPassword.post({ email });
+	}
+
+	async completePasswordReset(
+		email: string,
+		token: string,
+		newPassword: string
+	): Promise<void> {
+		await this._api.client.api.auth.resetPassword.post({ email, token, newPassword });
+	}
+
+	async changePassword(currentPassword: string, newPassword: string): Promise<void> {
+		await this._api.client.api.auth.changePassword.post({ currentPassword, newPassword });
 	}
 
 	async checkAuth(): Promise<void> {

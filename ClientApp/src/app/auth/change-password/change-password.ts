@@ -9,7 +9,6 @@ import {
 	validate,
 } from '@angular/forms/signals';
 import type { FieldTree } from '@angular/forms/signals';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import type { DefaultApiError } from '@microsoft/kiota-abstractions';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmInputImports } from '@spartan-ng/helm/input';
@@ -18,12 +17,15 @@ import { AuthService } from '../auth.service';
 import { FormErrorsComponent } from '../../shared/components/form-errors';
 import { passwordStrengthSchema } from '../auth.schemas';
 
-interface ResetPasswordFormData {
+interface ChangePasswordFormData {
+	currentPassword: string;
 	newPassword: string;
 	confirmPassword: string;
 }
 
-const resetPasswordSchema = schema<ResetPasswordFormData>((f) => {
+const changePasswordSchema = schema<ChangePasswordFormData>((f) => {
+	required(f.currentPassword, { message: 'Current password is required.' });
+
 	apply(f.newPassword, passwordStrengthSchema);
 
 	required(f.confirmPassword, { message: 'Please confirm your new password.' });
@@ -35,10 +37,9 @@ const resetPasswordSchema = schema<ResetPasswordFormData>((f) => {
 });
 
 @Component({
-	selector: 'gpp-reset-password',
-	templateUrl: './reset-password.html',
+	selector: 'gpp-change-password',
+	templateUrl: './change-password.html',
 	imports: [
-		RouterLink,
 		FormField,
 		FormErrorsComponent,
 		...HlmButtonImports,
@@ -46,40 +47,32 @@ const resetPasswordSchema = schema<ResetPasswordFormData>((f) => {
 		...HlmLabelImports,
 	],
 })
-export class ResetPasswordComponent {
+export class ChangePasswordComponent {
 	private readonly _auth = inject(AuthService);
-	private readonly _route = inject(ActivatedRoute);
-	private readonly _router = inject(Router);
 
-	readonly email = this._route.snapshot.queryParamMap.get('email') ?? '';
-	readonly token = this._route.snapshot.queryParamMap.get('token') ?? '';
-	readonly hasValidLink = this.email.length > 0 && this.token.length > 0;
-	readonly model = signal<ResetPasswordFormData>({
+	readonly model = signal<ChangePasswordFormData>({
+		currentPassword: '',
 		newPassword: '',
 		confirmPassword: '',
 	});
-	readonly resetPasswordForm = form(this.model, resetPasswordSchema);
+	readonly changePasswordForm = form(this.model, changePasswordSchema);
 
-	apiErrors: string[] = this.hasValidLink ? [] : ['This reset link is invalid or incomplete.'];
+	apiErrors: string[] = [];
+	successMessage: string | null = null;
 
 	fieldHasError(field: FieldTree<unknown>): true | undefined {
 		return field().touched() && !field().valid() ? true : undefined;
 	}
 
 	async onSubmit() {
-		this.apiErrors = this.hasValidLink ? [] : ['This reset link is invalid or incomplete.'];
+		this.apiErrors = [];
+		this.successMessage = null;
 
-		if (!this.hasValidLink) {
-			return;
-		}
-
-		await submit(this.resetPasswordForm, async (f) => {
-			const { newPassword } = f().value();
+		await submit(this.changePasswordForm, async (f) => {
+			const { currentPassword, newPassword } = f().value();
 			try {
-				await this._auth.completePasswordReset(this.email, this.token, newPassword);
-				await this._router.navigate(['/login'], {
-					queryParams: { passwordReset: 'success' },
-				});
+				await this._auth.changePassword(currentPassword, newPassword);
+				this.successMessage = 'Your password has been updated.';
 			} catch (err) {
 				this.apiErrors = this._extractErrors(err as DefaultApiError);
 			}
@@ -92,15 +85,14 @@ export class ResetPasswordComponent {
 			return ['Unable to reach the server. Please check your connection.'];
 		}
 		if (err.responseStatusCode === 400) {
-			return [
-				'This reset link is invalid or has expired. Request a new password reset email and try again.',
-			];
+			return ['Unable to update password. Check your current password and try again.'];
 		}
-		if (err.responseStatusCode === 429) {
-			return ['Too many attempts. Please try again later.'];
+		if (err.responseStatusCode === 401) {
+			return ['Your session has expired. Please sign in again.'];
 		}
 		return ['An unexpected error occurred. Please try again.'];
 	}
 }
+
 
 

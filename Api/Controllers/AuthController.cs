@@ -24,11 +24,23 @@ public class AuthController(IAuthService authService) : ControllerBase
 		return authService.LoginAsync(request);
 	}
 
-	[Authorize]
+	[HttpPost("forgot-password")]
+	public Task ForgotPassword([FromBody] ForgotPasswordRequest request)
+	{
+		return authService.ForgotPasswordAsync(request);
+	}
+
 	[HttpPost("reset-password")]
 	public Task ResetPassword([FromBody] ResetPasswordRequest request)
 	{
-		return authService.ResetPasswordAsync(User, request);
+		return authService.ResetPasswordAsync(request);
+	}
+
+	[Authorize]
+	[HttpPost("change-password")]
+	public Task ChangePassword([FromBody] ChangePasswordRequest request)
+	{
+		return authService.ChangePasswordAsync(User, request);
 	}
 
 	[Authorize]

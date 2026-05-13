@@ -18,6 +18,16 @@ export interface AuthUserResponse extends Parsable {
      */
     id?: string | null;
 }
+export interface ChangePasswordRequest extends Parsable {
+    /**
+     * The currentPassword property
+     */
+    currentPassword?: string | null;
+    /**
+     * The newPassword property
+     */
+    newPassword?: string | null;
+}
 export interface CoachRequest extends Parsable {
     /**
      * The key property
@@ -54,6 +64,15 @@ export interface CoachResponse extends Parsable {
 // @ts-ignore
 export function createAuthUserResponseFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
     return deserializeIntoAuthUserResponse;
+}
+/**
+ * Creates a new instance of the appropriate class based on discriminator value
+ * @param parseNode The parse node to use to read the discriminator value and create the object
+ * @returns {ChangePasswordRequest}
+ */
+// @ts-ignore
+export function createChangePasswordRequestFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
+    return deserializeIntoChangePasswordRequest;
 }
 /**
  * Creates a new instance of the appropriate class based on discriminator value
@@ -161,6 +180,15 @@ export function createDrillResponseFromDiscriminatorValue(parseNode: ParseNode |
 // @ts-ignore
 export function createDrillTypeResponseFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
     return deserializeIntoDrillTypeResponse;
+}
+/**
+ * Creates a new instance of the appropriate class based on discriminator value
+ * @param parseNode The parse node to use to read the discriminator value and create the object
+ * @returns {ForgotPasswordRequest}
+ */
+// @ts-ignore
+export function createForgotPasswordRequestFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
+    return deserializeIntoForgotPasswordRequest;
 }
 /**
  * Creates a new instance of the appropriate class based on discriminator value
@@ -396,6 +424,18 @@ export function deserializeIntoAuthUserResponse(authUserResponse: Partial<AuthUs
 }
 /**
  * The deserialization information for the current model
+ * @param ChangePasswordRequest The instance to deserialize into.
+ * @returns {Record<string, (node: ParseNode) => void>}
+ */
+// @ts-ignore
+export function deserializeIntoChangePasswordRequest(changePasswordRequest: Partial<ChangePasswordRequest> | undefined = {}) : Record<string, (node: ParseNode) => void> {
+    return {
+        "currentPassword": n => { changePasswordRequest.currentPassword = n.getStringValue(); },
+        "newPassword": n => { changePasswordRequest.newPassword = n.getStringValue(); },
+    }
+}
+/**
+ * The deserialization information for the current model
  * @param CoachRequest The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
@@ -529,6 +569,17 @@ export function deserializeIntoDrillTypeResponse(drillTypeResponse: Partial<Dril
 }
 /**
  * The deserialization information for the current model
+ * @param ForgotPasswordRequest The instance to deserialize into.
+ * @returns {Record<string, (node: ParseNode) => void>}
+ */
+// @ts-ignore
+export function deserializeIntoForgotPasswordRequest(forgotPasswordRequest: Partial<ForgotPasswordRequest> | undefined = {}) : Record<string, (node: ParseNode) => void> {
+    return {
+        "email": n => { forgotPasswordRequest.email = n.getStringValue(); },
+    }
+}
+/**
+ * The deserialization information for the current model
  * @param LoginRequest The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
@@ -641,8 +692,9 @@ export function deserializeIntoRegisterRequest(registerRequest: Partial<Register
 // @ts-ignore
 export function deserializeIntoResetPasswordRequest(resetPasswordRequest: Partial<ResetPasswordRequest> | undefined = {}) : Record<string, (node: ParseNode) => void> {
     return {
-        "currentPassword": n => { resetPasswordRequest.currentPassword = n.getStringValue(); },
+        "email": n => { resetPasswordRequest.email = n.getStringValue(); },
         "newPassword": n => { resetPasswordRequest.newPassword = n.getStringValue(); },
+        "token": n => { resetPasswordRequest.token = n.getStringValue(); },
     }
 }
 /**
@@ -798,6 +850,12 @@ export interface DrillTypeResponse extends Parsable {
      * The name property
      */
     name?: string | null;
+}
+export interface ForgotPasswordRequest extends Parsable {
+    /**
+     * The email property
+     */
+    email?: string | null;
 }
 export interface LoginRequest extends Parsable {
     /**
@@ -959,13 +1017,17 @@ export interface RegisterRequest extends Parsable {
 }
 export interface ResetPasswordRequest extends Parsable {
     /**
-     * The currentPassword property
+     * The email property
      */
-    currentPassword?: string | null;
+    email?: string | null;
     /**
      * The newPassword property
      */
     newPassword?: string | null;
+    /**
+     * The token property
+     */
+    token?: string | null;
 }
 export interface SectionResponse extends Parsable {
     /**
@@ -997,6 +1059,18 @@ export function serializeAuthUserResponse(writer: SerializationWriter, authUserR
     writer.writeStringValue("displayName", authUserResponse.displayName);
     writer.writeStringValue("email", authUserResponse.email);
     writer.writeStringValue("id", authUserResponse.id);
+}
+/**
+ * Serializes information the current object
+ * @param ChangePasswordRequest The instance to serialize from.
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param writer Serialization writer to use to serialize this model
+ */
+// @ts-ignore
+export function serializeChangePasswordRequest(writer: SerializationWriter, changePasswordRequest: Partial<ChangePasswordRequest> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!changePasswordRequest || isSerializingDerivedType) { return; }
+    writer.writeStringValue("currentPassword", changePasswordRequest.currentPassword);
+    writer.writeStringValue("newPassword", changePasswordRequest.newPassword);
 }
 /**
  * Serializes information the current object
@@ -1133,6 +1207,17 @@ export function serializeDrillTypeResponse(writer: SerializationWriter, drillTyp
 }
 /**
  * Serializes information the current object
+ * @param ForgotPasswordRequest The instance to serialize from.
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param writer Serialization writer to use to serialize this model
+ */
+// @ts-ignore
+export function serializeForgotPasswordRequest(writer: SerializationWriter, forgotPasswordRequest: Partial<ForgotPasswordRequest> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!forgotPasswordRequest || isSerializingDerivedType) { return; }
+    writer.writeStringValue("email", forgotPasswordRequest.email);
+}
+/**
+ * Serializes information the current object
  * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
  * @param LoginRequest The instance to serialize from.
  * @param writer Serialization writer to use to serialize this model
@@ -1246,8 +1331,9 @@ export function serializeRegisterRequest(writer: SerializationWriter, registerRe
 // @ts-ignore
 export function serializeResetPasswordRequest(writer: SerializationWriter, resetPasswordRequest: Partial<ResetPasswordRequest> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
     if (!resetPasswordRequest || isSerializingDerivedType) { return; }
-    writer.writeStringValue("currentPassword", resetPasswordRequest.currentPassword);
+    writer.writeStringValue("email", resetPasswordRequest.email);
     writer.writeStringValue("newPassword", resetPasswordRequest.newPassword);
+    writer.writeStringValue("token", resetPasswordRequest.token);
 }
 /**
  * Serializes information the current object

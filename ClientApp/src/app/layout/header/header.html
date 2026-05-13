@@ -45,8 +45,8 @@
 					<span class="user-menu__name">{{ currentUser()?.displayName || 'Account' }}</span>
 					<span class="user-menu__email">{{ currentUser()?.email }}</span>
 				</div>
-				<button type="button" class="user-menu__item" (click)="goToResetPassword()" role="menuitem">
-					Reset password
+				<button type="button" class="user-menu__item" (click)="goToChangePassword()" role="menuitem">
+					Change password
 				</button>
 				<button type="button" class="user-menu__item" (click)="signOut()" role="menuitem">
 					Logout

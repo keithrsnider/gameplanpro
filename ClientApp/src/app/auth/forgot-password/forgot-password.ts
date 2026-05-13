@@ -1,5 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
 import {
 	email,
 	form,
@@ -8,30 +7,27 @@ import {
 	schema,
 	submit,
 } from '@angular/forms/signals';
-import { signal } from '@angular/core';
+import type { FieldTree } from '@angular/forms/signals';
 import type { DefaultApiError } from '@microsoft/kiota-abstractions';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmInputImports } from '@spartan-ng/helm/input';
 import { HlmLabelImports } from '@spartan-ng/helm/label';
-import type { FieldTree } from '@angular/forms/signals';
+import { RouterLink } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { FormErrorsComponent } from '../../shared/components/form-errors';
 
-interface LoginFormData {
+interface ForgotPasswordFormData {
 	email: string;
-	password: string;
 }
 
-const loginSchema = schema<LoginFormData>((f) => {
+const forgotPasswordSchema = schema<ForgotPasswordFormData>((f) => {
 	required(f.email, { message: 'Email is required.' });
 	email(f.email, { message: 'Enter a valid email address.' });
-
-	required(f.password, { message: 'Password is required.' });
 });
 
 @Component({
-	selector: 'gpp-login',
-	templateUrl: './login.html',
+	selector: 'gpp-forgot-password',
+	templateUrl: './forgot-password.html',
 	imports: [
 		RouterLink,
 		FormField,
@@ -41,19 +37,14 @@ const loginSchema = schema<LoginFormData>((f) => {
 		...HlmLabelImports,
 	],
 })
-export class LoginComponent {
+export class ForgotPasswordComponent {
 	private readonly _auth = inject(AuthService);
-	private readonly _router = inject(Router);
-	private readonly _route = inject(ActivatedRoute);
 
-	readonly model = signal<LoginFormData>({ email: '', password: '' });
-	readonly loginForm = form(this.model, loginSchema);
+	readonly model = signal<ForgotPasswordFormData>({ email: '' });
+	readonly forgotPasswordForm = form(this.model, forgotPasswordSchema);
 
 	apiErrors: string[] = [];
-	successMessage =
-		this._route.snapshot.queryParamMap.get('passwordReset') === 'success'
-			? 'Your password has been reset. Sign in with your new password.'
-			: null;
+	successMessage: string | null = null;
 
 	fieldHasError(field: FieldTree<unknown>): true | undefined {
 		return field().touched() && !field().valid() ? true : undefined;
@@ -63,12 +54,12 @@ export class LoginComponent {
 		this.apiErrors = [];
 		this.successMessage = null;
 
-		await submit(this.loginForm, async (f) => {
-			const { email, password } = f().value();
+		await submit(this.forgotPasswordForm, async (f) => {
+			const { email } = f().value();
 			try {
-				await this._auth.login(email, password);
-				const returnUrl = this._route.snapshot.queryParams['returnUrl'] as string | undefined;
-				await this._router.navigateByUrl(returnUrl ?? '/dashboard');
+				await this._auth.forgotPassword(email);
+				this.successMessage =
+					"If an account exists for that email, we've sent a password reset link.";
 			} catch (err) {
 				this.apiErrors = this._extractErrors(err as DefaultApiError);
 			}
@@ -83,6 +74,7 @@ export class LoginComponent {
 		if (err.responseStatusCode === 429) {
 			return ['Too many attempts. Please try again later.'];
 		}
-		return ['Invalid email or password.'];
+		return ['Unable to send a password reset email right now. Please try again.'];
 	}
 }
+

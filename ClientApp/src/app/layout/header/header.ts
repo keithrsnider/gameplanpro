@@ -38,9 +38,9 @@ export class HeaderComponent {
 		this.userMenuOpen.set(false);
 	}
 
-	async goToResetPassword() {
+	async goToChangePassword() {
 		this.closeUserMenu();
-		await this._router.navigate(['/account/reset-password']);
+		await this._router.navigate(['/account/change-password']);
 	}
 
 	async signOut() {

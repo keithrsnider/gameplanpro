@@ -1,18 +1,7 @@
 .header {
-	@apply relative flex items-center justify-between bg-gpp-slate px-6 py-3;
+	@apply relative flex items-center justify-between bg-gpp-slate px-6;
 }
 
-.brand {
-	@apply flex items-center gap-2 text-white;
-}
-
-.brand-name {
-	@apply text-lg font-bold leading-tight;
-}
-
-.brand-tagline {
-	@apply block text-xs text-gray-400;
-}
 
 .nav {
 	@apply absolute left-1/2 -translate-x-1/2 flex items-center gap-1;

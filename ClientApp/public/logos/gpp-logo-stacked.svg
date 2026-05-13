@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 142" width="200" height="142" role="img" aria-label="GamePlanPro — Coach with confidence">
+  <!--
+    GamePlanPro — Stacked / Vertical Logo
+    Use on: social media profile images (LinkedIn, Twitter/X, Instagram),
+            square ad units, app store listings, presentations
+    Icon centered horizontally in 200px canvas: x = (200-72)/2 = 64
+  -->
+
+  <!-- Icon: 72×72, horizontally centered → x=64, y=0 -->
+  <svg x="64" y="0" width="72" height="72" viewBox="0 0 96 96">
+    <rect width="96" height="96" rx="22" fill="#1e2a38"/>
+    <path d="M16 68 L48 28 L80 68" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0.2"/>
+    <path d="M24 68 L52 32 L80 68" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+    <path d="M32 68 L56 36 L80 68" fill="none" stroke="#e55a20" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+
+  <!-- GAMEPLAN: centered at x=100, baseline y=98 -->
+  <text
+    x="100" y="98"
+    text-anchor="middle"
+    font-family="'Outfit', 'Inter', system-ui, sans-serif"
+    font-weight="700"
+    font-size="20"
+    letter-spacing="1.5"
+    fill="#1e2a38">GAMEPLAN</text>
+
+  <!-- PRO: centered, baseline y=114 -->
+  <text
+    x="100" y="114"
+    text-anchor="middle"
+    font-family="'Outfit', 'Inter', system-ui, sans-serif"
+    font-weight="400"
+    font-size="11"
+    letter-spacing="4"
+    fill="#e55a20">PRO</text>
+
+  <!-- Tagline: centered, baseline y=131 -->
+  <text
+    x="100" y="131"
+    text-anchor="middle"
+    font-family="'Outfit', 'Inter', system-ui, sans-serif"
+    font-weight="400"
+    font-size="11"
+    fill="#7d8a96">Coach with confidence</text>
+</svg>

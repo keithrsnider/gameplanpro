@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 46" width="200" height="46" role="img" aria-label="GamePlanPro">
+  <!--
+    GamePlanPro — Reversed Nav Logo
+    Use on: dark app nav bars, dark-mode header, navy backgrounds
+  -->
+
+  <!-- Icon: 38×38, y=4 — frosted on dark -->
+  <svg x="0" y="4" width="38" height="38" viewBox="0 0 96 96">
+    <rect width="96" height="96" rx="22" fill="#ffffff" fill-opacity="0.12"/>
+    <rect width="96" height="96" rx="22" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.2"/>
+    <path d="M16 68 L48 28 L80 68" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0.2"/>
+    <path d="M24 68 L52 32 L80 68" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+    <path d="M32 68 L56 36 L80 68" fill="none" stroke="#e55a20" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+
+  <text
+    x="48" y="19"
+    font-family="'Outfit', 'Inter', system-ui, sans-serif"
+    font-weight="700"
+    font-size="17"
+    letter-spacing="1.5"
+    fill="#ffffff">GAMEPLAN</text>
+
+  <text
+    x="49" y="33"
+    font-family="'Outfit', 'Inter', system-ui, sans-serif"
+    font-weight="400"
+    font-size="10"
+    letter-spacing="3.5"
+    fill="#e55a20">PRO</text>
+</svg>

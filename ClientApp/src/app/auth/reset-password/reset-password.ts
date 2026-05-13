@@ -1,8 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import {
+	apply,
 	form,
 	FormField,
-	minLength,
 	required,
 	schema,
 	submit,
@@ -15,6 +15,7 @@ import { HlmInputImports } from '@spartan-ng/helm/input';
 import { HlmLabelImports } from '@spartan-ng/helm/label';
 import { AuthService } from '../auth.service';
 import { FormErrorsComponent } from '../../shared/components/form-errors';
+import { passwordStrengthSchema } from '../auth.schemas';
 
 interface ResetPasswordFormData {
 	currentPassword: string;
@@ -25,28 +26,7 @@ interface ResetPasswordFormData {
 const resetPasswordSchema = schema<ResetPasswordFormData>((f) => {
 	required(f.currentPassword, { message: 'Current password is required.' });
 
-	required(f.newPassword, { message: 'New password is required.' });
-	minLength(f.newPassword, 6, { message: 'Must be at least 6 characters.' });
-	validate(f.newPassword, ({ value }) =>
-		value() && !/[A-Z]/.test(value())
-			? { kind: 'noUppercase', message: 'Must contain an uppercase letter.' }
-			: undefined
-	);
-	validate(f.newPassword, ({ value }) =>
-		value() && !/[a-z]/.test(value())
-			? { kind: 'noLowercase', message: 'Must contain a lowercase letter.' }
-			: undefined
-	);
-	validate(f.newPassword, ({ value }) =>
-		value() && !/\d/.test(value())
-			? { kind: 'noDigit', message: 'Must contain a digit.' }
-			: undefined
-	);
-	validate(f.newPassword, ({ value }) =>
-		value() && !/[^a-zA-Z0-9]/.test(value())
-			? { kind: 'noSpecial', message: 'Must contain a special character.' }
-			: undefined
-	);
+	apply(f.newPassword, passwordStrengthSchema);
 
 	required(f.confirmPassword, { message: 'Please confirm your new password.' });
 	validate(f.confirmPassword, ({ value, valueOf }) =>

@@ -1,10 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import {
+	apply,
 	email,
 	form,
 	FormField,
-	minLength,
 	required,
 	schema,
 	submit,
@@ -17,6 +17,7 @@ import { HlmLabelImports } from '@spartan-ng/helm/label';
 import type { FieldTree } from '@angular/forms/signals';
 import { AuthService } from '../auth.service';
 import { FormErrorsComponent } from '../../shared/components/form-errors';
+import { passwordStrengthSchema } from '../auth.schemas';
 
 interface RegisterFormData {
 	displayName: string;
@@ -29,32 +30,9 @@ const registerSchema = schema<RegisterFormData>((f) => {
 	required(f.email, { message: 'Email is required.' });
 	email(f.email, { message: 'Enter a valid email address.' });
 
-	required(f.password, { message: 'Password is required.' });
-	minLength(f.password, 6, { message: 'Must be at least 6 characters.' });
-
-	validate(f.password, ({ value }) =>
-		value() && !/[A-Z]/.test(value())
-			? { kind: 'noUppercase', message: 'Must contain an uppercase letter.' }
-			: undefined
-	);
-	validate(f.password, ({ value }) =>
-		value() && !/[a-z]/.test(value())
-			? { kind: 'noLowercase', message: 'Must contain a lowercase letter.' }
-			: undefined
-	);
-	validate(f.password, ({ value }) =>
-		value() && !/\d/.test(value())
-			? { kind: 'noDigit', message: 'Must contain a digit.' }
-			: undefined
-	);
-	validate(f.password, ({ value }) =>
-		value() && !/[^a-zA-Z0-9]/.test(value())
-			? { kind: 'noSpecial', message: 'Must contain a special character.' }
-			: undefined
-	);
+	apply(f.password, passwordStrengthSchema);
 
 	required(f.confirmPassword, { message: 'Please confirm your password.' });
-
 	validate(f.confirmPassword, ({ value, valueOf }) =>
 		value() && value() !== valueOf(f.password)
 			? { kind: 'passwordMismatch', message: 'Passwords do not match.' }

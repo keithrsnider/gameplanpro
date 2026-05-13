@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 248 68" width="248" height="68" role="img" aria-label="GamePlanPro — Coach with confidence">
+  <!--
+    GamePlanPro — Reversed / White Logo
+    Use on: dark navy backgrounds (#1e2a38), footers, dark hero sections,
+            dark-mode UI, any dark or photo background
+    Icon has frosted white fill. Wordmark white. Tagline white/50%.
+  -->
+
+  <!-- Icon: 54×54, y=7 — frosted glass style on dark bg -->
+  <svg x="0" y="7" width="54" height="54" viewBox="0 0 96 96">
+    <rect width="96" height="96" rx="22" fill="#ffffff" fill-opacity="0.12"/>
+    <rect width="96" height="96" rx="22" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.2"/>
+    <path d="M16 68 L48 28 L80 68" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0.2"/>
+    <path d="M24 68 L52 32 L80 68" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+    <path d="M32 68 L56 36 L80 68" fill="none" stroke="#e55a20" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+
+  <!-- GAMEPLAN: white -->
+  <text
+    x="70" y="28"
+    font-family="'Outfit', 'Inter', system-ui, sans-serif"
+    font-weight="700"
+    font-size="22"
+    letter-spacing="1.5"
+    fill="#ffffff">GAMEPLAN</text>
+
+  <!-- PRO: orange (unchanged — works on dark) -->
+  <text
+    x="71" y="43"
+    font-family="'Outfit', 'Inter', system-ui, sans-serif"
+    font-weight="400"
+    font-size="11"
+    letter-spacing="4"
+    fill="#e55a20">PRO</text>
+
+  <!-- Tagline: white at 50% opacity -->
+  <text
+    x="71" y="57"
+    font-family="'Outfit', 'Inter', system-ui, sans-serif"
+    font-weight="400"
+    font-size="11"
+    fill="#ffffff"
+    fill-opacity="0.5">Coach with confidence</text>
+</svg>

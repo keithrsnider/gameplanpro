@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" role="img" aria-label="GamePlanPro icon">
+  <!--
+    GamePlanPro — Icon Mark
+    Icon C: Forward Momentum chevrons
+    Bounding box of chevron group: x[16..80] y[28..68]
+    Center of bounding box: (48,48) = center of 96×96 viewBox ✓
+    Usage: favicon, app icon, any context under 120px wide
+  -->
+  <rect width="96" height="96" rx="0" fill="#1e2a38"/>
+  <path d="M16 68 L48 28 L80 68" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0.2"/>
+  <path d="M24 68 L52 32 L80 68" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+  <path d="M32 68 L56 36 L80 68" fill="none" stroke="#e55a20" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

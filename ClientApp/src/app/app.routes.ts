@@ -11,6 +11,18 @@ export const appRoutes: Route[] = [
 		loadComponent: () => import('./auth/register/register').then((m) => m.RegisterComponent),
 	},
 	{
+		path: 'forgot-password',
+		loadComponent: () =>
+			import('./auth/forgot-password/forgot-password').then(
+				(m) => m.ForgotPasswordComponent
+			),
+	},
+	{
+		path: 'reset-password',
+		loadComponent: () =>
+			import('./auth/reset-password/reset-password').then((m) => m.ResetPasswordComponent),
+	},
+	{
 		path: '',
 		loadComponent: () => import('./layout/layout').then((m) => m.LayoutComponent),
 		canActivate: [authGuard],
@@ -25,6 +37,13 @@ export const appRoutes: Route[] = [
 				path: 'team',
 				loadComponent: () =>
 					import('./team/team').then((m) => m.TeamComponent),
+			},
+			{
+				path: 'account/change-password',
+				loadComponent: () =>
+					import('./auth/change-password/change-password').then(
+						(m) => m.ChangePasswordComponent
+					),
 			},
 			{
 				path: 'practice-plan/:key',

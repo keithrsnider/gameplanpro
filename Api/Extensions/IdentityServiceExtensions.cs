@@ -22,6 +22,11 @@ public static class IdentityServiceExtensions
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
 
+            services.Configure<DataProtectionTokenProviderOptions>(options =>
+            {
+              options.TokenLifespan = TimeSpan.FromHours(2);
+            });
+
         services.ConfigureApplicationCookie(options =>
         {
             options.Cookie.HttpOnly = true;

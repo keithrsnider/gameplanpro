@@ -30,3 +30,28 @@
 .user-btn {
 	@apply rounded-full p-2 text-gray-400 transition-colors hover:text-white;
 }
+
+.user-menu-wrap {
+	@apply relative;
+}
+
+.user-menu {
+	@apply absolute right-0 top-full z-20 mt-2 min-w-52 rounded-md border border-gray-200 bg-white py-1 shadow-lg;
+}
+
+.user-menu__identity {
+	@apply border-b border-gray-100 px-3 py-2;
+}
+
+.user-menu__name {
+	@apply block text-sm font-medium text-gray-900;
+}
+
+.user-menu__email {
+	@apply block text-xs text-gray-500;
+}
+
+.user-menu__item {
+	@apply block w-full px-3 py-2 text-left text-sm text-gray-700 transition-colors hover:bg-gray-50;
+}
+

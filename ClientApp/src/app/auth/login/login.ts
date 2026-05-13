@@ -50,6 +50,10 @@ export class LoginComponent {
 	readonly loginForm = form(this.model, loginSchema);
 
 	apiErrors: string[] = [];
+	successMessage =
+		this._route.snapshot.queryParamMap.get('passwordReset') === 'success'
+			? 'Your password has been reset. Sign in with your new password.'
+			: null;
 
 	fieldHasError(field: FieldTree<unknown>): true | undefined {
 		return field().touched() && !field().valid() ? true : undefined;
@@ -57,6 +61,7 @@ export class LoginComponent {
 
 	async onSubmit() {
 		this.apiErrors = [];
+		this.successMessage = null;
 
 		await submit(this.loginForm, async (f) => {
 			const { email, password } = f().value();

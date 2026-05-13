@@ -1,5 +1,5 @@
 .page-container {
-	@apply mx-auto flex max-w-5xl flex-col gap-6 p-8;
+	@apply mx-auto flex max-w-7xl flex-col gap-6 p-8;
 }
 
 .back-link {
@@ -19,6 +19,9 @@
 }
 
 .field-group {
+	label {
+		@apply px-1 py-1;
+	}
 	@apply flex flex-col gap-1.5;
 }
 

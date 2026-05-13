@@ -1,8 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
 import {
 	apply,
-	email,
 	form,
 	FormField,
 	required,
@@ -10,41 +8,38 @@ import {
 	submit,
 	validate,
 } from '@angular/forms/signals';
+import type { FieldTree } from '@angular/forms/signals';
 import type { DefaultApiError } from '@microsoft/kiota-abstractions';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmInputImports } from '@spartan-ng/helm/input';
 import { HlmLabelImports } from '@spartan-ng/helm/label';
-import type { FieldTree } from '@angular/forms/signals';
 import { AuthService } from '../auth.service';
 import { FormErrorsComponent } from '../../shared/components/form-errors';
 import { passwordStrengthSchema } from '../auth.schemas';
 
-interface RegisterFormData {
-	displayName: string;
-	email: string;
-	password: string;
+interface ChangePasswordFormData {
+	currentPassword: string;
+	newPassword: string;
 	confirmPassword: string;
 }
 
-const registerSchema = schema<RegisterFormData>((f) => {
-	required(f.email, { message: 'Email is required.' });
-	email(f.email, { message: 'Enter a valid email address.' });
+const changePasswordSchema = schema<ChangePasswordFormData>((f) => {
+	required(f.currentPassword, { message: 'Current password is required.' });
 
-	apply(f.password, passwordStrengthSchema);
+	apply(f.newPassword, passwordStrengthSchema);
 
-	required(f.confirmPassword, { message: 'Please confirm your password.' });
+	required(f.confirmPassword, { message: 'Please confirm your new password.' });
 	validate(f.confirmPassword, ({ value, valueOf }) =>
-		value() && value() !== valueOf(f.password)
+		value() && value() !== valueOf(f.newPassword)
 			? { kind: 'passwordMismatch', message: 'Passwords do not match.' }
 			: undefined
 	);
 });
 
 @Component({
-	selector: 'gpp-register',
-	templateUrl: './register.html',
+	selector: 'gpp-change-password',
+	templateUrl: './change-password.html',
 	imports: [
-		RouterLink,
 		FormField,
 		FormErrorsComponent,
 		...HlmButtonImports,
@@ -52,20 +47,18 @@ const registerSchema = schema<RegisterFormData>((f) => {
 		...HlmLabelImports,
 	],
 })
-export class RegisterComponent {
+export class ChangePasswordComponent {
 	private readonly _auth = inject(AuthService);
-	private readonly _router = inject(Router);
 
-	readonly model = signal<RegisterFormData>({
-		displayName: '',
-		email: '',
-		password: '',
+	readonly model = signal<ChangePasswordFormData>({
+		currentPassword: '',
+		newPassword: '',
 		confirmPassword: '',
 	});
-
-	readonly registrationForm = form(this.model, registerSchema);
+	readonly changePasswordForm = form(this.model, changePasswordSchema);
 
 	apiErrors: string[] = [];
+	successMessage: string | null = null;
 
 	fieldHasError(field: FieldTree<unknown>): true | undefined {
 		return field().touched() && !field().valid() ? true : undefined;
@@ -73,12 +66,13 @@ export class RegisterComponent {
 
 	async onSubmit() {
 		this.apiErrors = [];
+		this.successMessage = null;
 
-		await submit(this.registrationForm, async (f) => {
-			const { email, password, displayName } = f().value();
+		await submit(this.changePasswordForm, async (f) => {
+			const { currentPassword, newPassword } = f().value();
 			try {
-				await this._auth.register(email, password, displayName || undefined);
-				await this._router.navigate(['/dashboard']);
+				await this._auth.changePassword(currentPassword, newPassword);
+				this.successMessage = 'Your password has been updated.';
 			} catch (err) {
 				this.apiErrors = this._extractErrors(err as DefaultApiError);
 			}
@@ -91,8 +85,14 @@ export class RegisterComponent {
 			return ['Unable to reach the server. Please check your connection.'];
 		}
 		if (err.responseStatusCode === 400) {
-			return ['Registration failed. Please check your details and try again.'];
+			return ['Unable to update password. Check your current password and try again.'];
+		}
+		if (err.responseStatusCode === 401) {
+			return ['Your session has expired. Please sign in again.'];
 		}
 		return ['An unexpected error occurred. Please try again.'];
 	}
 }
+
+
+

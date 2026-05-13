@@ -25,6 +25,13 @@ public class AuthController(IAuthService authService) : ControllerBase
 	}
 
 	[Authorize]
+	[HttpPost("reset-password")]
+	public Task ResetPassword([FromBody] ResetPasswordRequest request)
+	{
+		return authService.ResetPasswordAsync(User, request);
+	}
+
+	[Authorize]
 	[HttpPost("logout")]
 	public Task Logout()
 	{

@@ -110,6 +110,17 @@ Git push → Cloudflare runs `ng build` → deploys static files (Angular)
 
 ---
 
+## Cloudflare Workers Assets Notes
+
+- Use `wrangler deploy` (not `wrangler pages deploy`) for this setup.
+- In `ClientApp/wrangler.jsonc`, keep `assets.directory` (not `pages_build_output_dir`).
+- Keep `not_found_handling: "single-page-application"` for Angular routing.
+- Do not add a `_redirects` file with this setup (can trigger Cloudflare error 10021 loop).
+- Build output is `dist/ClientApp/browser`.
+- Cloudflare Pages root directory should be `ClientApp` (not `/`).
+
+---
+
 ## Docker Notes
 
 - Developer has Docker basics (running images locally) but hasn't written Dockerfiles yet

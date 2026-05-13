@@ -27,6 +27,13 @@ export const appRoutes: Route[] = [
 					import('./team/team').then((m) => m.TeamComponent),
 			},
 			{
+				path: 'account/reset-password',
+				loadComponent: () =>
+					import('./auth/reset-password/reset-password').then(
+						(m) => m.ResetPasswordComponent
+					),
+			},
+			{
 				path: 'practice-plan/:key',
 				loadComponent: () =>
 					import('./practice-plan/practice-plan-form').then(

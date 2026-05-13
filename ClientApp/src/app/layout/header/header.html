@@ -27,7 +27,31 @@
 		}
 	</nav>
 
-	<button class="user-btn" (click)="signOut()">
-		<ng-icon hlm name="lucideCircleUser" size="sm" />
-	</button>
+	<div class="user-menu-wrap">
+		<button
+			type="button"
+			class="user-btn"
+			(click)="toggleUserMenu()"
+			aria-label="Open user menu"
+			aria-haspopup="menu"
+			[attr.aria-expanded]="userMenuOpen()"
+		>
+			<ng-icon hlm name="lucideCircleUser" size="sm" />
+		</button>
+
+		@if (userMenuOpen()) {
+			<div class="user-menu" role="menu" aria-label="User menu">
+				<div class="user-menu__identity">
+					<span class="user-menu__name">{{ currentUser()?.displayName || 'Account' }}</span>
+					<span class="user-menu__email">{{ currentUser()?.email }}</span>
+				</div>
+				<button type="button" class="user-menu__item" (click)="goToResetPassword()" role="menuitem">
+					Reset password
+				</button>
+				<button type="button" class="user-menu__item" (click)="signOut()" role="menuitem">
+					Logout
+				</button>
+			</div>
+		}
+	</div>
 </header>

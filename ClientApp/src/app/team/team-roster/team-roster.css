@@ -6,6 +6,10 @@
 	@apply flex items-center gap-1.5 rounded-md bg-black px-3 py-1.5 text-sm text-white hover:brightness-90;
 }
 
+.table-container {
+	@apply border rounded-lg;
+}
+
 .roster-table {
 	@apply w-full border-collapse;
 	table-layout: fixed;
@@ -25,7 +29,9 @@
 }
 
 .th-content {
-	@apply inline-flex items-center gap-1;
+	@apply inline-flex items-center gap-1 font-semibold px-3 py-2;
+	color: black;
+	font-size: 16px;
 }
 
 .roster-table td {
@@ -36,7 +42,7 @@
 	@apply w-10 px-0;
 }
 
-.roster-table tbody tr:nth-child(odd) {
+.roster-table tbody tr:nth-child(even) {
 	@apply bg-muted/50;
 }
 

@@ -285,6 +285,15 @@ export interface CreatePracticePlanRequest extends Parsable {
 export function createRegisterRequestFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
     return deserializeIntoRegisterRequest;
 }
+/**
+ * Creates a new instance of the appropriate class based on discriminator value
+ * @param parseNode The parse node to use to read the discriminator value and create the object
+ * @returns {ResetPasswordRequest}
+ */
+// @ts-ignore
+export function createResetPasswordRequestFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
+    return deserializeIntoResetPasswordRequest;
+}
 export interface CreateSectionRequest extends Parsable {
     /**
      * The displayOrder property
@@ -626,6 +635,18 @@ export function deserializeIntoRegisterRequest(registerRequest: Partial<Register
 }
 /**
  * The deserialization information for the current model
+ * @param ResetPasswordRequest The instance to deserialize into.
+ * @returns {Record<string, (node: ParseNode) => void>}
+ */
+// @ts-ignore
+export function deserializeIntoResetPasswordRequest(resetPasswordRequest: Partial<ResetPasswordRequest> | undefined = {}) : Record<string, (node: ParseNode) => void> {
+    return {
+        "currentPassword": n => { resetPasswordRequest.currentPassword = n.getStringValue(); },
+        "newPassword": n => { resetPasswordRequest.newPassword = n.getStringValue(); },
+    }
+}
+/**
+ * The deserialization information for the current model
  * @param SectionResponse The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
@@ -936,6 +957,16 @@ export interface RegisterRequest extends Parsable {
      */
     password?: string | null;
 }
+export interface ResetPasswordRequest extends Parsable {
+    /**
+     * The currentPassword property
+     */
+    currentPassword?: string | null;
+    /**
+     * The newPassword property
+     */
+    newPassword?: string | null;
+}
 export interface SectionResponse extends Parsable {
     /**
      * The displayOrder property
@@ -1205,6 +1236,18 @@ export function serializeRegisterRequest(writer: SerializationWriter, registerRe
     writer.writeStringValue("displayName", registerRequest.displayName);
     writer.writeStringValue("email", registerRequest.email);
     writer.writeStringValue("password", registerRequest.password);
+}
+/**
+ * Serializes information the current object
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param ResetPasswordRequest The instance to serialize from.
+ * @param writer Serialization writer to use to serialize this model
+ */
+// @ts-ignore
+export function serializeResetPasswordRequest(writer: SerializationWriter, resetPasswordRequest: Partial<ResetPasswordRequest> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!resetPasswordRequest || isSerializingDerivedType) { return; }
+    writer.writeStringValue("currentPassword", resetPasswordRequest.currentPassword);
+    writer.writeStringValue("newPassword", resetPasswordRequest.newPassword);
 }
 /**
  * Serializes information the current object

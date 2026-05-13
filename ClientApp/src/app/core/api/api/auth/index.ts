@@ -10,6 +10,8 @@ import { MeRequestBuilderRequestsMetadata, type MeRequestBuilder } from './me/in
 // @ts-ignore
 import { RegisterRequestBuilderRequestsMetadata, type RegisterRequestBuilder } from './register/index.js';
 // @ts-ignore
+import { ResetPasswordRequestBuilderRequestsMetadata, type ResetPasswordRequestBuilder } from './resetPassword/index.js';
+// @ts-ignore
 import { type BaseRequestBuilder, type KeysToExcludeForNavigationMetadata, type NavigationMetadata } from '@microsoft/kiota-abstractions';
 
 /**
@@ -32,6 +34,10 @@ export interface AuthRequestBuilder extends BaseRequestBuilder<AuthRequestBuilde
      * The register property
      */
     get register(): RegisterRequestBuilder;
+    /**
+     * The resetPassword property
+     */
+    get resetPassword(): ResetPasswordRequestBuilder;
 }
 /**
  * Uri template for the request builder.
@@ -52,6 +58,9 @@ export const AuthRequestBuilderNavigationMetadata: Record<Exclude<keyof AuthRequ
     },
     register: {
         requestsMetadata: RegisterRequestBuilderRequestsMetadata,
+    },
+    resetPassword: {
+        requestsMetadata: ResetPasswordRequestBuilderRequestsMetadata,
     },
 };
 /* tslint:enable */

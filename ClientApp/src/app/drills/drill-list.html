@@ -14,10 +14,11 @@
 	@if (isCreatingDrill()) {
 		<gpp-drill-form
 			[drillTypes]="drillTypes()"
+			[coaches]="coaches()"
 			submitLabel="Save"
 			[isSubmitting]="isSavingDrill()"
 			(save)="saveDrill($event)"
-			(cancel)="cancelCreatingDrill()"
+			(cancelRequested)="cancelCreatingDrill()"
 		/>
 
 		@if (createError()) {

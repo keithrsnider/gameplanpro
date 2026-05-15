@@ -8,6 +8,7 @@ public record TeamResponse(
 );
 
 public record CoachResponse(
+	int Id,
 	Guid Key,
 	string Name,
 	string Type

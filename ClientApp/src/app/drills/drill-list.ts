@@ -2,6 +2,7 @@ import { Component, computed, effect, inject, signal } from '@angular/core';
 import { HlmIconImports } from '@spartan-ng/helm/icon';
 import { HlmInputImports } from '@spartan-ng/helm/input';
 import type {
+	CoachResponse,
 	CreateDrillRequest,
 	DrillResponse,
 	DrillTypeResponse,
@@ -31,6 +32,7 @@ export class DrillListComponent {
 	readonly isUserSourceSelected = signal(true);
 	readonly drills = signal<DrillResponse[]>([]);
 	readonly drillTypes = signal<DrillTypeResponse[]>([]);
+	readonly coaches = signal<CoachResponse[]>([]);
 	readonly searchQuery = signal('');
 	readonly activeDrillTypeId = signal<number | null>(null);
 	readonly isCreatingDrill = signal(false);
@@ -148,6 +150,8 @@ export class DrillListComponent {
 			name: value.name.trim(),
 			drillTypeId: value.drillTypeId,
 			duration: value.duration,
+			numberOfPlayers: value.numberOfPlayers,
+			coachId: value.coachId,
 			instructions: instructions || null,
 			// The drill list currently renders description, so mirror instructions for now.
 			description: instructions || null,
@@ -196,18 +200,21 @@ export class DrillListComponent {
 		this.loadError.set(null);
 
 		try {
-			const [systemDrills, userDrills, drillTypes] = await Promise.all([
+			const [systemDrills, userDrills, drillTypes, coaches] = await Promise.all([
 				this._api.client.api.drills.get({ queryParameters: { source: 0 } }),
 				this._api.client.api.drills.get({ queryParameters: { source: 1 } }),
 				this._api.client.api.drillTypes.get(),
+				this._api.client.api.coaches.byTeam.get(),
 			]);
 
 			this.drills.set([...(systemDrills ?? []), ...(userDrills ?? [])]);
 			this.drillTypes.set(drillTypes ?? []);
+			this.coaches.set(coaches ?? []);
 		} catch {
 			this.loadError.set('Failed to load drills. Please try again.');
 			this.drills.set([]);
 			this.drillTypes.set([]);
+			this.coaches.set([]);
 		} finally {
 			this.isLoading.set(false);
 		}

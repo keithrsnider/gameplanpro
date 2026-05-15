@@ -17,7 +17,10 @@ public class DrillRepository(AppDbContext db) : IDrillRepository
 {
 	public Task<List<Drill>> GetAllAsync(string? userId, DrillSource? source, int? drillTypeId)
 	{
-		var query = db.Drills.Include(d => d.DrillType).AsQueryable();
+		var query = db.Drills
+			.Include(d => d.DrillType)
+			.Include(d => d.Coach)
+			.AsQueryable();
 
 		if (source is not null)
 			query = query.Where(d => d.Source == source);
@@ -34,7 +37,10 @@ public class DrillRepository(AppDbContext db) : IDrillRepository
 
 	public Task<Drill?> GetByKeyAsync(Guid key)
 	{
-		return db.Drills.Include(d => d.DrillType).FirstOrDefaultAsync(d => d.Key == key);
+		return db.Drills
+			.Include(d => d.DrillType)
+			.Include(d => d.Coach)
+			.FirstOrDefaultAsync(d => d.Key == key);
 	}
 
 	public async Task<Drill> CreateAsync(Drill drill)

@@ -26,6 +26,7 @@ public static class ApplicationServiceExtensions
 		services.AddScoped<ISectionService, SectionService>();
 		services.AddScoped<IPlanDrillService, PlanDrillService>();
 		services.AddScoped<ITeamService, TeamService>();
+		services.AddScoped<ICoachService, CoachService>();
 
 		return services;
 	}

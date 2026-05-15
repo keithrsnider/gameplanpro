@@ -17,6 +17,7 @@ public static class TeamMapper
 	public static CoachResponse ToResponse(this Coach coach)
 	{
 		return new CoachResponse(
+			coach.Id,
 			coach.Key,
 			coach.Name,
 			coach.Type.ToString()

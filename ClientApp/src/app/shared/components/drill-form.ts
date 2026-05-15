@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, Output, computed, signal } from '@angular/core';
 import { HlmInputImports } from '@spartan-ng/helm/input';
 import { HlmTextareaImports } from '@spartan-ng/helm/textarea';
-import type { DrillTypeResponse } from '../../core/api/models/index.js';
+import type { CoachResponse, DrillTypeResponse } from '../../core/api/models/index.js';
 
 export interface DrillFormValue {
 	name: string;
 	drillTypeId: number | null;
 	duration: number;
-	playerCount: number | null;
-	coachAssignment: string;
+	numberOfPlayers: number | null;
+	coachId: number | null;
 	instructions: string;
 	demoLink: string;
 }
@@ -17,8 +17,8 @@ const DEFAULT_FORM_VALUE: DrillFormValue = {
 	name: '',
 	drillTypeId: null,
 	duration: 10,
-	playerCount: null,
-	coachAssignment: '',
+	numberOfPlayers: null,
+	coachId: null,
 	instructions: '',
 	demoLink: '',
 };
@@ -31,11 +31,12 @@ const DEFAULT_FORM_VALUE: DrillFormValue = {
 })
 export class DrillFormComponent {
 	@Input({ required: true }) drillTypes: DrillTypeResponse[] = [];
+	@Input() coaches: CoachResponse[] = [];
 	@Input() submitLabel = 'Save';
 	@Input() isSubmitting = false;
 
-	@Output() save = new EventEmitter<DrillFormValue>();
-	@Output() cancel = new EventEmitter<void>();
+	@Output() readonly save = new EventEmitter<DrillFormValue>();
+	@Output() readonly cancelRequested = new EventEmitter<void>();
 
 	readonly form = signal<DrillFormValue>({ ...DEFAULT_FORM_VALUE });
 	readonly canSubmit = computed(() => {
@@ -79,13 +80,14 @@ export class DrillFormComponent {
 		const value = raw === '' ? null : Number(raw);
 		this.form.update((current) => ({
 			...current,
-			playerCount: value !== null && Number.isFinite(value) && value > 0 ? value : null,
+			numberOfPlayers: value !== null && Number.isFinite(value) && value > 0 ? value : null,
 		}));
 	}
 
-	onCoachAssignmentInput(event: Event) {
-		const value = (event.target as HTMLInputElement).value;
-		this.form.update((current) => ({ ...current, coachAssignment: value }));
+	onCoachChange(event: Event) {
+		const value = (event.target as HTMLSelectElement).value;
+		const coachId = value ? Number(value) : null;
+		this.form.update((current) => ({ ...current, coachId }));
 	}
 
 	onInstructionsInput(event: Event) {
@@ -108,8 +110,8 @@ export class DrillFormComponent {
 			name: value.name.trim(),
 			drillTypeId: value.drillTypeId,
 			duration: value.duration,
-			playerCount: value.playerCount,
-			coachAssignment: value.coachAssignment.trim(),
+			numberOfPlayers: value.numberOfPlayers,
+			coachId: value.coachId,
 			instructions: value.instructions.trim(),
 			demoLink: value.demoLink.trim(),
 		});
@@ -117,7 +119,7 @@ export class DrillFormComponent {
 
 	onCancel() {
 		this.form.set({ ...DEFAULT_FORM_VALUE });
-		this.cancel.emit();
+		this.cancelRequested.emit();
 	}
 }
 

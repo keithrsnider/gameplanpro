@@ -58,22 +58,26 @@
 				min="1"
 				placeholder="e.g. 6"
 				class="field-input"
-				[value]="form().playerCount ?? ''"
+				[value]="form().numberOfPlayers ?? ''"
 				(input)="onPlayerCountInput($event)"
 			/>
 		</div>
 
 		<div class="field-group">
-			<label class="field-label" for="coachAssignment">Coach Assignment</label>
-			<input
-				hlmInput
-				id="coachAssignment"
-				type="text"
-				placeholder="e.g. Coach Mike"
+			<label class="field-label" for="coachId">Coach</label>
+			<select
+				id="coachId"
 				class="field-input"
-				[value]="form().coachAssignment"
-				(input)="onCoachAssignmentInput($event)"
-			/>
+				[value]="form().coachId ?? ''"
+				(change)="onCoachChange($event)"
+			>
+				<option value="">Unassigned</option>
+				@for (coach of coaches; track coach.id ?? coach.key) {
+					@if (coach.id !== null && coach.id !== undefined) {
+						<option [value]="coach.id">{{ coach.name }} ({{ coach.type }})</option>
+					}
+				}
+			</select>
 		</div>
 	</div>
 

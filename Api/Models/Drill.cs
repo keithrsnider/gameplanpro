@@ -23,12 +23,17 @@ public class Drill : BaseEntity
 	[MaxLength(500)]
 	public string? DemoLink { get; set; }
 
+	public int? NumberOfPlayers { get; set; }
+
 	public DrillSource Source { get; set; }
 	public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 	public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
 	public int DrillTypeId { get; set; }
 	public DrillType DrillType { get; set; } = null!;
+
+	public int? CoachId { get; set; }
+	public Coach? Coach { get; set; }
 
 	public string? UserId { get; set; }
 	public AppUser? User { get; set; }
@@ -50,6 +55,11 @@ public class Drill : BaseEntity
 				.WithMany(dt => dt.Drills)
 				.HasForeignKey(e => e.DrillTypeId)
 				.OnDelete(DeleteBehavior.Restrict);
+
+			builder.HasOne(e => e.Coach)
+				.WithMany()
+				.HasForeignKey(e => e.CoachId)
+				.OnDelete(DeleteBehavior.SetNull);
 
 			builder.HasOne(e => e.User)
 				.WithMany()

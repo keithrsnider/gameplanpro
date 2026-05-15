@@ -4,6 +4,8 @@
 // @ts-ignore
 import { AuthRequestBuilderNavigationMetadata, type AuthRequestBuilder } from './auth/index.js';
 // @ts-ignore
+import { CoachesRequestBuilderNavigationMetadata, type CoachesRequestBuilder } from './coaches/index.js';
+// @ts-ignore
 import { DrillsRequestBuilderNavigationMetadata, DrillsRequestBuilderRequestsMetadata, type DrillsRequestBuilder } from './drills/index.js';
 // @ts-ignore
 import { DrillTypesRequestBuilderRequestsMetadata, type DrillTypesRequestBuilder } from './drillTypes/index.js';
@@ -22,6 +24,10 @@ export interface ApiRequestBuilder extends BaseRequestBuilder<ApiRequestBuilder>
      * The auth property
      */
     get auth(): AuthRequestBuilder;
+    /**
+     * The coaches property
+     */
+    get coaches(): CoachesRequestBuilder;
     /**
      * The drills property
      */
@@ -49,6 +55,9 @@ export const ApiRequestBuilderUriTemplate = "{+baseurl}/api";
 export const ApiRequestBuilderNavigationMetadata: Record<Exclude<keyof ApiRequestBuilder, KeysToExcludeForNavigationMetadata>, NavigationMetadata> = {
     auth: {
         navigationMetadata: AuthRequestBuilderNavigationMetadata,
+    },
+    coaches: {
+        navigationMetadata: CoachesRequestBuilderNavigationMetadata,
     },
     drills: {
         requestsMetadata: DrillsRequestBuilderRequestsMetadata,

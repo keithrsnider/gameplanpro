@@ -20,12 +20,12 @@ export class DrillListItemExpandedComponent {
 	}
 
 	playersText(): string {
-		const players = this.drill().duration;
+		const players = this.drill().numberOfPlayers;
 		return typeof players === 'number' ? `${players}` : 'N/A';
 	}
 
 	coachText(): string {
-		return this.drill().drillType?.name?.trim() || 'N/A';
+		return this.drill().coach?.name?.trim() || 'Unassigned';
 	}
 }
 

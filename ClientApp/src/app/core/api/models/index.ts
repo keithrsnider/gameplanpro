@@ -44,6 +44,10 @@ export interface CoachRequest extends Parsable {
 }
 export interface CoachResponse extends Parsable {
     /**
+     * The id property
+     */
+    id?: number | null;
+    /**
      * The key property
      */
     key?: Guid | null;
@@ -139,6 +143,10 @@ export function createCreateTeamRequestFromDiscriminatorValue(parseNode: ParseNo
 }
 export interface CreateDrillRequest extends Parsable {
     /**
+     * The coachId property
+     */
+    coachId?: number | null;
+    /**
      * The demoLink property
      */
     demoLink?: string | null;
@@ -162,6 +170,10 @@ export interface CreateDrillRequest extends Parsable {
      * The name property
      */
     name?: string | null;
+    /**
+     * The numberOfPlayers property
+     */
+    numberOfPlayers?: number | null;
 }
 /**
  * Creates a new instance of the appropriate class based on discriminator value
@@ -455,6 +467,7 @@ export function deserializeIntoCoachRequest(coachRequest: Partial<CoachRequest> 
 // @ts-ignore
 export function deserializeIntoCoachResponse(coachResponse: Partial<CoachResponse> | undefined = {}) : Record<string, (node: ParseNode) => void> {
     return {
+        "id": n => { coachResponse.id = n.getNumberValue(); },
         "key": n => { coachResponse.key = n.getGuidValue(); },
         "name": n => { coachResponse.name = n.getStringValue(); },
         "type": n => { coachResponse.type = n.getStringValue(); },
@@ -468,12 +481,14 @@ export function deserializeIntoCoachResponse(coachResponse: Partial<CoachRespons
 // @ts-ignore
 export function deserializeIntoCreateDrillRequest(createDrillRequest: Partial<CreateDrillRequest> | undefined = {}) : Record<string, (node: ParseNode) => void> {
     return {
+        "coachId": n => { createDrillRequest.coachId = n.getNumberValue(); },
         "demoLink": n => { createDrillRequest.demoLink = n.getStringValue(); },
         "description": n => { createDrillRequest.description = n.getStringValue(); },
         "drillTypeId": n => { createDrillRequest.drillTypeId = n.getNumberValue(); },
         "duration": n => { createDrillRequest.duration = n.getNumberValue(); },
         "instructions": n => { createDrillRequest.instructions = n.getStringValue(); },
         "name": n => { createDrillRequest.name = n.getStringValue(); },
+        "numberOfPlayers": n => { createDrillRequest.numberOfPlayers = n.getNumberValue(); },
     }
 }
 /**
@@ -543,6 +558,7 @@ export function deserializeIntoCreateTeamRequest(createTeamRequest: Partial<Crea
 // @ts-ignore
 export function deserializeIntoDrillResponse(drillResponse: Partial<DrillResponse> | undefined = {}) : Record<string, (node: ParseNode) => void> {
     return {
+        "coach": n => { drillResponse.coach = n.getObjectValue<CoachResponse>(createCoachResponseFromDiscriminatorValue); },
         "createdAt": n => { drillResponse.createdAt = n.getDateValue(); },
         "demoLink": n => { drillResponse.demoLink = n.getStringValue(); },
         "description": n => { drillResponse.description = n.getStringValue(); },
@@ -551,6 +567,7 @@ export function deserializeIntoDrillResponse(drillResponse: Partial<DrillRespons
         "instructions": n => { drillResponse.instructions = n.getStringValue(); },
         "key": n => { drillResponse.key = n.getGuidValue(); },
         "name": n => { drillResponse.name = n.getStringValue(); },
+        "numberOfPlayers": n => { drillResponse.numberOfPlayers = n.getNumberValue(); },
         "source": n => { drillResponse.source = n.getStringValue(); },
         "updatedAt": n => { drillResponse.updatedAt = n.getDateValue(); },
     }
@@ -733,12 +750,14 @@ export function deserializeIntoTeamResponse(teamResponse: Partial<TeamResponse> 
 // @ts-ignore
 export function deserializeIntoUpdateDrillRequest(updateDrillRequest: Partial<UpdateDrillRequest> | undefined = {}) : Record<string, (node: ParseNode) => void> {
     return {
+        "coachId": n => { updateDrillRequest.coachId = n.getNumberValue(); },
         "demoLink": n => { updateDrillRequest.demoLink = n.getStringValue(); },
         "description": n => { updateDrillRequest.description = n.getStringValue(); },
         "drillTypeId": n => { updateDrillRequest.drillTypeId = n.getNumberValue(); },
         "duration": n => { updateDrillRequest.duration = n.getNumberValue(); },
         "instructions": n => { updateDrillRequest.instructions = n.getStringValue(); },
         "name": n => { updateDrillRequest.name = n.getStringValue(); },
+        "numberOfPlayers": n => { updateDrillRequest.numberOfPlayers = n.getNumberValue(); },
     }
 }
 /**
@@ -801,6 +820,10 @@ export function deserializeIntoUpdateTeamRequest(updateTeamRequest: Partial<Upda
 }
 export interface DrillResponse extends Parsable {
     /**
+     * The coach property
+     */
+    coach?: CoachResponse | null;
+    /**
      * The createdAt property
      */
     createdAt?: Date | null;
@@ -832,6 +855,10 @@ export interface DrillResponse extends Parsable {
      * The name property
      */
     name?: string | null;
+    /**
+     * The numberOfPlayers property
+     */
+    numberOfPlayers?: number | null;
     /**
      * The source property
      */
@@ -1094,6 +1121,7 @@ export function serializeCoachRequest(writer: SerializationWriter, coachRequest:
 // @ts-ignore
 export function serializeCoachResponse(writer: SerializationWriter, coachResponse: Partial<CoachResponse> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
     if (!coachResponse || isSerializingDerivedType) { return; }
+    writer.writeNumberValue("id", coachResponse.id);
     writer.writeGuidValue("key", coachResponse.key);
     writer.writeStringValue("name", coachResponse.name);
     writer.writeStringValue("type", coachResponse.type);
@@ -1107,12 +1135,14 @@ export function serializeCoachResponse(writer: SerializationWriter, coachRespons
 // @ts-ignore
 export function serializeCreateDrillRequest(writer: SerializationWriter, createDrillRequest: Partial<CreateDrillRequest> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
     if (!createDrillRequest || isSerializingDerivedType) { return; }
+    writer.writeNumberValue("coachId", createDrillRequest.coachId);
     writer.writeStringValue("demoLink", createDrillRequest.demoLink);
     writer.writeStringValue("description", createDrillRequest.description);
     writer.writeNumberValue("drillTypeId", createDrillRequest.drillTypeId);
     writer.writeNumberValue("duration", createDrillRequest.duration);
     writer.writeStringValue("instructions", createDrillRequest.instructions);
     writer.writeStringValue("name", createDrillRequest.name);
+    writer.writeNumberValue("numberOfPlayers", createDrillRequest.numberOfPlayers);
 }
 /**
  * Serializes information the current object
@@ -1182,6 +1212,7 @@ export function serializeCreateTeamRequest(writer: SerializationWriter, createTe
 // @ts-ignore
 export function serializeDrillResponse(writer: SerializationWriter, drillResponse: Partial<DrillResponse> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
     if (!drillResponse || isSerializingDerivedType) { return; }
+    writer.writeObjectValue<CoachResponse>("coach", drillResponse.coach, serializeCoachResponse);
     writer.writeDateValue("createdAt", drillResponse.createdAt);
     writer.writeStringValue("demoLink", drillResponse.demoLink);
     writer.writeStringValue("description", drillResponse.description);
@@ -1190,6 +1221,7 @@ export function serializeDrillResponse(writer: SerializationWriter, drillRespons
     writer.writeStringValue("instructions", drillResponse.instructions);
     writer.writeGuidValue("key", drillResponse.key);
     writer.writeStringValue("name", drillResponse.name);
+    writer.writeNumberValue("numberOfPlayers", drillResponse.numberOfPlayers);
     writer.writeStringValue("source", drillResponse.source);
     writer.writeDateValue("updatedAt", drillResponse.updatedAt);
 }
@@ -1372,12 +1404,14 @@ export function serializeTeamResponse(writer: SerializationWriter, teamResponse:
 // @ts-ignore
 export function serializeUpdateDrillRequest(writer: SerializationWriter, updateDrillRequest: Partial<UpdateDrillRequest> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
     if (!updateDrillRequest || isSerializingDerivedType) { return; }
+    writer.writeNumberValue("coachId", updateDrillRequest.coachId);
     writer.writeStringValue("demoLink", updateDrillRequest.demoLink);
     writer.writeStringValue("description", updateDrillRequest.description);
     writer.writeNumberValue("drillTypeId", updateDrillRequest.drillTypeId);
     writer.writeNumberValue("duration", updateDrillRequest.duration);
     writer.writeStringValue("instructions", updateDrillRequest.instructions);
     writer.writeStringValue("name", updateDrillRequest.name);
+    writer.writeNumberValue("numberOfPlayers", updateDrillRequest.numberOfPlayers);
 }
 /**
  * Serializes information the current object
@@ -1457,6 +1491,10 @@ export interface TeamResponse extends Parsable {
 }
 export interface UpdateDrillRequest extends Parsable {
     /**
+     * The coachId property
+     */
+    coachId?: number | null;
+    /**
      * The demoLink property
      */
     demoLink?: string | null;
@@ -1480,6 +1518,10 @@ export interface UpdateDrillRequest extends Parsable {
      * The name property
      */
     name?: string | null;
+    /**
+     * The numberOfPlayers property
+     */
+    numberOfPlayers?: number | null;
 }
 export interface UpdatePlanDrillRequest extends Parsable {
     /**

@@ -1,0 +1,151 @@
+.page-container {
+	@apply mx-auto flex w-full max-w-5xl flex-col gap-5 p-8;
+}
+
+.page-header {
+	@apply flex flex-col gap-1;
+}
+
+.heading {
+	@apply text-4xl font-semibold tracking-tight text-foreground;
+}
+
+.subheading {
+	@apply text-sm text-muted-foreground;
+}
+
+.search-wrap {
+	@apply relative;
+}
+
+.search-icon {
+	@apply pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground;
+}
+
+.search-input {
+	@apply h-10 rounded-xl pl-10;
+}
+
+.filter-row {
+	@apply flex flex-wrap items-center gap-2;
+}
+
+.chip {
+	@apply rounded-full border border-border bg-card px-4 py-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground;
+}
+
+.chip--active {
+	@apply border-transparent bg-gpp-slate text-white;
+}
+
+.drill-list {
+	@apply mt-1 flex flex-col gap-2;
+}
+
+.drill-card {
+	@apply flex items-center justify-between rounded-xl border border-border bg-card px-4 py-3 shadow-sm;
+}
+
+.card-left {
+	@apply flex min-w-0 flex-1 items-start gap-3;
+}
+
+.accent {
+	@apply mt-1 inline-block h-10 w-1 shrink-0 rounded-full;
+}
+
+.card-content {
+	@apply min-w-0 flex-1;
+}
+
+.card-title-row {
+	@apply flex flex-wrap items-center gap-2;
+}
+
+.card-title {
+	@apply text-xl font-semibold text-foreground;
+}
+
+.type-badge {
+	@apply rounded-full px-2 py-0.5 text-xs font-semibold uppercase tracking-wide;
+}
+
+.video-link {
+	@apply inline-flex items-center gap-1 text-sm font-semibold text-sky-500 hover:text-sky-600;
+}
+
+.card-description {
+	@apply truncate text-base text-muted-foreground;
+}
+
+.card-meta {
+	@apply ml-4 flex items-center gap-2;
+}
+
+.duration {
+	@apply text-lg font-semibold text-foreground;
+}
+
+.chevron {
+	@apply text-muted-foreground;
+}
+
+.status {
+	@apply rounded-lg border border-border bg-card px-4 py-3 text-sm text-muted-foreground;
+}
+
+.status--error {
+	@apply border-destructive bg-destructive/10 text-destructive;
+}
+
+.accent-warmup,
+.badge-warmup {
+	@apply bg-orange-500 text-orange-700;
+}
+
+.accent-hitting,
+.badge-hitting {
+	@apply bg-red-500 text-red-700;
+}
+
+.accent-fielding,
+.badge-fielding {
+	@apply bg-emerald-500 text-emerald-700;
+}
+
+.accent-pitching,
+.badge-pitching {
+	@apply bg-indigo-500 text-indigo-700;
+}
+
+.accent-baserunning,
+.badge-baserunning {
+	@apply bg-blue-500 text-blue-700;
+}
+
+.accent-conditioning,
+.badge-conditioning {
+	@apply bg-violet-500 text-violet-700;
+}
+
+.accent-cooldown,
+.badge-cooldown {
+	@apply bg-cyan-500 text-cyan-700;
+}
+
+.accent-default,
+.badge-default {
+	@apply bg-gray-400 text-gray-700;
+}
+
+.badge-warmup,
+.badge-hitting,
+.badge-fielding,
+.badge-pitching,
+.badge-baserunning,
+.badge-conditioning,
+.badge-cooldown,
+.badge-default {
+	@apply bg-opacity-15;
+}
+

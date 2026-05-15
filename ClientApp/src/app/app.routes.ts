@@ -34,6 +34,10 @@ export const appRoutes: Route[] = [
 					import('./dashboard/dashboard').then((m) => m.DashboardComponent),
 			},
 			{
+				path: 'drills',
+				loadComponent: () => import('./drills/drill-list').then((m) => m.DrillListComponent),
+			},
+			{
 				path: 'team',
 				loadComponent: () =>
 					import('./team/team').then((m) => m.TeamComponent),

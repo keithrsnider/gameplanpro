@@ -22,7 +22,7 @@ export class HeaderComponent {
 
 	readonly navItems: NavItem[] = [
 		{ label: 'Dashboard', icon: 'lucideLayoutDashboard', route: '/dashboard' },
-		{ label: 'Skills & Drills', icon: 'lucideBookOpen' },
+		{ label: 'Skills & Drills', icon: 'lucideBookOpen', route: '/drills' },
 		{ label: 'Team', icon: 'lucideUsers', route: '/team' },
 		{ label: 'Schedule', icon: 'lucideCalendar' },
 		{ label: 'Analytics', icon: 'lucideTrendingUp' },

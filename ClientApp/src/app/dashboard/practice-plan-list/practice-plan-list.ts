@@ -19,7 +19,7 @@ export class PracticePlanListComponent {
 	}
 
 	private async _loadPlans(): Promise<void> {
-		var plans = await this._api.client.api.practicePlans.get();
+		const plans = await this._api.client.api.practicePlans.get();
 		this.plans.set(plans ?? []);
 	}
 }

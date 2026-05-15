@@ -1,0 +1,25 @@
+<section class="expanded-content">
+	<p class="instructions-text">
+		<span class="meta-label">Instructions:</span>
+		{{ instructionsText() }}
+	</p>
+
+	<div class="meta-row">
+		<p>
+			<span class="meta-label">Number of Players:</span>
+			{{ playersText() }}
+		</p>
+		<p>
+			<span class="meta-label">Coach:</span>
+			{{ coachText() }}
+		</p>
+	</div>
+
+	@if (hasVideo()) {
+		<a [href]="drill().demoLink" target="_blank" rel="noopener noreferrer" class="video-button">
+			<ng-icon hlm name="lucidePlay" size="xs" />
+			<span>Video</span>
+		</a>
+	}
+</section>
+

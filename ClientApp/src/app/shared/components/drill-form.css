@@ -1,0 +1,64 @@
+.form-card {
+	@apply flex flex-col gap-6 rounded-xl border border-border bg-card p-6;
+}
+
+.field-grid {
+	@apply grid gap-4;
+}
+
+.field-grid--top {
+	@apply grid-cols-1 lg:grid-cols-[2fr_1fr];
+}
+
+.field-grid--three {
+	@apply grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
+}
+
+.field-group {
+	@apply flex flex-col gap-2;
+}
+
+.field-group--wide {
+	@apply min-w-0;
+}
+
+.field-label {
+	@apply text-xs font-semibold uppercase tracking-wide text-muted-foreground;
+}
+
+.required {
+	@apply text-destructive;
+}
+
+.field-input {
+	@apply h-11 rounded-lg;
+}
+
+.field-textarea {
+	@apply h-auto min-h-28;
+}
+
+.duration-control {
+	@apply flex items-center gap-2;
+}
+
+.duration-input {
+	@apply w-20 text-center;
+}
+
+.duration-btn {
+	@apply inline-flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-background text-xl font-semibold text-foreground transition-colors hover:bg-accent;
+}
+
+.button-row {
+	@apply flex items-center justify-end gap-3;
+}
+
+.cancel-btn {
+	@apply rounded-lg border border-border bg-background px-6 py-2.5 font-semibold text-foreground transition-colors hover:bg-accent;
+}
+
+.save-btn {
+	@apply rounded-lg bg-gpp-orange px-6 py-2.5 font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50;
+}
+

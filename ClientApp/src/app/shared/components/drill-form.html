@@ -1,0 +1,113 @@
+<form class="form-card" (submit)="$event.preventDefault(); onSubmit()" novalidate>
+	<div class="field-grid field-grid--top">
+		<div class="field-group field-group--wide">
+			<label class="field-label" for="drillName">Drill Name <span class="required">*</span></label>
+			<input
+				hlmInput
+				id="drillName"
+				type="text"
+				placeholder="e.g. Infield Quick Hands"
+				class="field-input"
+				[value]="form().name"
+				(input)="onNameInput($event)"
+			/>
+		</div>
+
+		<div class="field-group">
+			<label class="field-label" for="drillType">Drill Type</label>
+			<select
+				id="drillType"
+				class="field-input"
+				[value]="form().drillTypeId ?? ''"
+				(change)="onDrillTypeChange($event)"
+			>
+				<option value="">Select type</option>
+				@for (drillType of drillTypes; track drillType.id) {
+					@if (drillType.id !== null && drillType.id !== undefined) {
+						<option [value]="drillType.id">{{ drillType.name }}</option>
+					}
+				}
+			</select>
+		</div>
+	</div>
+
+	<div class="field-grid field-grid--three">
+		<div class="field-group">
+			<label class="field-label" for="drillDuration">Duration (min) <span class="required">*</span></label>
+			<div class="duration-control">
+				<button type="button" class="duration-btn" (click)="decrementDuration()">-</button>
+				<input
+					hlmInput
+					id="drillDuration"
+					type="number"
+					min="1"
+					class="duration-input"
+					[value]="form().duration"
+					(input)="onDurationInput($event)"
+				/>
+				<button type="button" class="duration-btn" (click)="incrementDuration()">+</button>
+			</div>
+		</div>
+
+		<div class="field-group">
+			<label class="field-label" for="playerCount">Player Count</label>
+			<input
+				hlmInput
+				id="playerCount"
+				type="number"
+				min="1"
+				placeholder="e.g. 6"
+				class="field-input"
+				[value]="form().playerCount ?? ''"
+				(input)="onPlayerCountInput($event)"
+			/>
+		</div>
+
+		<div class="field-group">
+			<label class="field-label" for="coachAssignment">Coach Assignment</label>
+			<input
+				hlmInput
+				id="coachAssignment"
+				type="text"
+				placeholder="e.g. Coach Mike"
+				class="field-input"
+				[value]="form().coachAssignment"
+				(input)="onCoachAssignmentInput($event)"
+			/>
+		</div>
+	</div>
+
+	<div class="field-group">
+		<label class="field-label" for="instructions">Instructions</label>
+		<textarea
+			hlmTextarea
+			id="instructions"
+			rows="4"
+			placeholder="Setup, execution, coaching cues..."
+			class="field-input field-textarea"
+			[value]="form().instructions"
+			(input)="onInstructionsInput($event)"
+		></textarea>
+	</div>
+
+	<div class="field-group">
+		<label class="field-label" for="demoLink">Demo Video (YouTube URL)</label>
+		<input
+			hlmInput
+			id="demoLink"
+			type="url"
+			placeholder="https://youtube.com/watch?v=..."
+			class="field-input"
+			[value]="form().demoLink"
+			(input)="onDemoLinkInput($event)"
+		/>
+	</div>
+
+	<div class="button-row">
+		<button type="button" class="cancel-btn" (click)="onCancel()">Cancel</button>
+		<button type="submit" class="save-btn" [disabled]="!canSubmit() || isSubmitting">
+			{{ submitLabel }}
+		</button>
+	</div>
+</form>
+

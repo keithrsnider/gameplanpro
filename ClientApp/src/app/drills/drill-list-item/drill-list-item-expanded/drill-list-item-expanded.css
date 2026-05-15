@@ -1,0 +1,20 @@
+.expanded-content {
+	@apply space-y-5 px-4 py-5;
+}
+
+.instructions-text {
+	@apply text-base leading-relaxed text-muted-foreground;
+}
+
+.meta-row {
+	@apply flex flex-wrap items-center gap-x-8 gap-y-2 text-base text-muted-foreground;
+}
+
+.meta-label {
+	@apply mr-1 font-semibold text-foreground;
+}
+
+.video-button {
+	@apply inline-flex items-center gap-2 rounded-xl border border-sky-200 bg-sky-50 px-6 py-3 text-lg font-semibold text-sky-500 hover:text-sky-600;
+}
+

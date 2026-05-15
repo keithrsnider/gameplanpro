@@ -1,84 +1,91 @@
 <section class="page-container">
 	<header class="page-header">
 		<h1 class="heading">Drill Library</h1>
+		@if (!isCreatingDrill()) {
+			<button type="button" class="create-drill-btn" (click)="startCreatingDrill()">
+				+ Create Drill
+			</button>
+		}
 <!--		<p class="subheading">-->
 <!--			{{ totalCount() }} curated drills - searchable - ready to add to any plan-->
 <!--		</p>-->
 	</header>
 
-	<div class="search-wrap">
-		<ng-icon hlm name="lucideSearch" size="sm" class="search-icon" />
-		<input
-			hlmInput
-			type="text"
-			class="search-input"
-			placeholder="Search drills by name, type, or keyword..."
-			[value]="searchQuery()"
-			(input)="onSearchInput($event)"
+	@if (isCreatingDrill()) {
+		<gpp-drill-form
+			[drillTypes]="drillTypes()"
+			submitLabel="Save"
+			[isSubmitting]="isSavingDrill()"
+			(save)="saveDrill($event)"
+			(cancel)="cancelCreatingDrill()"
 		/>
-	</div>
 
-	<div class="filter-row">
-		<button
-			type="button"
-			class="chip"
-			[class.chip--active]="activeDrillTypeId() === null"
-			(click)="setActiveDrillType(null)"
-		>
-			All ({{ totalCount() }})
-		</button>
-		@for (drillType of drillTypeChips(); track drillType.id) {
+		@if (createError()) {
+			<p class="status status--error">{{ createError() }}</p>
+		}
+	} @else {
+		<div class="search-wrap">
+			<ng-icon hlm name="lucideSearch" size="sm" class="search-icon" />
+			<input
+				hlmInput
+				type="text"
+				class="search-input"
+				placeholder="Search drills by name, type, or keyword..."
+				[value]="searchQuery()"
+				(input)="onSearchInput($event)"
+			/>
+		</div>
+
+		<div class="filter-row">
 			<button
 				type="button"
 				class="chip"
-				[class.chip--active]="activeDrillTypeId() === drillType.id"
-				(click)="setActiveDrillType(drillType.id)"
+				[class.chip--active]="isSystemSourceSelected()"
+				(click)="toggleSystemSource()"
 			>
-				{{ drillType.name }} ({{ drillType.count }})
+				Curated Drills
 			</button>
-		}
-	</div>
-
-	@if (isLoading()) {
-		<p class="status">Loading drills...</p>
-	} @else if (loadError()) {
-		<p class="status status--error">{{ loadError() }}</p>
-	} @else {
-		<div class="drill-list">
-			@for (drill of filteredDrills(); track drill.key ?? drill.name) {
-				<article class="drill-card">
-					<div class="card-left">
-						<span [class]="getAccentClass(drill.drillType?.name)"></span>
-						<div class="card-content">
-							<div class="card-title-row">
-								<h3 class="card-title">{{ drill.name }}</h3>
-								<span [class]="getBadgeClass(drill.drillType?.name)">
-									{{ displayTypeName(drill.drillType?.name) }}
-								</span>
-								@if (hasVideo(drill)) {
-									<a
-										[href]="drill.demoLink"
-										target="_blank"
-										rel="noopener noreferrer"
-										class="video-link"
-									>
-										<ng-icon hlm name="lucidePlay" size="xs" />
-										<span>Video</span>
-									</a>
-								}
-							</div>
-							<p class="card-description">{{ drill.description }}</p>
-						</div>
-					</div>
-					<div class="card-meta">
-						<span class="duration">{{ drill.duration ?? 0 }} min</span>
-						<ng-icon hlm name="lucideChevronRight" size="xs" class="chevron" />
-					</div>
-				</article>
-			} @empty {
-				<p class="status">No drills match the current filters.</p>
+			<button
+				type="button"
+				class="chip"
+				[class.chip--active]="isUserSourceSelected()"
+				(click)="toggleUserSource()"
+			>
+				My Drills
+			</button>
+			<button
+				type="button"
+				class="chip"
+				[class.chip--active]="activeDrillTypeId() === null"
+				(click)="setActiveDrillType(null)"
+			>
+				All ({{ totalCount() }})
+			</button>
+			@for (drillType of drillTypeChips(); track drillType.id) {
+				<button
+					type="button"
+					class="chip"
+					[class.chip--active]="activeDrillTypeId() === drillType.id"
+					(click)="setActiveDrillType(drillType.id)"
+				>
+					{{ drillType.name }} ({{ drillType.count }})
+				</button>
 			}
 		</div>
+
+		@if (isLoading()) {
+			<p class="status">Loading drills...</p>
+		} @else if (loadError()) {
+			<p class="status status--error">{{ loadError() }}</p>
+		} @else {
+			<div class="drill-list">
+				@for (drill of filteredDrills(); track drill.key ?? drill.name) {
+					<gpp-drill-list-item [drill]="drill" />
+				} @empty {
+					<p class="status">No drills match the current filters.</p>
+				}
+			</div>
+		}
 	}
 </section>
 

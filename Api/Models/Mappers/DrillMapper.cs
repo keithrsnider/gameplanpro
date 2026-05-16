@@ -13,7 +13,9 @@ public static class DrillMapper
 			drill.Duration,
 			drill.Instructions,
 			drill.DemoLink,
+			drill.NumberOfPlayers,
 			drill.Source.ToString(),
+			drill.Coach?.ToResponse(),
 			drill.DrillType.ToResponse(),
 			drill.CreatedAt,
 			drill.UpdatedAt
@@ -29,6 +31,8 @@ public static class DrillMapper
 			Duration = request.Duration,
 			Instructions = request.Instructions,
 			DemoLink = request.DemoLink,
+			NumberOfPlayers = request.NumberOfPlayers,
+			CoachId = request.CoachId,
 			Source = DrillSource.User,
 			DrillTypeId = drillTypeId,
 			UserId = userId,

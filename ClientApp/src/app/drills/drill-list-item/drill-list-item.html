@@ -1,0 +1,50 @@
+<article class="drill-card" [class.drill-card--expanded]="isExpanded()">
+	<div
+		class="card-summary"
+		role="button"
+		tabindex="0"
+		[attr.aria-expanded]="isExpanded()"
+		(click)="toggleExpanded()"
+		(keydown.enter)="toggleExpanded()"
+		(keydown.space)="toggleExpanded(); $event.preventDefault()"
+	>
+		<div class="card-left">
+			<span [class]="getAccentClass()"></span>
+			<div class="card-content">
+				<div class="card-title-row">
+					<h3 class="card-title">{{ drill().name }}</h3>
+					<span [class]="getBadgeClass()">
+						{{ displayTypeName() }}
+					</span>
+					@if (hasVideo() && !isExpanded()) {
+						<a
+							[href]="drill().demoLink"
+							target="_blank"
+							rel="noopener noreferrer"
+							class="video-link"
+							(click)="$event.stopPropagation()"
+						>
+							<ng-icon hlm name="lucidePlay" size="xs" />
+							<span>Video</span>
+						</a>
+					}
+				</div>
+				<p class="card-description">{{ drill().description }}</p>
+			</div>
+		</div>
+		<div class="card-meta">
+			<span class="duration">{{ drill().duration ?? 0 }} min</span>
+			@if (isExpanded()) {
+				<ng-icon hlm name="lucideChevronDown" size="xs" class="chevron" />
+			} @else {
+				<ng-icon hlm name="lucideChevronRight" size="xs" class="chevron" />
+			}
+		</div>
+	</div>
+
+	@if (isExpanded()) {
+		<gpp-drill-list-item-expanded [drill]="drill()" />
+	}
+</article>
+
+

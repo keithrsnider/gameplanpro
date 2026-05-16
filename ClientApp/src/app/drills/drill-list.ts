@@ -1,8 +1,15 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { HlmIconImports } from '@spartan-ng/helm/icon';
 import { HlmInputImports } from '@spartan-ng/helm/input';
-import type { DrillResponse, DrillTypeResponse } from '../core/api/models/index.js';
+import type {
+	CoachResponse,
+	CreateDrillRequest,
+	DrillResponse,
+	DrillTypeResponse,
+} from '../core/api/models';
 import { ApiClientService } from '../core/api-client.service';
+import { DrillFormComponent, type DrillFormValue } from '../shared/components/drill-form';
+import { DrillListItemComponent } from './drill-list-item/drill-list-item';
 
 type DrillSourceFilter = 'system' | 'user';
 
@@ -16,23 +23,35 @@ interface DrillTypeChip {
 	selector: 'gpp-drill-list',
 	templateUrl: './drill-list.html',
 	styleUrl: './drill-list.css',
-	imports: [...HlmIconImports, ...HlmInputImports],
+	imports: [...HlmIconImports, ...HlmInputImports, DrillFormComponent, DrillListItemComponent],
 })
 export class DrillListComponent {
 	private readonly _api = inject(ApiClientService);
 
-	readonly source = signal<DrillSourceFilter>('system');
+	readonly isSystemSourceSelected = signal(true);
+	readonly isUserSourceSelected = signal(true);
 	readonly drills = signal<DrillResponse[]>([]);
 	readonly drillTypes = signal<DrillTypeResponse[]>([]);
+	readonly coaches = signal<CoachResponse[]>([]);
 	readonly searchQuery = signal('');
 	readonly activeDrillTypeId = signal<number | null>(null);
+	readonly isCreatingDrill = signal(false);
+	readonly isSavingDrill = signal(false);
 	readonly isLoading = signal(false);
 	readonly loadError = signal<string | null>(null);
+	readonly createError = signal<string | null>(null);
 
 	readonly sourceDrills = computed(() => {
-		const expectedSource = this.source() === 'system' ? 'system' : 'user';
+		const showSystem = this.isSystemSourceSelected();
+		const showUser = this.isUserSourceSelected();
+
+		if (showSystem === showUser) {
+			return this.drills();
+		}
+
+		const expectedSource: DrillSourceFilter = showSystem ? 'system' : 'user';
 		return this.drills().filter(
-			(drill) => (drill.source ?? '').toLowerCase() === expectedSource
+			(drill) => this.normalizeSource(drill.source) === expectedSource
 		);
 	});
 
@@ -87,8 +106,16 @@ export class DrillListComponent {
 
 	constructor() {
 		effect(() => {
-			void this.loadData(this.source());
+			void this.loadData();
 		});
+	}
+
+	toggleSystemSource() {
+		this.isSystemSourceSelected.update((value) => !value);
+	}
+
+	toggleUserSource() {
+		this.isUserSourceSelected.update((value) => !value);
 	}
 
 	setActiveDrillType(id: number | null) {
@@ -100,48 +127,48 @@ export class DrillListComponent {
 		this.searchQuery.set(input.value);
 	}
 
-	hasVideo(drill: DrillResponse): boolean {
-		return Boolean(drill.demoLink?.trim());
+	startCreatingDrill() {
+		this.createError.set(null);
+		this.isCreatingDrill.set(true);
 	}
 
-	getAccentClass(drillTypeName?: string | null): string {
-		const key = this.toTypeKey(drillTypeName);
-		return `accent accent-${key}`;
+	cancelCreatingDrill() {
+		this.createError.set(null);
+		this.isCreatingDrill.set(false);
 	}
 
-	getBadgeClass(drillTypeName?: string | null): string {
-		const key = this.toTypeKey(drillTypeName);
-		return `type-badge badge-${key}`;
-	}
+	async saveDrill(value: DrillFormValue): Promise<void> {
+		if (this.isSavingDrill()) {
+			return;
+		}
 
-	displayTypeName(name?: string | null): string {
-		return this.formatTypeName(name);
-	}
+		this.createError.set(null);
+		this.isSavingDrill.set(true);
 
-	private toTypeKey(drillTypeName?: string | null): string {
-		const normalizedName = (drillTypeName ?? '').trim().toLowerCase();
-		switch (normalizedName) {
-			case 'warm-up':
-			case 'warm up':
-				return 'warmup';
-			case 'hitting':
-				return 'hitting';
-			case 'fielding':
-				return 'fielding';
-			case 'pitching':
-				return 'pitching';
-			case 'base running':
-			case 'baserunning':
-				return 'baserunning';
-			case 'conditioning':
-				return 'conditioning';
-			case 'cool-down':
-			case 'cool down':
-				return 'cooldown';
-			default:
-				return 'default';
+		const instructions = value.instructions.trim();
+		const payload: CreateDrillRequest = {
+			name: value.name.trim(),
+			drillTypeId: value.drillTypeId,
+			duration: value.duration,
+			numberOfPlayers: value.numberOfPlayers,
+			coachId: value.coachId,
+			instructions: instructions || null,
+			// The drill list currently renders description, so mirror instructions for now.
+			description: instructions || null,
+			demoLink: value.demoLink.trim() || null,
+		};
+
+		try {
+			await this._api.client.api.drills.post(payload);
+			await this.loadData();
+			this.isCreatingDrill.set(false);
+		} catch {
+			this.createError.set('Failed to save drill. Please try again.');
+		} finally {
+			this.isSavingDrill.set(false);
 		}
 	}
+
 
 	private formatTypeName(name?: string | null): string {
 		if (!name) {
@@ -153,25 +180,41 @@ export class DrillListComponent {
 		return name;
 	}
 
-	private async loadData(source: DrillSourceFilter): Promise<void> {
+	private normalizeSource(source?: string | null): DrillSourceFilter | null {
+		if (source === null || source === undefined) {
+			return null;
+		}
+
+		const normalized = String(source).trim().toLowerCase();
+		if (normalized === 'system' || normalized === '0') {
+			return 'system';
+		}
+		if (normalized === 'user' || normalized === '1') {
+			return 'user';
+		}
+		return null;
+	}
+
+	private async loadData(): Promise<void> {
 		this.isLoading.set(true);
 		this.loadError.set(null);
 
 		try {
-			const sourceQuery = source === 'system' ? 0 : 1;
-			const [drills, drillTypes] = await Promise.all([
-				this._api.client.api.drills.get({
-					queryParameters: { source: sourceQuery },
-				}),
+			const [systemDrills, userDrills, drillTypes, coaches] = await Promise.all([
+				this._api.client.api.drills.get({ queryParameters: { source: 0 } }),
+				this._api.client.api.drills.get({ queryParameters: { source: 1 } }),
 				this._api.client.api.drillTypes.get(),
+				this._api.client.api.coaches.byTeam.get(),
 			]);
 
-			this.drills.set(drills ?? []);
+			this.drills.set([...(systemDrills ?? []), ...(userDrills ?? [])]);
 			this.drillTypes.set(drillTypes ?? []);
+			this.coaches.set(coaches ?? []);
 		} catch {
 			this.loadError.set('Failed to load drills. Please try again.');
 			this.drills.set([]);
 			this.drillTypes.set([]);
+			this.coaches.set([]);
 		} finally {
 			this.isLoading.set(false);
 		}

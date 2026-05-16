@@ -7,7 +7,9 @@ public record DrillResponse(
 	int Duration,
 	string? Instructions,
 	string? DemoLink,
+	int? NumberOfPlayers,
 	string Source,
+	CoachResponse? Coach,
 	DrillTypeResponse DrillType,
 	DateTime CreatedAt,
 	DateTime UpdatedAt
@@ -19,6 +21,8 @@ public record CreateDrillRequest(
 	int Duration,
 	string? Instructions,
 	string? DemoLink,
+	int? NumberOfPlayers,
+	int? CoachId,
 	int DrillTypeId
 );
 
@@ -28,5 +32,7 @@ public record UpdateDrillRequest(
 	int Duration,
 	string? Instructions,
 	string? DemoLink,
+	int? NumberOfPlayers,
+	int? CoachId,
 	int DrillTypeId
 );

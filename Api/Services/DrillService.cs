@@ -17,6 +17,7 @@ public interface IDrillService
 public class DrillService(
 	IDrillRepository drillRepo,
 	IDrillTypeRepository drillTypeRepo,
+	ITeamRepository teamRepo,
 	IUserContext userContext
 ) : IDrillService
 {
@@ -50,7 +51,10 @@ public class DrillService(
 		var drillType = await drillTypeRepo.GetByIdAsync(request.DrillTypeId)
 			?? throw new BadHttpRequestException("Drill type not found.", StatusCodes.Status400BadRequest);
 
+		var coach = await GetValidatedCoachAsync(request.CoachId);
+
 		var drill = request.ToEntity(userContext.UserId, drillType.Id);
+		drill.Coach = coach;
 
 		await drillRepo.CreateAsync(drill);
 		drill.DrillType = drillType;
@@ -73,11 +77,16 @@ public class DrillService(
 		var drillType = await drillTypeRepo.GetByIdAsync(request.DrillTypeId)
 			?? throw new BadHttpRequestException("Drill type not found.", StatusCodes.Status400BadRequest);
 
+		var coach = await GetValidatedCoachAsync(request.CoachId);
+
 		drill.Name = request.Name;
 		drill.Description = request.Description;
 		drill.Duration = request.Duration;
 		drill.Instructions = request.Instructions;
 		drill.DemoLink = request.DemoLink;
+		drill.NumberOfPlayers = request.NumberOfPlayers;
+		drill.CoachId = coach?.Id;
+		drill.Coach = coach;
 		drill.DrillTypeId = drillType.Id;
 		drill.DrillType = drillType;
 		drill.UpdatedAt = DateTime.UtcNow;
@@ -100,5 +109,17 @@ public class DrillService(
 			throw new BadHttpRequestException("Drill not found.", StatusCodes.Status404NotFound);
 
 		await drillRepo.DeleteAsync(drill);
+	}
+
+	private async Task<Coach?> GetValidatedCoachAsync(int? coachId)
+	{
+		if (coachId is null)
+			return null;
+
+		var team = await teamRepo.GetByUserIdAsync(userContext.UserId)
+			?? throw new BadHttpRequestException("Coach not found.", StatusCodes.Status400BadRequest);
+
+		return team.Coaches.FirstOrDefault(c => c.Id == coachId.Value)
+			?? throw new BadHttpRequestException("Coach not found.", StatusCodes.Status400BadRequest);
 	}
 }

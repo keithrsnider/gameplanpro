@@ -1,21 +1,77 @@
 .page-container {
-	@apply mx-auto flex max-w-7xl flex-col gap-6 p-8;
-}
-
-.back-link {
-	@apply flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground;
+	@apply mx-auto flex w-full max-w-5xl flex-col gap-5 p-8;
 }
 
 .page-header {
-	@apply flex flex-col gap-1;
+	@apply flex items-start justify-between gap-3;
+}
+
+.heading {
+	@apply text-4xl font-semibold tracking-tight text-foreground;
+}
+
+.subheading {
+	@apply text-sm text-muted-foreground;
 }
 
 .form-card {
-	@apply mb-6 flex flex-col gap-4 rounded-lg border border-border bg-card p-6;
+	@apply mb-6 rounded-xl border border-border bg-card p-6 shadow-sm;
+}
+
+.form-card-grid {
+	@apply grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem];
+}
+
+.form-card-content {
+	@apply w-full;
+}
+
+.preview-card {
+	@apply h-fit rounded-lg bg-secondary/35 p-4 lg:border-l lg:border-border lg:pl-6;
+}
+
+.preview-box {
+	@apply mt-3 space-y-4 rounded-md border border-border bg-card px-4 py-3;
+}
+
+.preview-heading {
+	@apply text-base font-semibold text-foreground;
+}
+
+.preview-description {
+	@apply mt-1 text-xs leading-relaxed text-muted-foreground;
+}
+
+.preview-header {
+	@apply flex items-center gap-3;
+}
+
+.preview-avatar {
+	@apply inline-flex h-8 w-8 items-center justify-center rounded-full bg-gpp-slate text-xs font-semibold tracking-wide text-white;
+}
+
+.preview-team-name {
+	@apply text-lg font-semibold text-foreground;
+}
+
+.preview-meta-item {
+	@apply space-y-1;
+}
+
+.preview-meta-label {
+	@apply text-xs font-medium uppercase tracking-wide text-muted-foreground;
+}
+
+.preview-meta-value {
+	@apply text-sm font-normal text-foreground;
+}
+
+.preview-note {
+	@apply mt-3 text-xs text-muted-foreground;
 }
 
 .card-heading {
-	@apply text-lg font-semibold;
+	@apply text-lg font-semibold mb-2;
 }
 
 .field-group {
@@ -25,8 +81,12 @@
 	@apply flex flex-col gap-1.5;
 }
 
-.error-banner {
-	@apply rounded-md border border-destructive bg-destructive/10 px-4 py-3 text-sm text-destructive;
+.status {
+	@apply rounded-lg border border-border bg-card px-4 py-3 text-sm text-muted-foreground;
+}
+
+.status--error {
+	@apply border-destructive bg-destructive/10 text-destructive;
 }
 
 .button-bar {
@@ -38,11 +98,11 @@
 }
 
 .coach-row {
-	@apply flex items-start gap-2;
+	@apply mb-2 flex items-start gap-2;
 }
 
 .trash-btn {
-	@apply rounded-md p-2 text-muted-foreground transition-colors hover:text-destructive;
+	@apply absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1 text-destructive transition-colors hover:brightness-90;
 }
 
 .add-coach-btn {

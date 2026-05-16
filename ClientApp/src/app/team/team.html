@@ -16,79 +16,96 @@
 	}
 
 	<form (submit)="$event.preventDefault(); onSubmit()" novalidate>
-		<!-- Team Information -->
 		<div class="form-card">
-			<div class="form-card-content">
-				<h2 class="card-heading">Team Information</h2>
+			<div class="form-card-grid">
+				<div class="form-card-content">
+					<h2 class="card-heading">Team Information</h2>
 
-				<div class="field-group">
-					<label hlmLabel for="teamName">Team Name</label>
-					<input
-						hlmInput
-						id="teamName"
-						type="text"
-						placeholder="e.g. Wildcats 12U"
-						[formField]="teamForm.teamName"
-						[error]="fieldHasError(teamForm.teamName)"
-						class="w-full"
-					/>
-					<gpp-form-errors [field]="teamForm.teamName"/>
-				</div>
+					<div class="field-group">
+						<label hlmLabel for="teamName">Team Name</label>
+						<input
+							hlmInput
+							id="teamName"
+							type="text"
+							placeholder="e.g. Wildcats 12U"
+							[formField]="teamForm.teamName"
+							[error]="fieldHasError(teamForm.teamName)"
+							class="w-full"
+						/>
+						<gpp-form-errors [field]="teamForm.teamName" />
+					</div>
 
-				<h2 class="card-heading">Coaching Staff</h2>
+					<h2 class="card-heading">Coaching Staff</h2>
 
-				<!-- Head Coach (always present) -->
-				<div class="field-group">
-					<label hlmLabel for="headCoach">Head Coach</label>
-					<input
-						hlmInput
-						id="headCoach"
-						type="text"
-						placeholder="e.g. Coach Smith"
-						[formField]="teamForm.headCoachName"
-						[error]="fieldHasError(teamForm.headCoachName)"
-						class="w-full"
-					/>
-					<gpp-form-errors [field]="teamForm.headCoachName"/>
-				</div>
+					<!-- Head Coach (always present) -->
+					<div class="field-group">
+						<label hlmLabel for="headCoach">Head Coach</label>
+						<input
+							hlmInput
+							id="headCoach"
+							type="text"
+							placeholder="e.g. Coach Smith"
+							[formField]="teamForm.headCoachName"
+							[error]="fieldHasError(teamForm.headCoachName)"
+							class="w-full"
+						/>
+						<gpp-form-errors [field]="teamForm.headCoachName" />
+					</div>
 
-				<div class="field-group">
-
-					<label hlmLabel for="assistant-0">Assistant Coaches</label>
-					<!-- Assistant Coaches -->
-					@for (coach of assistantCoaches(); track $index) {
-						<div class="coach-row">
-							<div class="flex-1 relative">
-								<input
-									hlmInput
-									[id]="'assistant-' + $index"
-									type="text"
-									placeholder="e.g. Coach Johnson"
-									[value]="coach.name"
-									(input)="updateAssistant($index, $any($event.target).value)"
-									class="w-full pr-10"
-								/>
-								<button
-									type="button"
-									class="trash-btn"
-									(click)="removeAssistant($index)"
-								>
-									<ng-icon hlm name="lucideTrash2" size="sm"/>
-								</button>
+					<div class="field-group">
+						<label hlmLabel for="assistant-0">Assistant Coaches</label>
+						@for (coach of assistantCoaches(); track $index) {
+							<div class="coach-row">
+								<div class="flex-1 relative">
+									<input
+										hlmInput
+										[id]="'assistant-' + $index"
+										type="text"
+										placeholder="e.g. Coach Johnson"
+										[value]="coach.name"
+										(input)="updateAssistant($index, $any($event.target).value)"
+										class="w-full pr-10"
+									/>
+									<button type="button" class="trash-btn" (click)="removeAssistant($index)">
+										<ng-icon hlm name="lucideTrash2" size="sm" />
+									</button>
+								</div>
 							</div>
-						</div>
-					}
+						}
 
-					<button type="button" class="add-coach-btn" (click)="addAssistant()">
-						<ng-icon hlm name="lucidePlus" size="sm"/>
-						<span>Add Assistant Coach</span>
-					</button>
+						<button type="button" class="add-coach-btn" (click)="addAssistant()">
+							<ng-icon hlm name="lucidePlus" size="sm" />
+							<span>Add Assistant Coach</span>
+						</button>
+					</div>
 				</div>
+
+				<aside class="preview-card">
+					<h2 class="preview-heading">Preview</h2>
+					<p class="preview-description">
+						How your team profile appears in other parts of the app.
+					</p>
+					<div class="preview-box">
+						<div class="preview-header">
+							<span class="preview-avatar">{{ previewTeamInitials() }}</span>
+							<p class="preview-team-name">{{ previewTeamName() }}</p>
+						</div>
+						<div class="preview-meta-item">
+							<p class="preview-meta-label">Head Coach</p>
+							<p class="preview-meta-value">{{ previewHeadCoachName() }}</p>
+						</div>
+						<div class="preview-meta-item">
+							<p class="preview-meta-label">Assistant Coaches</p>
+							<p class="preview-meta-value">{{ previewAssistantCountText() }}</p>
+						</div>
+					</div>
+					<p class="preview-note">Staff shown here can be edited later.</p>
+				</aside>
 			</div>
 		</div>
 
 		<!-- Team Roster -->
-		<gpp-team-roster [players]="players()" (playersChange)="players.set($event)"/>
+		<gpp-team-roster [players]="players()" (playersChange)="players.set($event)" />
 
 		<!-- Save Button -->
 		<div class="button-bar">

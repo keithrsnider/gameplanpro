@@ -15,11 +15,59 @@
 }
 
 .form-card {
-	@apply mb-6 flex flex-col gap-4 rounded-xl border border-border bg-card p-6 shadow-sm;
+	@apply mb-6 rounded-xl border border-border bg-card p-6 shadow-sm;
+}
+
+.form-card-grid {
+	@apply grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem];
 }
 
 .form-card-content {
-	@apply w-1/2;
+	@apply w-full;
+}
+
+.preview-card {
+	@apply h-fit rounded-lg bg-secondary/35 p-4 lg:border-l lg:border-border lg:pl-6;
+}
+
+.preview-box {
+	@apply mt-3 space-y-4 rounded-md border border-border bg-card px-4 py-3;
+}
+
+.preview-heading {
+	@apply text-base font-semibold text-foreground;
+}
+
+.preview-description {
+	@apply mt-1 text-xs leading-relaxed text-muted-foreground;
+}
+
+.preview-header {
+	@apply flex items-center gap-3;
+}
+
+.preview-avatar {
+	@apply inline-flex h-8 w-8 items-center justify-center rounded-full bg-gpp-slate text-xs font-semibold tracking-wide text-white;
+}
+
+.preview-team-name {
+	@apply text-lg font-semibold text-foreground;
+}
+
+.preview-meta-item {
+	@apply space-y-1;
+}
+
+.preview-meta-label {
+	@apply text-xs font-medium uppercase tracking-wide text-muted-foreground;
+}
+
+.preview-meta-value {
+	@apply text-sm font-normal text-foreground;
+}
+
+.preview-note {
+	@apply mt-3 text-xs text-muted-foreground;
 }
 
 .card-heading {
@@ -50,7 +98,7 @@
 }
 
 .coach-row {
-	@apply flex items-start gap-2 mb-2;
+	@apply mb-2 flex items-start gap-2;
 }
 
 .trash-btn {

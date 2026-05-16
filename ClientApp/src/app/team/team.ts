@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import {
 	form,
 	FormField,
@@ -9,7 +9,6 @@ import {
 	submit,
 } from '@angular/forms/signals';
 import type { FieldTree } from '@angular/forms/signals';
-import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmInputImports } from '@spartan-ng/helm/input';
 import { HlmLabelImports } from '@spartan-ng/helm/label';
 import { HlmIconImports } from '@spartan-ng/helm/icon';
@@ -80,6 +79,30 @@ export class TeamComponent {
 		this.assistantCoaches.update((coaches) =>
 			coaches.map((c, i) => (i === index ? { ...c, name: value } : c))
 		);
+	}
+
+	previewTeamInitials(): string {
+		const teamName = this.model().teamName.trim();
+
+		const words = teamName.split(/\s+/).filter(Boolean);
+		if (words.length === 1) {
+			return words[0].slice(0, 2).toUpperCase();
+		}
+
+		return `${words[0].charAt(0)}${words[1].charAt(0)}`.toUpperCase();
+	}
+
+	previewTeamName(): string {
+		return this.model().teamName.trim() || 'Team Name';
+	}
+
+	previewHeadCoachName(): string {
+		return this.model().headCoachName.trim() || 'Head Coach';
+	}
+
+	previewAssistantCountText(): string {
+		const assistantCount = this.assistantCoaches().filter((coach) => coach.name?.trim()).length;
+		return `${assistantCount} assistant coach${assistantCount === 1 ? '' : 'es'}`;
 	}
 
 	async loadTeam() {

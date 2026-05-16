@@ -58,7 +58,7 @@ export class TeamComponent {
 	readonly players = signal<PlayerResponse[]>([]);
 	headCoachKey?: string;
 
-	hasExistingTeam = false;
+	hasExistingTeam = true;
 	apiErrors: string[] = [];
 	loading = signal(false);
 

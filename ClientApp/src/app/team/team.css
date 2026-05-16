@@ -1,17 +1,25 @@
 .page-container {
-	@apply mx-auto flex max-w-7xl flex-col gap-6 p-8;
-}
-
-.back-link {
-	@apply flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground;
+	@apply mx-auto flex w-full max-w-5xl flex-col gap-5 p-8;
 }
 
 .page-header {
-	@apply flex flex-col gap-1;
+	@apply flex items-start justify-between gap-3;
+}
+
+.heading {
+	@apply text-4xl font-semibold tracking-tight text-foreground;
+}
+
+.subheading {
+	@apply text-sm text-muted-foreground;
 }
 
 .form-card {
-	@apply mb-6 flex flex-col gap-4 rounded-lg border border-border bg-card p-6;
+	@apply flex flex-col gap-4 rounded-xl border border-border bg-card p-6 shadow-sm;
+}
+
+.form-card-content {
+	@apply w-1/2;
 }
 
 .card-heading {
@@ -25,8 +33,12 @@
 	@apply flex flex-col gap-1.5;
 }
 
-.error-banner {
-	@apply rounded-md border border-destructive bg-destructive/10 px-4 py-3 text-sm text-destructive;
+.status {
+	@apply rounded-lg border border-border bg-card px-4 py-3 text-sm text-muted-foreground;
+}
+
+.status--error {
+	@apply border-destructive bg-destructive/10 text-destructive;
 }
 
 .button-bar {

@@ -105,6 +105,11 @@ export class TeamComponent {
 		return `${assistantCount} assistant coach${assistantCount === 1 ? '' : 'es'}`;
 	}
 
+	previewRosterCountText(): string {
+		const rosterCount = this.players().length;
+		return `${rosterCount} player${rosterCount === 1 ? '' : 's'}`;
+	}
+
 	async loadTeam() {
 		this.loading.set(true);
 		try {

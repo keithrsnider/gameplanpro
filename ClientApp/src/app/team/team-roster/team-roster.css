@@ -1,5 +1,5 @@
 .roster-header {
-	@apply flex items-center justify-between mb-3;
+	@apply flex items-center justify-between pb-6;
 }
 
 .add-player-btn {

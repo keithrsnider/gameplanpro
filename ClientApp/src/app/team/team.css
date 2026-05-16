@@ -15,7 +15,7 @@
 }
 
 .form-card {
-	@apply flex flex-col gap-4 rounded-xl border border-border bg-card p-6 shadow-sm;
+	@apply mb-6 flex flex-col gap-4 rounded-xl border border-border bg-card p-6 shadow-sm;
 }
 
 .form-card-content {
@@ -23,7 +23,7 @@
 }
 
 .card-heading {
-	@apply text-lg font-semibold;
+	@apply text-lg font-semibold mb-2;
 }
 
 .field-group {
@@ -50,11 +50,11 @@
 }
 
 .coach-row {
-	@apply flex items-start gap-2;
+	@apply flex items-start gap-2 mb-2;
 }
 
 .trash-btn {
-	@apply rounded-md p-2 text-muted-foreground transition-colors hover:text-destructive;
+	@apply absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1 text-destructive transition-colors hover:brightness-90;
 }
 
 .add-coach-btn {

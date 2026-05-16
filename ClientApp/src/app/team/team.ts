@@ -15,7 +15,7 @@ import { HlmLabelImports } from '@spartan-ng/helm/label';
 import { HlmIconImports } from '@spartan-ng/helm/icon';
 import { FormErrorsComponent } from '../shared/components/form-errors';
 import { ApiClientService } from '../core/api-client.service';
-import type { CoachResponse, PlayerResponse } from '../core/api/models/index.js';
+import type { CoachResponse, PlayerResponse } from '../core/api/models';
 import { TeamRosterComponent } from './team-roster/team-roster';
 
 interface TeamFormData {
@@ -37,10 +37,8 @@ const teamSchema = schema<TeamFormData>((f) => {
 	templateUrl: './team.html',
 	styleUrl: './team.css',
 	imports: [
-		RouterLink,
 		FormField,
 		FormErrorsComponent,
-		...HlmButtonImports,
 		...HlmInputImports,
 		...HlmLabelImports,
 		...HlmIconImports,

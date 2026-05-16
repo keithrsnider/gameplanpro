@@ -59,6 +59,6 @@
 	margin: 0;
 }
 
-.trash-btn {
+.player-trash-btn {
 	@apply rounded-md p-2 text-muted-foreground transition-colors hover:text-destructive;
 }

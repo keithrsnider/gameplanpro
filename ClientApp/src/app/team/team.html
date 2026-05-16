@@ -32,7 +32,7 @@
 						[error]="fieldHasError(teamForm.teamName)"
 						class="w-full"
 					/>
-					<gpp-form-errors [field]="teamForm.teamName" />
+					<gpp-form-errors [field]="teamForm.teamName"/>
 				</div>
 
 				<h2 class="card-heading">Coaching Staff</h2>
@@ -49,46 +49,46 @@
 						[error]="fieldHasError(teamForm.headCoachName)"
 						class="w-full"
 					/>
-					<gpp-form-errors [field]="teamForm.headCoachName" />
+					<gpp-form-errors [field]="teamForm.headCoachName"/>
 				</div>
 
-				<!-- Assistant Coaches -->
-				@for (coach of assistantCoaches(); track $index) {
-					<div class="coach-row">
-						<div class="field-group flex-1">
-							@if ($index === 0) {
-								<label hlmLabel for="assistant-0">Assistant Coaches</label>
-							}
-							<input
-								hlmInput
-								[id]="'assistant-' + $index"
-								type="text"
-								placeholder="e.g. Coach Johnson"
-								[value]="coach.name"
-								(input)="updateAssistant($index, $any($event.target).value)"
-								class="w-full"
-							/>
-						</div>
-						<button
-							type="button"
-							class="trash-btn"
-							[class.mt-6]="$index === 0"
-							(click)="removeAssistant($index)"
-						>
-							<ng-icon hlm name="lucideTrash2" size="sm" />
-						</button>
-					</div>
-				}
+				<div class="field-group">
 
-				<button type="button" class="add-coach-btn" (click)="addAssistant()">
-					<ng-icon hlm name="lucidePlus" size="sm" />
-					<span>Add Assistant Coach</span>
-				</button>
+					<label hlmLabel for="assistant-0">Assistant Coaches</label>
+					<!-- Assistant Coaches -->
+					@for (coach of assistantCoaches(); track $index) {
+						<div class="coach-row">
+							<div class="flex-1 relative">
+								<input
+									hlmInput
+									[id]="'assistant-' + $index"
+									type="text"
+									placeholder="e.g. Coach Johnson"
+									[value]="coach.name"
+									(input)="updateAssistant($index, $any($event.target).value)"
+									class="w-full pr-10"
+								/>
+								<button
+									type="button"
+									class="trash-btn"
+									(click)="removeAssistant($index)"
+								>
+									<ng-icon hlm name="lucideTrash2" size="sm"/>
+								</button>
+							</div>
+						</div>
+					}
+
+					<button type="button" class="add-coach-btn" (click)="addAssistant()">
+						<ng-icon hlm name="lucidePlus" size="sm"/>
+						<span>Add Assistant Coach</span>
+					</button>
+				</div>
 			</div>
 		</div>
 
 		<!-- Team Roster -->
-		<gpp-team-roster [players]="players()" (playersChange)="players.set($event)" />
+		<gpp-team-roster [players]="players()" (playersChange)="players.set($event)"/>
 
 		<!-- Save Button -->
 		<div class="button-bar">

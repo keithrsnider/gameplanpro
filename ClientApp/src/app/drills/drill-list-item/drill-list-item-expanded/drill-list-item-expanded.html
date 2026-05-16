@@ -17,7 +17,9 @@
 
 	@if (hasVideo()) {
 		<a [href]="drill().demoLink" target="_blank" rel="noopener noreferrer" class="video-button">
-			<ng-icon hlm name="lucidePlay" size="xs" />
+			<span class="play-button-icon" aria-hidden="true">
+				<ng-icon hlm name="lucidePlay" size="xs" />
+			</span>
 			<span>Video</span>
 		</a>
 	}

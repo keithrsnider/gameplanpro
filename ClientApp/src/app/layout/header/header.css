@@ -2,14 +2,17 @@
 	@apply relative flex items-center justify-between bg-gpp-slate px-6;
 }
 
-
 .nav {
 	@apply absolute left-1/2 -translate-x-1/2 flex items-center gap-1;
 }
 
 .nav-item {
-	@apply flex items-center gap-1.5 rounded-md px-3 py-2 text-sm text-gray-400
-		transition-colors hover:text-white;
+	@apply flex items-center gap-1.5 rounded-md px-2 py-2 text-sm text-gray-400
+		transition-colors hover:text-white sm:px-3;
+}
+
+.nav-item__label {
+	@apply hidden sm:inline;
 }
 
 .nav-item--active {
@@ -43,4 +46,3 @@
 .user-menu__item {
 	@apply block w-full px-3 py-2 text-left text-sm text-gray-700 transition-colors hover:bg-gray-50;
 }
-

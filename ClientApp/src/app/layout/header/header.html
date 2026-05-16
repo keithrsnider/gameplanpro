@@ -1,5 +1,14 @@
 <header class="header">
-	<img src="/logos/gpp-logo-reversed.svg" alt="GamePlanPro" class="h-12 sm:h-14 md:h-16 lg:h-14 2xl:h-12" />
+	<img
+		src="/logos/gpp-icon.svg"
+		alt="GamePlanPro"
+		class="h-10 sm:hidden"
+	/>
+	<img
+		src="/logos/gpp-logo-reversed.svg"
+		alt="GamePlanPro"
+		class="hidden h-12 sm:block sm:h-14 md:h-16 lg:h-14 2xl:h-12"
+	/>
 
 	<nav class="nav">
 		@for (item of navItems; track item.label) {
@@ -8,14 +17,15 @@
 					class="nav-item"
 					[routerLink]="item.route"
 					routerLinkActive="nav-item--active"
+					[attr.aria-label]="item.label"
 				>
 					<ng-icon hlm [name]="item.icon" size="sm" />
-					<span>{{ item.label }}</span>
+					<span class="nav-item__label">{{ item.label }}</span>
 				</a>
 			} @else {
-				<button class="nav-item">
+				<button class="nav-item" type="button" [attr.aria-label]="item.label">
 					<ng-icon hlm [name]="item.icon" size="sm" />
-					<span>{{ item.label }}</span>
+					<span class="nav-item__label">{{ item.label }}</span>
 				</button>
 			}
 		}

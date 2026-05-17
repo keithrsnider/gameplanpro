@@ -21,11 +21,11 @@ export class HeaderComponent {
 	private readonly _auth = inject(AuthService);
 
 	readonly navItems: NavItem[] = [
-		{ label: 'Dashboard', icon: 'lucideLayoutDashboard', route: '/dashboard' },
+		{ label: 'My Practice Plans', icon: 'lucideLayoutDashboard', route: '/dashboard' },
 		{ label: 'Skills & Drills', icon: 'lucideBookOpen', route: '/drills' },
 		{ label: 'Team', icon: 'lucideUsers', route: '/team' },
-		{ label: 'Schedule', icon: 'lucideCalendar' },
-		{ label: 'Analytics', icon: 'lucideTrendingUp' },
+		// { label: 'Schedule', icon: 'lucideCalendar' },
+		// { label: 'Analytics', icon: 'lucideTrendingUp' },
 	];
 	readonly currentUser = this._auth.currentUser;
 	readonly userMenuOpen = signal(false);

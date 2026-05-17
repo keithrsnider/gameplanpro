@@ -6,8 +6,9 @@ import { PracticePlanListComponent } from './practice-plan-list/practice-plan-li
 
 @Component({
 	selector: 'gpp-dashboard',
-	templateUrl: './dashboard.html',
-	styleUrl: './dashboard.css',
+	templateUrl: './practice-plan-dashboard.html',
+	styleUrl: './practice-plan-dashboard.css',
 	imports: [RouterLink, ...HlmButtonImports, ...HlmIconImports, PracticePlanListComponent],
 })
-export class DashboardComponent {}
+export class PracticePlanDashboardComponent {}
+

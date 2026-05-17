@@ -1,9 +1,10 @@
-.page-container {
-	@apply mx-auto flex max-w-5xl flex-col gap-6 p-8;
-}
-
 .back-link {
 	@apply flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground;
+}
+
+/* Practice-plan-form specific overrides */
+.page-container {
+	@apply mx-auto flex max-w-5xl flex-col gap-6 p-8;
 }
 
 .page-header {
@@ -14,22 +15,7 @@
 	@apply flex flex-col gap-4 rounded-lg border border-border bg-card p-6;
 }
 
-.card-heading {
-	@apply text-lg font-semibold;
-}
-
-.field-group {
-	@apply flex flex-col gap-1.5;
-}
-
 .error-banner {
 	@apply rounded-md border border-destructive bg-destructive/10 px-4 py-3 text-sm text-destructive;
 }
 
-.button-bar {
-	@apply flex items-center justify-between;
-}
-
-.cta-btn {
-	@apply rounded-lg bg-gpp-orange px-6 py-3 font-semibold text-white hover:brightness-90;
-}

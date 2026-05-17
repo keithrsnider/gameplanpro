@@ -1,13 +1,12 @@
-.page-container {
-	@apply mx-auto flex w-full max-w-5xl flex-col gap-5 p-8;
-}
-
 .hero-card {
 	@apply rounded-xl bg-gpp-slate p-12;
 }
 
+/* Dashboard specific cta-btn override with icon spacing */
 .cta-btn {
 	@apply mt-6 flex items-center gap-2 rounded-lg bg-gpp-orange px-6 py-6 font-semibold
 		text-white transition-colors hover:opacity-90;
 }
+
+
 

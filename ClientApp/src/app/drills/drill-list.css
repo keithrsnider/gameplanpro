@@ -12,7 +12,7 @@
 }
 
 .search-input {
-	@apply h-10 rounded-xl pl-10;
+	@apply h-8 rounded-xl pl-5 bg-white;
 }
 
 .filter-row {
@@ -20,11 +20,15 @@
 }
 
 .chip {
-	@apply rounded-full border border-border bg-card px-4 py-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground;
+	@apply cursor-pointer rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold text-muted-foreground shadow-sm transition-all duration-150 hover:text-foreground;
 }
 
 .chip--active {
-	@apply border-transparent bg-gpp-slate text-white;
+	@apply border-transparent bg-gpp-slate text-white hover:text-muted-foreground;
+}
+
+.chip__count {
+	@apply font-normal opacity-60;
 }
 
 .drill-list {

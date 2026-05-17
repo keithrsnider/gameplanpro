@@ -7,6 +7,7 @@
     --gpp-slate: #1D293D;
     --gpp-orange: #FF6900;
     --nav-active: #40c9b0;
+    --font-sans: "DM Sans", "Segoe UI", sans-serif;
 
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
@@ -57,7 +58,13 @@
   * {
     @apply border-border;
   }
+
+  html {
+    font-size: 87.5%;
+  }
+
   body {
+    font-family: var(--font-sans, "DM Sans", "Segoe UI", sans-serif);
     @apply bg-background text-foreground;
   }
 }
@@ -65,7 +72,7 @@
 @layer components {
   /* Layout Components */
   .page-container {
-    @apply mx-auto flex w-full max-w-2xl flex-col gap-5 p-8;
+    @apply mx-auto flex w-full max-w-3xl flex-col gap-5 p-8;
   }
 
   .page-header {
@@ -74,7 +81,7 @@
 
   /* Typography */
   .heading {
-    @apply text-4xl font-semibold tracking-tight text-foreground;
+    @apply text-2xl font-semibold tracking-tight text-foreground;
   }
 
   .subheading {

@@ -1,5 +1,4 @@
 import { Component, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
 import {
 	form,
 	FormField,
@@ -12,6 +11,7 @@ import type { FieldTree } from '@angular/forms/signals';
 import { HlmInputImports } from '@spartan-ng/helm/input';
 import { HlmLabelImports } from '@spartan-ng/helm/label';
 import { HlmIconImports } from '@spartan-ng/helm/icon';
+import { HlmSpinnerImports } from '@spartan-ng/helm/spinner';
 import { FormErrorsComponent } from '../shared/components/form-errors';
 import { ApiClientService } from '../core/api-client.service';
 import type { CoachResponse, PlayerResponse } from '../core/api/models';
@@ -41,6 +41,7 @@ const teamSchema = schema<TeamFormData>((f) => {
 		...HlmInputImports,
 		...HlmLabelImports,
 		...HlmIconImports,
+		...HlmSpinnerImports,
 		TeamRosterComponent,
 	],
 })

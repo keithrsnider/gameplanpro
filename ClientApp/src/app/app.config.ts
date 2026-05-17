@@ -25,6 +25,8 @@ import {
 	lucideArrowDown,
 	lucideArrowUpDown,
 	lucidePlay,
+	lucideShield,
+	lucideEye,
 } from '@ng-icons/lucide';
 import { appRoutes } from './app.routes';
 import { AuthService } from './auth/auth.service';
@@ -52,6 +54,8 @@ export const appConfig: ApplicationConfig = {
 			lucideArrowDown,
 			lucideArrowUpDown,
 			lucidePlay,
+			lucideShield,
+			lucideEye
 		}),
 		provideAppInitializer(() => inject(AuthService).checkAuth()),
 	],

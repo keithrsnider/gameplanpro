@@ -14,32 +14,8 @@
 	@apply text-sm text-muted-foreground;
 }
 
-.form-card {
-	@apply mb-6 rounded-xl border border-border bg-card p-6 shadow-sm;
-}
-
-.form-card-grid {
-	@apply grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem];
-}
-
-.form-card-content {
-	@apply w-full;
-}
-
-.preview-card {
-	@apply h-fit rounded-lg bg-secondary/35 p-4 lg:border-l lg:border-border lg:pl-6;
-}
-
 .preview-box {
 	@apply mt-3 space-y-4 rounded-md border border-border bg-card px-4 py-3;
-}
-
-.preview-heading {
-	@apply text-base font-semibold text-foreground;
-}
-
-.preview-description {
-	@apply mt-1 text-xs leading-relaxed text-muted-foreground;
 }
 
 .preview-header {
@@ -74,9 +50,85 @@
 	@apply text-lg font-semibold mb-2;
 }
 
+/* Info Card Styles */
+.info-card {
+	@apply rounded-xl border border-border bg-card p-6 shadow-sm;
+}
+
+.info-card:last-of-type {
+	@apply mb-0;
+}
+
+.info-card-header {
+	@apply mb-3 pb-4 border-b border-border;
+}
+
+.info-card-header-content {
+	@apply flex items-center gap-3;
+
+	.icon-background{
+		@apply text-white flex-shrink-0 inline-flex h-8 w-8 items-center justify-center rounded-lg;
+
+		ng-icon{
+			@apply h-5 w-5
+		}
+	}
+}
+
+.info-card:first-child .info-card-header-content .icon-background {
+	@apply bg-gpp-slate;
+}
+
+.info-card:nth-child(2) .info-card-header-content .icon-background {
+	@apply bg-gpp-orange;
+}
+
+.overview-card:first-child .info-card-header-content .icon-background {
+	@apply bg-black;
+}
+
+.info-card-title {
+	@apply text-lg font-semibold text-foreground;
+	line-height: 1rem;
+}
+
+.info-card-description {
+	@apply text-xs text-muted-foreground ;
+}
+
+.info-card-content {
+	@apply w-full;
+}
+
+/* Cards Layout */
+.cards-layout {
+	@apply grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem] mb-6;
+}
+
+.cards-left {
+	@apply flex flex-col gap-6;
+}
+
+.cards-right {
+	@apply h-fit;
+}
+
+/* Overview Card Styles */
+.overview-card {
+	@apply rounded-xl border border-border bg-card p-6 shadow-sm;
+}
+
+.overview-card-content {
+	@apply w-full mt-5;
+}
+
 .field-group {
 	label {
-		@apply px-1 py-1;
+		@apply text-lg px-1;
+	}
+
+	input {
+		@apply h-10 text-base;
 	}
 	@apply flex flex-col gap-1.5;
 }

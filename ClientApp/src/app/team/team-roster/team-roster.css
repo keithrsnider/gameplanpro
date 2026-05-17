@@ -1,3 +1,7 @@
+.form-card {
+	@apply mb-6 rounded-xl border border-border bg-card p-6 shadow-sm;
+}
+
 .roster-header {
 	@apply flex items-center justify-between pb-6;
 }
@@ -45,7 +49,7 @@
 }
 
 .cell-input {
-	@apply w-full border-transparent bg-transparent text-sm shadow-none outline-none;
+	@apply w-full border-transparent bg-transparent shadow-none outline-none text-base;
 }
 
 .cell-input:focus {

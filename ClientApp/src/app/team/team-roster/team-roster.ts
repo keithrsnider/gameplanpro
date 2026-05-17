@@ -13,7 +13,7 @@ interface TrackedPlayer {
 @Component({
 	selector: 'gpp-team-roster',
 	templateUrl: './team-roster.html',
-	styleUrls: ['./team-roster.css', '../team.css'],
+	styleUrls: ['./team-roster.css'],
 	imports: [...HlmInputImports, ...HlmIconImports],
 })
 export class TeamRosterComponent {

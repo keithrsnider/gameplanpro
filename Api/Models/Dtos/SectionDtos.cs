@@ -11,3 +11,6 @@ public record SectionResponse(
 public record CreateSectionRequest(string Name, int DisplayOrder, string? Note = null);
 
 public record UpdateSectionRequest(string? Name, int? DisplayOrder, string? Note = null);
+
+public record BulkUpdateSectionDisplayOrderRequest(Guid SectionKey, int DisplayOrder);
+

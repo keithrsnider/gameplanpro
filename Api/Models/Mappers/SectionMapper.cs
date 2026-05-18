@@ -10,6 +10,7 @@ public static class SectionMapper
 			section.Key,
 			section.Name,
 			section.DisplayOrder,
+			section.Note,
 			section.PlanDrills.Select(pd => pd.ToResponse()).ToList()
 		);
 	}

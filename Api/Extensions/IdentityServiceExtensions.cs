@@ -2,6 +2,7 @@ using Api.Data;
 using Api.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Api.Extensions;
@@ -16,6 +17,7 @@ public static class IdentityServiceExtensions
         services.AddDbContext<AppDbContext>(options =>
             options.UseNpgsql(config.GetConnectionString("DefaultConnection"))
                    .UseSnakeCaseNamingConvention()
+                   .ConfigureWarnings(w => w.Ignore(RelationalEventId.PendingModelChangesWarning))
                    .ReplaceService<IHistoryRepository, MigrationHistoryRepository>());
 
         services.AddIdentity<AppUser, IdentityRole>()

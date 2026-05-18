@@ -343,6 +343,10 @@ export interface CreateSectionRequest extends Parsable {
      * The name property
      */
     name?: string | null;
+    /**
+     * The note property
+     */
+    note?: string | null;
 }
 /**
  * Creates a new instance of the appropriate class based on discriminator value
@@ -535,6 +539,7 @@ export function deserializeIntoCreateSectionRequest(createSectionRequest: Partia
     return {
         "displayOrder": n => { createSectionRequest.displayOrder = n.getNumberValue(); },
         "name": n => { createSectionRequest.name = n.getStringValue(); },
+        "note": n => { createSectionRequest.note = n.getStringValue(); },
     }
 }
 /**
@@ -725,6 +730,7 @@ export function deserializeIntoSectionResponse(sectionResponse: Partial<SectionR
         "displayOrder": n => { sectionResponse.displayOrder = n.getNumberValue(); },
         "key": n => { sectionResponse.key = n.getGuidValue(); },
         "name": n => { sectionResponse.name = n.getStringValue(); },
+        "note": n => { sectionResponse.note = n.getStringValue(); },
         "planDrills": n => { sectionResponse.planDrills = n.getCollectionOfObjectValues<PlanDrillResponse>(createPlanDrillResponseFromDiscriminatorValue); },
     }
 }
@@ -803,6 +809,7 @@ export function deserializeIntoUpdateSectionRequest(updateSectionRequest: Partia
     return {
         "displayOrder": n => { updateSectionRequest.displayOrder = n.getNumberValue(); },
         "name": n => { updateSectionRequest.name = n.getStringValue(); },
+        "note": n => { updateSectionRequest.note = n.getStringValue(); },
     }
 }
 /**
@@ -1070,6 +1077,10 @@ export interface SectionResponse extends Parsable {
      */
     name?: string | null;
     /**
+     * The note property
+     */
+    note?: string | null;
+    /**
      * The planDrills property
      */
     planDrills?: PlanDrillResponse[] | null;
@@ -1189,6 +1200,7 @@ export function serializeCreateSectionRequest(writer: SerializationWriter, creat
     if (!createSectionRequest || isSerializingDerivedType) { return; }
     writer.writeNumberValue("displayOrder", createSectionRequest.displayOrder);
     writer.writeStringValue("name", createSectionRequest.name);
+    writer.writeStringValue("note", createSectionRequest.note);
 }
 /**
  * Serializes information the current object
@@ -1379,6 +1391,7 @@ export function serializeSectionResponse(writer: SerializationWriter, sectionRes
     writer.writeNumberValue("displayOrder", sectionResponse.displayOrder);
     writer.writeGuidValue("key", sectionResponse.key);
     writer.writeStringValue("name", sectionResponse.name);
+    writer.writeStringValue("note", sectionResponse.note);
     writer.writeCollectionOfObjectValues<PlanDrillResponse>("planDrills", sectionResponse.planDrills, serializePlanDrillResponse);
 }
 /**
@@ -1457,6 +1470,7 @@ export function serializeUpdateSectionRequest(writer: SerializationWriter, updat
     if (!updateSectionRequest || isSerializingDerivedType) { return; }
     writer.writeNumberValue("displayOrder", updateSectionRequest.displayOrder);
     writer.writeStringValue("name", updateSectionRequest.name);
+    writer.writeStringValue("note", updateSectionRequest.note);
 }
 /**
  * Serializes information the current object
@@ -1588,6 +1602,10 @@ export interface UpdateSectionRequest extends Parsable {
      * The name property
      */
     name?: string | null;
+    /**
+     * The note property
+     */
+    note?: string | null;
 }
 export interface UpdateTeamRequest extends Parsable {
     /**

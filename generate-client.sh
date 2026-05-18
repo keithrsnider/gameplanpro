@@ -18,8 +18,8 @@ kiota generate \
   --language typescript \
   --class-name ApiClient \
   --namespace-name GamePlanPro.Api \
-  --openapi "$SPEC_URL" \
-  --output "$OUTPUT_DIR" \
+  --openapi "http://localhost:5115/swagger/v1/swagger.json" \
+  --output "ClientApp/src/app/core/api" \
   --clean-output
 
 echo "Client generated at $OUTPUT_DIR"

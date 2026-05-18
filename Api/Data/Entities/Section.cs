@@ -14,6 +14,9 @@ public class Section : BaseEntity
 
 	public int DisplayOrder { get; set; }
 
+	[MaxLength(1000)]
+	public string? Note { get; set; }
+
 	public int PracticePlanId { get; set; }
 	public PracticePlan PracticePlan { get; set; } = null!;
 

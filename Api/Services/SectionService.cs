@@ -44,7 +44,7 @@ public class SectionService(
 		plan.LastModifiedAt = DateTime.UtcNow;
 		await planRepo.UpdateAsync(plan);
 
-		return new SectionResponse(section.Key, section.Name, section.DisplayOrder, []);
+		return new SectionResponse(section.Key, section.Name, section.DisplayOrder, section.Note, []);
 	}
 
 	public async Task<SectionResponse> UpdateAsync(
@@ -72,6 +72,7 @@ public class SectionService(
 
 		if (request.Name is not null) section.Name = request.Name;
 		if (request.DisplayOrder is not null) section.DisplayOrder = request.DisplayOrder.Value;
+		if (request.Note is not null) section.Note = request.Note;
 
 		await sectionRepo.UpdateAsync(section);
 		plan.LastModifiedAt = DateTime.UtcNow;

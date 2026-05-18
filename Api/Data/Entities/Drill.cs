@@ -23,7 +23,7 @@ public class Drill : BaseEntity
 	[MaxLength(500)]
 	public string? DemoLink { get; set; }
 
-	public int? NumberOfPlayers { get; set; }
+	public int? PlayerCount { get; set; }
 
 	public DrillSource Source { get; set; }
 	public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

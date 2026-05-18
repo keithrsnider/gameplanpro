@@ -84,7 +84,7 @@ public class DrillService(
 		drill.Duration = request.Duration;
 		drill.Instructions = request.Instructions;
 		drill.DemoLink = request.DemoLink;
-		drill.NumberOfPlayers = request.NumberOfPlayers;
+		drill.PlayerCount = request.PlayerCount;
 		drill.CoachId = coach?.Id;
 		drill.Coach = coach;
 		drill.DrillTypeId = drillType.Id;

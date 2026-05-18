@@ -40,7 +40,8 @@
 					<brn-select
 						id="planLocation"
 						[placeholder]="'Select a location'"
-						[(value)]="selectedLocation"
+						[value]="selectedLocation()"
+						(valueChange)="updateSelectedLocation($event)"
 					>
 						<hlm-select-trigger class="w-full">
 							<hlm-select-value />
@@ -57,7 +58,8 @@
 					<brn-select
 						id="planDuration"
 						[placeholder]="'Select duration'"
-						[(value)]="selectedDuration"
+						[value]="selectedDuration()"
+						(valueChange)="updateSelectedDuration($event)"
 					>
 						<hlm-select-trigger class="w-full">
 							<hlm-select-value />
@@ -85,6 +87,171 @@
 				></textarea>
 				<gpp-form-errors [field]="planForm.description" />
 			</div>
+		</div>
+
+		<div class="sections-shell">
+			<div class="sections-shell__header">
+				<div>
+					<h2 class="card-heading">Sections</h2>
+					<p class="subheading">
+						Build the flow of practice here. Section changes save automatically, while
+						practice plan details save from the button below.
+					</p>
+				</div>
+
+				@if (canManageSections) {
+					<button
+						hlmBtn
+						type="button"
+						class="section-header-add-btn"
+						(click)="addSection()"
+						[disabled]="creatingSection() || loading()"
+					>
+						<ng-icon hlm name="lucidePlus" size="sm" />
+						{{ creatingSection() ? 'Adding...' : 'Add Section' }}
+					</button>
+				}
+			</div>
+
+			@if (planSaveMessage()) {
+				<div class="status">{{ planSaveMessage() }}</div>
+			}
+
+			@if (sectionOrderPending() || sectionOrderSaving() || sectionOrderError()) {
+				<div class="status" [class.status--error]="!!sectionOrderError()">
+					@if (sectionOrderError()) {
+						{{ sectionOrderError() }}
+					} @else {
+						Saving section order...
+					}
+				</div>
+			}
+
+			@if (canManageSections) {
+				<div
+					cdkDropList
+					class="section-list"
+					[cdkDropListData]="sections()"
+					[cdkDropListDisabled]="creatingSection() || sectionOrderSaving()"
+					(cdkDropListDropped)="dropSection($event)"
+				>
+					@for (section of sections(); track section.key) {
+						<div class="section-card" cdkDrag>
+							<div class="section-card__header">
+								<div class="section-card__title-row">
+									<button
+										type="button"
+										class="section-drag-handle"
+										cdkDragHandle
+										aria-label="Reorder section"
+									>
+										<ng-icon hlm name="lucideGripVertical" size="sm" />
+									</button>
+
+									<input
+										hlmInput
+										type="text"
+										class="section-title-input"
+										placeholder="Section name"
+										[value]="section.name"
+										(input)="onSectionNameInput(section.key, $any($event.target).value)"
+									/>
+
+									<span class="section-chip">{{ sectionDrillCount(section) }} drills</span>
+								</div>
+
+								<div class="section-card__meta-row">
+									<span class="section-duration">{{ sectionDurationMinutes(section) }} min</span>
+									<button
+										type="button"
+										class="section-delete-btn"
+										(click)="deleteSection(section.key)"
+										[disabled]="section.saveState === 'saving'"
+										aria-label="Delete section"
+									>
+										<ng-icon hlm name="lucideTrash2" size="sm" />
+									</button>
+								</div>
+							</div>
+
+							@if (section.planDrills.length > 0) {
+								<div class="section-drill-list">
+									@for (drill of section.planDrills; track drill.key ?? $index) {
+										<div class="section-drill-item">
+											<div>
+												<p class="section-drill-item__name">{{ drill.name || 'Untitled drill' }}</p>
+												<p class="section-drill-item__meta">
+													{{ drill.duration ?? 0 }} min
+												</p>
+											</div>
+										</div>
+									}
+								</div>
+							} @else {
+								<div class="section-empty-state">
+									<p>No drills yet — add from the library or create a new one</p>
+								</div>
+							}
+
+							<div class="section-actions">
+								<button hlmBtn type="button" disabled>Add from Library</button>
+								<button hlmBtn variant="outline" type="button" disabled>Create New</button>
+							</div>
+
+							<p class="section-helper-text">
+								Drill selection will plug into this section in the next pass.
+							</p>
+
+							<div class="field-group">
+								<label hlmLabel [for]="'section-note-' + section.key">Recap Notes</label>
+								<textarea
+									hlmTextarea
+									[id]="'section-note-' + section.key"
+									class="w-full"
+									rows="4"
+									placeholder="Recap notes, reminders, logistics..."
+									[value]="section.note"
+									(input)="onSectionNoteInput(section.key, $any($event.target).value)"
+								></textarea>
+							</div>
+
+							@if (section.saveState !== 'idle' || section.errorMessage) {
+								<div
+									class="section-save-status"
+									[class.section-save-status--error]="section.saveState === 'error'"
+								>
+									<span>
+										{{
+											section.saveState === 'saving'
+												? 'Saving section changes...'
+												: (section.errorMessage || '')
+										}}
+									</span>
+									@if (section.saveState === 'error') {
+										<button type="button" class="section-inline-link" (click)="retrySectionSave(section.key)">
+											Retry
+										</button>
+									}
+								</div>
+							}
+						</div>
+					}
+				</div>
+
+				<button
+					type="button"
+					class="section-add-surface"
+					(click)="addSection()"
+					[disabled]="creatingSection() || loading()"
+				>
+					{{ creatingSection() ? 'Adding section...' : '+ Add Section' }}
+				</button>
+			} @else {
+				<div class="status">
+					Save the practice plan first. Once it has been created, you can add and reorder
+					sections here.
+				</div>
+			}
 		</div>
 
 		<!-- API errors -->

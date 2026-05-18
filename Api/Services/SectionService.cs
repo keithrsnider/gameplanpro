@@ -183,7 +183,25 @@ public class SectionService(
 				"Section not found.", StatusCodes.Status404NotFound
 			);
 
+		var deletedDisplayOrder = section.DisplayOrder;
 		await sectionRepo.DeleteAsync(section);
+
+		// Reorder remaining sections to maintain 1..N continuity
+		var remainingSections = await sectionRepo.GetByPracticePlanIdAsync(plan.Id);
+		var sectionsToReorder = remainingSections
+			.Where(s => s.DisplayOrder > deletedDisplayOrder)
+			.ToList();
+
+		foreach (var s in sectionsToReorder)
+		{
+			s.DisplayOrder--;
+		}
+
+		if (sectionsToReorder.Count > 0)
+		{
+			await sectionRepo.UpdateRangeAsync(sectionsToReorder);
+		}
+
 		plan.LastModifiedAt = DateTime.UtcNow;
 		await planRepo.UpdateAsync(plan);
 	}

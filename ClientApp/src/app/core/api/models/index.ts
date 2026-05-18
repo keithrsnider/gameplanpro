@@ -18,6 +18,16 @@ export interface AuthUserResponse extends Parsable {
      */
     id?: string | null;
 }
+export interface BulkUpdateSectionDisplayOrderRequest extends Parsable {
+    /**
+     * The displayOrder property
+     */
+    displayOrder?: number | null;
+    /**
+     * The sectionKey property
+     */
+    sectionKey?: Guid | null;
+}
 export interface ChangePasswordRequest extends Parsable {
     /**
      * The currentPassword property
@@ -68,6 +78,15 @@ export interface CoachResponse extends Parsable {
 // @ts-ignore
 export function createAuthUserResponseFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
     return deserializeIntoAuthUserResponse;
+}
+/**
+ * Creates a new instance of the appropriate class based on discriminator value
+ * @param parseNode The parse node to use to read the discriminator value and create the object
+ * @returns {BulkUpdateSectionDisplayOrderRequest}
+ */
+// @ts-ignore
+export function createBulkUpdateSectionDisplayOrderRequestFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
+    return deserializeIntoBulkUpdateSectionDisplayOrderRequest;
 }
 /**
  * Creates a new instance of the appropriate class based on discriminator value
@@ -436,6 +455,18 @@ export function deserializeIntoAuthUserResponse(authUserResponse: Partial<AuthUs
         "displayName": n => { authUserResponse.displayName = n.getStringValue(); },
         "email": n => { authUserResponse.email = n.getStringValue(); },
         "id": n => { authUserResponse.id = n.getStringValue(); },
+    }
+}
+/**
+ * The deserialization information for the current model
+ * @param BulkUpdateSectionDisplayOrderRequest The instance to deserialize into.
+ * @returns {Record<string, (node: ParseNode) => void>}
+ */
+// @ts-ignore
+export function deserializeIntoBulkUpdateSectionDisplayOrderRequest(bulkUpdateSectionDisplayOrderRequest: Partial<BulkUpdateSectionDisplayOrderRequest> | undefined = {}) : Record<string, (node: ParseNode) => void> {
+    return {
+        "displayOrder": n => { bulkUpdateSectionDisplayOrderRequest.displayOrder = n.getNumberValue(); },
+        "sectionKey": n => { bulkUpdateSectionDisplayOrderRequest.sectionKey = n.getGuidValue(); },
     }
 }
 /**
@@ -1097,6 +1128,18 @@ export function serializeAuthUserResponse(writer: SerializationWriter, authUserR
     writer.writeStringValue("displayName", authUserResponse.displayName);
     writer.writeStringValue("email", authUserResponse.email);
     writer.writeStringValue("id", authUserResponse.id);
+}
+/**
+ * Serializes information the current object
+ * @param BulkUpdateSectionDisplayOrderRequest The instance to serialize from.
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param writer Serialization writer to use to serialize this model
+ */
+// @ts-ignore
+export function serializeBulkUpdateSectionDisplayOrderRequest(writer: SerializationWriter, bulkUpdateSectionDisplayOrderRequest: Partial<BulkUpdateSectionDisplayOrderRequest> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!bulkUpdateSectionDisplayOrderRequest || isSerializingDerivedType) { return; }
+    writer.writeNumberValue("displayOrder", bulkUpdateSectionDisplayOrderRequest.displayOrder);
+    writer.writeGuidValue("sectionKey", bulkUpdateSectionDisplayOrderRequest.sectionKey);
 }
 /**
  * Serializes information the current object

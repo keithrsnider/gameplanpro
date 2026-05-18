@@ -1,8 +1,8 @@
 {
-  "descriptionHash": "7F4693BB5003255C88101044CE27939C0EC32746ECB78E2A5895B6E2B8CCEBFFCE39B78E593C511CD58E50F56DAC9EB854494715503DE1ACAB1BACEE7603A4C1",
+  "descriptionHash": "37164A0A3179CE2591096B76E5A0A3C09B95B84222BF6E432AB64412D369A5BC0DACDA1469717F46AA21C2698DA868E741ACA6A62834D1034CD255A3E5D103AC",
   "descriptionLocation": "http://localhost:5115/swagger/v1/swagger.json",
   "lockFileVersion": "1.0.0",
-  "kiotaVersion": "1.31.1",
+  "kiotaVersion": "1.30.0",
   "clientClassName": "ApiClient",
   "typeAccessModifier": "Public",
   "clientNamespaceName": "GamePlanPro.Api",

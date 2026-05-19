@@ -28,11 +28,11 @@ export const appRoutes: Route[] = [
 		canActivate: [authGuard],
 		children: [
 			{ path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-			{
-				path: 'dashboard',
-				loadComponent: () =>
-					import('./dashboard/dashboard').then((m) => m.DashboardComponent),
-			},
+		{
+			path: 'dashboard',
+			loadComponent: () =>
+				import('./dashboard/practice-plan-dashboard').then((m) => m.PracticePlanDashboardComponent),
+		},
 			{
 				path: 'drills',
 				loadComponent: () => import('./drills/drill-list').then((m) => m.DrillListComponent),

@@ -40,7 +40,8 @@
 					<brn-select
 						id="planLocation"
 						[placeholder]="'Select a location'"
-						[(value)]="selectedLocation"
+						[value]="selectedLocation()"
+						(valueChange)="updateSelectedLocation($event)"
 					>
 						<hlm-select-trigger class="w-full">
 							<hlm-select-value />
@@ -57,7 +58,8 @@
 					<brn-select
 						id="planDuration"
 						[placeholder]="'Select duration'"
-						[(value)]="selectedDuration"
+						[value]="selectedDuration()"
+						(valueChange)="updateSelectedDuration($event)"
 					>
 						<hlm-select-trigger class="w-full">
 							<hlm-select-value />
@@ -86,6 +88,13 @@
 				<gpp-form-errors [field]="planForm.description" />
 			</div>
 		</div>
+
+		<gpp-section-editor
+			[planKey]="planKey"
+			[loading]="loading()"
+			[planSaveMessage]="planSaveMessage()"
+			[initialSections]="initialSections()"
+		/>
 
 		<!-- API errors -->
 		@if (apiErrors.length > 0) {

@@ -1,0 +1,20 @@
+.sections-shell {
+	@apply flex flex-col gap-4 rounded-lg border border-border bg-card p-6;
+}
+
+.sections-shell__header {
+	@apply flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between;
+}
+
+.section-header-add-btn {
+	@apply inline-flex items-center gap-2 self-start;
+}
+
+.section-list {
+	@apply flex flex-col gap-4;
+}
+
+.section-add-surface {
+	@apply flex min-h-24 w-full items-center justify-center rounded-xl border-2 border-dashed border-border bg-muted/30 px-6 py-5 text-2xl font-semibold text-muted-foreground transition-colors hover:border-gpp-orange hover:text-gpp-slate disabled:cursor-not-allowed disabled:opacity-60;
+}
+

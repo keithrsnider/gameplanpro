@@ -1,5 +1,4 @@
 import { Component, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
 import {
 	form,
 	FormField,
@@ -12,6 +11,7 @@ import type { FieldTree } from '@angular/forms/signals';
 import { HlmInputImports } from '@spartan-ng/helm/input';
 import { HlmLabelImports } from '@spartan-ng/helm/label';
 import { HlmIconImports } from '@spartan-ng/helm/icon';
+import { HlmSpinnerImports } from '@spartan-ng/helm/spinner';
 import { FormErrorsComponent } from '../shared/components/form-errors';
 import { ApiClientService } from '../core/api-client.service';
 import type { CoachResponse, PlayerResponse } from '../core/api/models';
@@ -41,11 +41,11 @@ const teamSchema = schema<TeamFormData>((f) => {
 		...HlmInputImports,
 		...HlmLabelImports,
 		...HlmIconImports,
+		...HlmSpinnerImports,
 		TeamRosterComponent,
 	],
 })
 export class TeamComponent {
-	private readonly _router = inject(Router);
 	private readonly _api = inject(ApiClientService);
 
 	readonly model = signal<TeamFormData>({ teamName: '', headCoachName: '' });
@@ -89,7 +89,7 @@ export class TeamComponent {
 			return words[0].slice(0, 2).toUpperCase();
 		}
 
-		return `${words[0].charAt(0)}${words[1].charAt(0)}`.toUpperCase();
+		return words.length > 0 ? `${words[0].charAt(0)}${words[1].charAt(0)}`.toUpperCase() : 'GP';
 	}
 
 	previewTeamName(): string {
@@ -122,13 +122,11 @@ export class TeamComponent {
 					teamName: team.name ?? '',
 					headCoachName: headCoach?.name ?? '',
 				});
-				this.assistantCoaches.set(
-					team.coaches?.filter((c) => c.type === 'Assistant') ?? []
-				);
+				this.assistantCoaches.set(team.coaches?.filter((c) => c.type === 'Assistant') ?? []);
 				this.players.set(team.players ?? []);
 			}
 		} catch {
-			// 404 = no team yet, which is fine
+			this.hasExistingTeam = false;
 		} finally {
 			this.loading.set(false);
 		}
@@ -162,7 +160,6 @@ export class TeamComponent {
 				} else {
 					await this._api.client.api.team.post(body);
 				}
-				await this._router.navigate(['/dashboard']);
 			} catch {
 				this.apiErrors = ['Failed to save team. Please try again.'];
 			}

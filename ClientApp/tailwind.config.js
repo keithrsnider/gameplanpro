@@ -16,6 +16,9 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['var(--font-sans)'],
+      },
       colors: {
         'gpp-slate': 'var(--gpp-slate)',
         'gpp-orange': 'var(--gpp-orange)',

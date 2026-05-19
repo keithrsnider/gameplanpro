@@ -1,14 +1,15 @@
 <section class="page-container">
 	<header class="page-header">
-		<h1 class="heading">Drill Library</h1>
+
+		<div>
+			<h1 class="heading">Drill Library</h1>
+			<p class="subheading">{{sourceDrills().length}} drills · searchable · ready to add to any plan</p>
+		</div>
 		@if (!isCreatingDrill()) {
 			<button type="button" class="create-drill-btn" (click)="startCreatingDrill()">
 				+ Create Drill
 			</button>
 		}
-<!--		<p class="subheading">-->
-<!--			{{ totalCount() }} curated drills - searchable - ready to add to any plan-->
-<!--		</p>-->
 	</header>
 
 	@if (isCreatingDrill()) {
@@ -60,7 +61,7 @@
 				[class.chip--active]="activeDrillTypeId() === null"
 				(click)="setActiveDrillType(null)"
 			>
-				All ({{ totalCount() }})
+				All <span class="chip__count">({{ totalCount() }})</span>
 			</button>
 			@for (drillType of drillTypeChips(); track drillType.id) {
 				<button
@@ -69,7 +70,7 @@
 					[class.chip--active]="activeDrillTypeId() === drillType.id"
 					(click)="setActiveDrillType(drillType.id)"
 				>
-					{{ drillType.name }} ({{ drillType.count }})
+					{{ drillType.name }} <span class="chip__count">({{ drillType.count }})</span>
 				</button>
 			}
 		</div>

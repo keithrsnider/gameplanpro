@@ -6,12 +6,18 @@ import { createSectionResponseFromDiscriminatorValue, serializeCreateSectionRequ
 // @ts-ignore
 import { type WithSectionKeyItemRequestBuilder, WithSectionKeyItemRequestBuilderNavigationMetadata, WithSectionKeyItemRequestBuilderRequestsMetadata } from './item/index.js';
 // @ts-ignore
+import { OrderRequestBuilderRequestsMetadata, type OrderRequestBuilder } from './order/index.js';
+// @ts-ignore
 import { type BaseRequestBuilder, type Guid, type KeysToExcludeForNavigationMetadata, type NavigationMetadata, type Parsable, type ParsableFactory, type RequestConfiguration, type RequestInformation, type RequestsMetadata } from '@microsoft/kiota-abstractions';
 
 /**
  * Builds and executes requests for operations under /api/practice-plans/{key-id}/sections
  */
 export interface SectionsRequestBuilder extends BaseRequestBuilder<SectionsRequestBuilder> {
+    /**
+     * The order property
+     */
+    get order(): OrderRequestBuilder;
     /**
      * Gets an item from the GamePlanPro.Api.api.practicePlans.item.sections.item collection
      * @param sectionKey Unique identifier of the item
@@ -43,6 +49,9 @@ export const SectionsRequestBuilderNavigationMetadata: Record<Exclude<keyof Sect
         requestsMetadata: WithSectionKeyItemRequestBuilderRequestsMetadata,
         navigationMetadata: WithSectionKeyItemRequestBuilderNavigationMetadata,
         pathParametersMappings: ["sectionKey"],
+    },
+    order: {
+        requestsMetadata: OrderRequestBuilderRequestsMetadata,
     },
 };
 /**

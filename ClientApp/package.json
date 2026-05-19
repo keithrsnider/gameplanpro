@@ -25,7 +25,7 @@
     "@microsoft/kiota-serialization-json": "^1.0.0-preview.99",
     "@microsoft/kiota-serialization-multipart": "^1.0.0-preview.99",
     "@microsoft/kiota-serialization-text": "^1.0.0-preview.99",
-    "@ng-icons/core": "^31.4.0",
+    "@ng-icons/core": "^33.2.2",
     "@ng-icons/lucide": ">=32.0.0 <34.0.0",
     "@spartan-ng/brain": "^0.0.1-alpha.641",
     "class-variance-authority": "^0.7.1",

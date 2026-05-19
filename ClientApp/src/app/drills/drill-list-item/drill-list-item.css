@@ -3,7 +3,7 @@
 }
 
 .card-summary {
-	@apply flex items-center justify-between px-4 py-3;
+	@apply flex items-center justify-between px-2 py-2;
 }
 
 .card-summary:focus-visible {
@@ -15,7 +15,7 @@
 }
 
 .accent {
-	@apply mt-1 inline-block h-10 w-1 shrink-0 rounded-full;
+	@apply inline-block h-10 w-1 shrink-0 rounded-full;
 }
 
 .card-content {
@@ -27,7 +27,7 @@
 }
 
 .card-title {
-	@apply text-xl font-semibold text-foreground;
+	@apply text-sm font-semibold text-foreground;
 }
 
 .type-badge {
@@ -39,7 +39,7 @@
 }
 
 .card-description {
-	@apply truncate text-base text-muted-foreground;
+	@apply truncate text-xs text-muted-foreground;
 }
 
 .drill-card--expanded .card-summary {

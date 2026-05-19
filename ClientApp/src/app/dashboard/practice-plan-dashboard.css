@@ -1,0 +1,20 @@
+.hero-card {
+	@apply rounded-xl bg-gpp-slate p-8
+}
+
+.hero-card h1 {
+	@apply font-bold text-white;
+	font-size: 1.25rem;
+	line-height: 1.25;
+}
+
+.hero-card p {
+	@apply text-slate-300 text-lg mb-3;
+	font-size: 0.875rem;
+}
+
+/* Dashboard specific cta-btn override with icon spacing */
+.cta-btn {
+	@apply flex items-center gap-2 rounded-lg bg-gpp-orange p-2 font-semibold
+		text-white transition-colors hover:opacity-90;
+}

@@ -24,6 +24,13 @@ public class SectionsController(ISectionService sectionService) : ControllerBase
 		return sectionService.UpdateAsync(planKey, sectionKey, request);
 	}
 
+	[HttpPut("order")]
+	public Task<List<SectionResponse>> BulkUpdateOrder(
+		Guid planKey, [FromBody] List<BulkUpdateSectionDisplayOrderRequest> request)
+	{
+		return sectionService.BulkUpdateOrderAsync(planKey, request);
+	}
+
 	[HttpDelete("{sectionKey:guid}")]
 	public Task Delete(Guid planKey, Guid sectionKey)
 	{

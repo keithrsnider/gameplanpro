@@ -1,0 +1,72 @@
+.section-card {
+	@apply rounded-xl border border-border bg-background p-5 shadow-sm transition-shadow;
+}
+
+:host.cdk-drag-preview .section-card {
+	@apply shadow-xl;
+}
+
+:host.cdk-drag-placeholder {
+	@apply opacity-40;
+}
+
+.section-card__header {
+	@apply flex flex-col gap-3 border-b border-border pb-4 sm:flex-row sm:items-center sm:justify-between;
+}
+
+.section-card__title-row {
+	@apply flex flex-1 items-center gap-3;
+}
+
+.section-card__meta-row {
+	@apply flex items-center justify-between gap-3 sm:justify-end;
+}
+
+.section-drag-handle {
+	@apply inline-flex h-10 w-10 flex-shrink-0 cursor-grab items-center justify-center rounded-lg border border-dashed border-border text-muted-foreground transition-colors hover:border-foreground/30 hover:text-foreground active:cursor-grabbing;
+}
+
+.section-title-input {
+	@apply h-11 flex-1 text-lg font-semibold;
+}
+
+.section-chip {
+	@apply rounded-full bg-orange-100 px-3 py-1 text-sm font-semibold text-gpp-orange;
+}
+
+.section-duration {
+	@apply text-lg font-medium text-gpp-slate;
+}
+
+.section-delete-btn {
+	@apply inline-flex h-10 w-10 items-center justify-center rounded-lg text-destructive transition-colors hover:bg-destructive/10 disabled:cursor-not-allowed disabled:opacity-60;
+}
+
+.section-drill-list {
+	@apply mt-4 flex flex-col gap-3;
+}
+
+.section-empty-state {
+	@apply mt-4 rounded-xl border border-dashed border-border px-6 py-10 text-center text-base text-muted-foreground;
+}
+
+.section-actions {
+	@apply mt-4 flex flex-col gap-3 sm:flex-row;
+}
+
+.section-helper-text {
+	@apply mt-2 text-xs text-muted-foreground;
+}
+
+.section-save-status {
+	@apply mt-4 flex items-center gap-2 rounded-md bg-muted px-3 py-2 text-sm text-muted-foreground;
+}
+
+.section-save-status--error {
+	@apply bg-destructive/10 text-destructive;
+}
+
+.section-inline-link {
+	@apply font-semibold underline underline-offset-2 hover:no-underline;
+}
+

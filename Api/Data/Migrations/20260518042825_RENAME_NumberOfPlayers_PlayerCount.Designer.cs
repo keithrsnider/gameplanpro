@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260518035025_RenameNumberOfPlayersToPlayerCount")]
-    partial class RenameNumberOfPlayersToPlayerCount
+    [Migration("20260518042825_RENAME_NumberOfPlayers_PlayerCount")]
+    partial class RENAME_NumberOfPlayers_PlayerCount
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -209,9 +209,9 @@ namespace Api.Migrations
                         .HasColumnType("character varying(200)")
                         .HasColumnName("name");
 
-                    b.Property<int?>("NumberOfPlayers")
+                    b.Property<int?>("PlayerCount")
                         .HasColumnType("integer")
-                        .HasColumnName("number_of_players");
+                        .HasColumnName("player_count");
 
                     b.Property<string>("Source")
                         .IsRequired()

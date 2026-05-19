@@ -208,7 +208,7 @@ namespace Api.Migrations
 
                     b.Property<int?>("PlayerCount")
                         .HasColumnType("integer")
-                        .HasColumnName("number_of_players");
+                        .HasColumnName("player_count");
 
                     b.Property<string>("Source")
                         .IsRequired()

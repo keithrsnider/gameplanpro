@@ -1,0 +1,76 @@
+<div class="sections-shell">
+	<div class="sections-shell__header">
+		<div>
+			<h2 class="card-heading">Sections</h2>
+			<p class="subheading">
+				Build the flow of practice here. Section changes save automatically, while practice plan
+				details save from the button below.
+			</p>
+		</div>
+
+		@if (canManageSections()) {
+			<button
+				hlmBtn
+				type="button"
+				class="section-header-add-btn"
+				(click)="requestAddSection()"
+				[disabled]="creatingSection() || loading()"
+			>
+				<ng-icon hlm name="lucidePlus" size="sm" />
+				{{ creatingSection() ? 'Adding...' : 'Add Section' }}
+			</button>
+		}
+	</div>
+
+	@if (planSaveMessage()) {
+		<div class="status">{{ planSaveMessage() }}</div>
+	}
+
+	@if (sectionOrderPending() || sectionOrderSaving() || sectionOrderError()) {
+		<div class="status" [class.status--error]="!!sectionOrderError()">
+			@if (sectionOrderError()) {
+				{{ sectionOrderError() }}
+			} @else {
+				Saving section order...
+			}
+		</div>
+	}
+
+	@if (canManageSections()) {
+		<div
+			cdkDropList
+			class="section-list"
+			[cdkDropListData]="sections()"
+			[cdkDropListDisabled]="creatingSection() || sectionOrderSaving()"
+			(cdkDropListDropped)="onSectionDrop($event)"
+		>
+			@for (section of sections(); track section.key) {
+				<gpp-section-card
+					cdkDrag
+					[section]="section"
+					[drillCount]="drillCount(section)"
+					[durationMinutes]="durationMinutes(section)"
+					(sectionNameInput)="onSectionNameInput($event.sectionKey, $event.value)"
+					(sectionNoteInput)="onSectionNoteInput($event.sectionKey, $event.value)"
+					(deleteRequested)="deleteSection($event)"
+					(retrySaveRequested)="retrySectionSave($event)"
+				/>
+			}
+		</div>
+
+		<button
+			type="button"
+			class="section-add-surface"
+			(click)="requestAddSection()"
+			[disabled]="creatingSection() || loading()"
+		>
+			{{ creatingSection() ? 'Adding section...' : '+ Add Section' }}
+		</button>
+	} @else {
+		<div class="status">
+			Save the practice plan first. Once it has been created, you can add and reorder sections
+			here.
+		</div>
+	}
+</div>
+

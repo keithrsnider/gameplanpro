@@ -5,24 +5,24 @@
 namespace Api.Migrations
 {
     /// <inheritdoc />
-    public partial class RenameNumberOfPlayersToPlayerCount : Migration
+    public partial class RENAME_NumberOfPlayers_PlayerCount : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
-                name: "NumberOfPlayers",
+                name: "number_of_players",
                 table: "drills",
-                newName: "PlayerCount");
+                newName: "player_count");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
-                name: "PlayerCount",
+                name: "player_count",
                 table: "drills",
-                newName: "NumberOfPlayers");
+                newName: "number_of_players");
         }
     }
 }

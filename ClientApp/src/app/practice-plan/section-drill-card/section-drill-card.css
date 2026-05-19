@@ -1,0 +1,12 @@
+.section-drill-item {
+	@apply flex items-center justify-between rounded-lg border border-border bg-card px-4 py-3;
+}
+
+.section-drill-item__name {
+	@apply text-sm font-semibold text-foreground;
+}
+
+.section-drill-item__meta {
+	@apply text-xs text-muted-foreground;
+}
+

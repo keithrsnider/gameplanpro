@@ -1,0 +1,81 @@
+<div class="section-card">
+	<div class="section-card__header">
+		<div class="section-card__title-row">
+			<button type="button" class="section-drag-handle" cdkDragHandle aria-label="Reorder section">
+				<ng-icon hlm name="lucideGripVertical" size="sm" />
+			</button>
+
+			<input
+				hlmInput
+				type="text"
+				class="section-title-input"
+				placeholder="Section name"
+				[value]="section().name"
+				(input)="onSectionNameInput($event)"
+			/>
+
+			<span class="section-chip">{{ drillCount() }} drills</span>
+		</div>
+
+		<div class="section-card__meta-row">
+			<span class="section-duration">{{ durationMinutes() }} min</span>
+			<button
+				type="button"
+				class="section-delete-btn"
+				(click)="requestDelete()"
+				[disabled]="section().saveState === 'saving'"
+				aria-label="Delete section"
+			>
+				<ng-icon hlm name="lucideTrash2" size="sm" />
+			</button>
+		</div>
+	</div>
+
+	@if (section().planDrills.length > 0) {
+		<div class="section-drill-list">
+			@for (drill of section().planDrills; track drill.key ?? $index) {
+				<gpp-section-drill-card [drill]="drill" />
+			}
+		</div>
+	} @else {
+		<div class="section-empty-state">
+			<p>No drills yet — add from the library or create a new one</p>
+		</div>
+	}
+
+	<div class="section-actions">
+		<button hlmBtn type="button" disabled>Add from Library</button>
+		<button hlmBtn variant="outline" type="button" disabled>Create New</button>
+	</div>
+
+	<p class="section-helper-text">Drill selection will plug into this section in the next pass.</p>
+
+	<div class="field-group">
+		<label hlmLabel [for]="'section-note-' + section().key">Recap Notes</label>
+		<textarea
+			hlmTextarea
+			[id]="'section-note-' + section().key"
+			class="w-full"
+			rows="4"
+			placeholder="Recap notes, reminders, logistics..."
+			[value]="section().note"
+			(input)="onSectionNoteInput($event)"
+		></textarea>
+	</div>
+
+	@if (section().saveState !== 'idle' || section().errorMessage) {
+		<div class="section-save-status" [class.section-save-status--error]="section().saveState === 'error'">
+			<span>
+				{{
+					section().saveState === 'saving'
+						? 'Saving section changes...'
+						: (section().errorMessage || '')
+				}}
+			</span>
+			@if (section().saveState === 'error') {
+				<button type="button" class="section-inline-link" (click)="requestRetrySave()">Retry</button>
+			}
+		</div>
+	}
+</div>
+

@@ -122,7 +122,7 @@ export class PracticePlanFormComponent {
 						key: String(section.key ?? ''),
 						name: section.name ?? '',
 						note: section.note ?? '',
-						displayOrder: section.displayOrder ?? index,
+						displayOrder: section.displayOrder ?? index + 1,
 						planDrills: [...(section.planDrills ?? [])],
 						saveState: 'idle',
 						errorMessage: null,

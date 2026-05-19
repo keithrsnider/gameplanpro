@@ -46,9 +46,7 @@ export class SectionEditorComponent implements OnDestroy {
 
 		effect(() => {
 			const initial = this.initialSections();
-			if (initial.length > 0) {
-				this.sections.set(initial);
-			}
+			this.sections.set(this.normalizeSections(this.sortSectionsByDisplayOrder(initial)));
 		});
 	}
 
@@ -326,9 +324,11 @@ export class SectionEditorComponent implements OnDestroy {
 	}
 
 	private normalizeSections(sections: EditableSection[]): EditableSection[] {
-		return [...sections]
-			.sort((a, b) => a.displayOrder - b.displayOrder)
-			.map((section, index) => ({ ...section, displayOrder: index + 1 }));
+		return [...sections].map((section, index) => ({ ...section, displayOrder: index + 1 }));
+	}
+
+	private sortSectionsByDisplayOrder(sections: EditableSection[]): EditableSection[] {
+		return [...sections].sort((a, b) => a.displayOrder - b.displayOrder);
 	}
 
 	private cloneSections(sections: EditableSection[]): EditableSection[] {
